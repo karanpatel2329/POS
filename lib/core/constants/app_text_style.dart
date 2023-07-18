@@ -5,13 +5,14 @@ import '../constants/color_palette.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTextStyle {
-  static var normalText18W600 = GoogleFonts.inter(
-    fontWeight: FontWeight.w600,
-    fontSize: 18,
-  );
   static TextStyle normalText14W600 = GoogleFonts.inter(
     fontWeight: FontWeight.w600,
     fontSize: 14,
+  );
+
+  static var normalText18W600 = GoogleFonts.inter(
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
   );
   static TextStyle normalText14W500 = GoogleFonts.inter(
     fontWeight: FontWeight.w500,
@@ -67,6 +68,25 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
     fontSize: 12,
   );
+
+   // ++++++++++++++++++++++++++++============================================================================
+                                                  // Color Texts
+  // ++++++++++++++++++++++++++++============================================================================
+
+  static TextStyle whiteText14W600 = GoogleFonts.inter(
+    color: white,
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+  );
+
+    static TextStyle purple14W600 = GoogleFonts.inter(
+    color: saffron,
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+  );
+
+
+
   static TextStyle greyText12W400 =
       GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: grey);
   static TextStyle purpleText14W600 = GoogleFonts.inter(
@@ -79,11 +99,7 @@ class AppTextStyle {
     fontWeight: FontWeight.w400,
     fontSize: 12,
   );
-  static TextStyle whiteText14W600 = GoogleFonts.inter(
-    color: white,
-    fontWeight: FontWeight.w600,
-    fontSize: 14,
-  );
+
   static TextStyle normalText20 = GoogleFonts.inter(
     fontWeight: FontWeight.normal,
     fontSize: 20,
@@ -112,11 +128,7 @@ class AppTextStyle {
     // fontWeight: FontWeight,
     fontSize: 15,
   );
-  static TextStyle purple14W600 = GoogleFonts.inter(
-    // color: purple,
-    fontWeight: FontWeight.w600,
-    fontSize: 14,
-  );
+
   static TextStyle normalText10W400 = GoogleFonts.inter(
     fontWeight: FontWeight.w400,
     fontSize: 10,

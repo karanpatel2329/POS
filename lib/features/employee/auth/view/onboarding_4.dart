@@ -7,8 +7,8 @@ import 'package:pos_app/core/size_config.dart';
 
 import 'onboarding_1.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+class Onboarding4 extends StatelessWidget {
+  const Onboarding4({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,7 +18,7 @@ class WelcomeScreen extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Image.asset(
-            ImagePath.welcomeScreenImage,
+            ImagePath.onboarding_4,
             height: 255,
             width: 340,
           ),
@@ -27,14 +27,14 @@ class WelcomeScreen extends StatelessWidget {
           AppButtonStyle.ElevatedButtonStyled(
               'DARK',
               Text(
-                'I’m an Owner',
+                'Access location',
                 style: AppTextStyle.whiteText14W600,
               ),
-              () {Get.to(Onboarding1());}),
+              () {}),
           AppButtonStyle.ElevatedButtonStyledUnchecked(
               'LIGHT',
               Text(
-                'I’m An Employee',
+                'Skip For Now',
                 style: AppTextStyle.purple14W600,
               ),
               () {})

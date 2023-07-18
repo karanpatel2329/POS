@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 class ImagePath {
   static const String welcomeScreenImage = 'assets/images/72342-welcome.png';
 
-  static const String jobSeekerOnboardingImage1 =
-      'assets/images/undraw_job_hunt_re_q203.png';
+  static const String onboarding_4 =
+      'assets/images/Onboarding_4.png';
+
+
+
   static const String jobSeekerOnboardingImage2 =
       'assets/images/undraw_resume_re_hkth.png';
   static const String jobSeekerOnboardingImage3 =
