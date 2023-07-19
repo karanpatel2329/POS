@@ -12,78 +12,80 @@ class Onboarding1 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 10),
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-
-          Align(
-            alignment: Alignment.topRight,
-            child: Text('Skip', style: AppTextStyle.normal17)
-          ),
-
-          Image.asset(
-            ImagePath.welcomeScreenImage,
-            height: 255,
-            width: 340,
-          ),
-          // SizedBox(height: 32 * SizeConfig.heightMultiplier!,),
-
-          const SizedBox(height: 32),
-          Text(
-            'Grow Your Business',
-            style: AppTextStyle.openSans16W700,
-          ),
-
-          const SizedBox(height: 16),
-          Text(
-            'Offer welcoming atmosphere \nto keep customers coming \nback and encourage positive \nword-of-mouth.',
-            style: AppTextStyle.openSans16W700,textAlign: TextAlign.center,
-          ),
-
-          const SizedBox(height: 24),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                height: 11,
-                width: 11,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: saffron
+    return Scaffold(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+    
+            Align(
+              alignment: Alignment.topRight,
+              child: Text('Skip', style: AppTextStyle.normal17)
+            ),
+    
+            Image.asset(
+              ImagePath.welcomeScreenImage,
+              height: 255,
+              width: 340,
+            ),
+            SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
+    
+            // const SizedBox(height: 32),
+            Text(
+              'Grow Your Business',
+              style: AppTextStyle.openSans16W700,
+            ),
+    
+            const SizedBox(height: 16),
+            Text(
+              'Offer welcoming atmosphere \nto keep customers coming \nback and encourage positive \nword-of-mouth.',
+              style: AppTextStyle.openSans16W700,textAlign: TextAlign.center,
+            ),
+    
+            const SizedBox(height: 24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Container(
+                  height: 11,
+                  width: 11,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: saffron
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 9),
-                height: 11,
-                width: 11,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: grey
+                Container(
+                  margin: const EdgeInsets.only(left: 9),
+                  height: 11,
+                  width: 11,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: grey
+                  ),
                 ),
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 9),
-                height: 11,
-                width: 11,
-                decoration: const BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: grey
+                Container(
+                  margin: const EdgeInsets.only(left: 9),
+                  height: 11,
+                  width: 11,
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: grey
+                  ),
                 ),
-              ),
-            ],
-          ),
-
-          const SizedBox(height: 32),
-          AppButtonStyle.ElevatedButtonStyled(
-              'DARK',
-              Text(
-                'Next',
-                style: AppTextStyle.whiteText14W600,
-              ),
-              () {Get.to(Onboarding2());}),
-        ],
+              ],
+            ),
+    
+            const SizedBox(height: 32),
+            AppButtonStyle.ElevatedButtonStyled(
+                'DARK',
+                Text(
+                  'Next',
+                  style: AppTextStyle.whiteText14W600,
+                ),
+                () {Get.to(Onboarding2());}),
+          ],
+        ),
       ),
     );
   }

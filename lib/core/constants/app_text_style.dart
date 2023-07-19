@@ -149,6 +149,6 @@ class AppTextStyle {
 
   static TextStyle openSans16W700 = GoogleFonts.openSans(
     fontWeight: FontWeight.w700,
-    fontSize: 16,
+    fontSize: 20,
   );
 }
