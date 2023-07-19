@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_navigation/get_navigation.dart';
-import 'package:pos_app/features/employee/auth/view/welcome_screen.dart';
+
+import 'features/owner/auth/view/welcome_screen.dart';
 
 void main() {
   runApp(const MyApp());

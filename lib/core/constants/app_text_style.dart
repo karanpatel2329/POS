@@ -79,7 +79,7 @@ class AppTextStyle {
     fontSize: 14,
   );
 
-    static TextStyle purple14W600 = GoogleFonts.inter(
+    static TextStyle saffron14W600 = GoogleFonts.inter(
     color: saffron,
     fontWeight: FontWeight.w600,
     fontSize: 14,
