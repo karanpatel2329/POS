@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/view/onboarding_4.dart';
 
 class Onboarding1 extends StatefulWidget {
   const Onboarding1({Key? key}) : super(key: key);
@@ -31,7 +32,7 @@ class _Onboarding1State extends State<Onboarding1> {
                 alignment: Alignment.topRight,
                 child: InkWell(
                   onTap: (){
-                    pageController.animateToPage(3, duration: Duration(microseconds: 300), curve: Curves.ease);
+                    Get.to(Onboarding4());
                     },
                     child: Text('Skip', style: AppTextStyle.saffron14W600))),
             Container(
@@ -109,38 +110,8 @@ class _Onboarding1State extends State<Onboarding1> {
                         ),
                       ],
                     ),
-                    Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Image.asset(
-                          ImagePath.onboarding_4,
-                          height: 255,
-                          width: 340,
-                        ),
-                        // SizedBox(height: 32 * SizeConfig.heightMultiplier!,),
-                        const SizedBox(height: 32),
-                        AppButtonStyle.ElevatedButtonStyled(
-                            'DARK',
-                            Text(
-                              'Access location',
-                              style: AppTextStyle.whiteText14W600,
-                            ),
-                                () {}),
-                        AppButtonStyle.ElevatedButtonStyledUnchecked(
-                            'LIGHT',
-                            Text(
-                              'Skip For Now',
-                              style: AppTextStyle.saffron14W600,
-                            ),
-                                () {})
-                      ],
-                    ),
                   ],
-                  onPageChanged: (index) {
-                    setState(() {
-                      pageIndex = index;
-                    });
-                  }),
+                  onPageChanged: (index) {}),
             ),
             const SizedBox(height: 32),
             AppButtonStyle.ElevatedButtonStyled(
@@ -150,6 +121,12 @@ class _Onboarding1State extends State<Onboarding1> {
                   style: AppTextStyle.whiteText14W600,
                 ),
                 () {
+                  setState(() {
+                    pageIndex = pageIndex + 1;
+                  });
+                  if(pageController.page == 2.0){
+                    Get.to(Onboarding4());
+                  }
                   pageController.nextPage(duration: Duration(microseconds: 300), curve: Curves.ease);
             }),
           ],

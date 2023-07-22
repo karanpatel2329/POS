@@ -85,10 +85,17 @@ class AppTextStyle {
     fontSize: 14,
   );
 
+    static TextStyle black40416W400 = GoogleFonts.inter(
+    color: black404,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+  );
+
 
 
   static TextStyle greyText12W400 =
       GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: grey);
+
   static TextStyle purpleText14W600 = GoogleFonts.inter(
     // color: purple,
     fontWeight: FontWeight.w600,
