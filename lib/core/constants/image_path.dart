@@ -6,6 +6,9 @@ class ImagePath {
   static const String onboarding_4 =
       'assets/images/Onboarding_4.png';
 
+  static const String forgotPasswordImage=
+      'assets/images/forgot-password.png';
+
 
 
   static const String jobSeekerOnboardingImage2 =
@@ -19,8 +22,6 @@ class ImagePath {
       'assets/images/undraw_join_re_w1lh.png';
   static const String recruiterOnboardingImage3 =
       'assets/images/undraw_connecting_teams_re_hno7.png';
-  static const String forgotPasswordImage =
-      'assets/images/undraw_forgot_password_re_hxwm.png';
   static const String resetPasswordImage =
       'assets/images/undraw_my_password_re_ydq7.png';
   static const String otpVerificationImage =

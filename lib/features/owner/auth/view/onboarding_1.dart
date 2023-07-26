@@ -56,12 +56,12 @@ class _Onboarding1State extends State<Onboarding1> {
                         // const SizedBox(height: 32),
                         Text(
                           'Grow Your Business',
-                          style: AppTextStyle.openSans16W700,
+                          style: AppTextStyle.poppins20W700,
                         ),
                         const SizedBox(height: 16),
                         Text(
                           'Offer welcoming atmosphere \nto keep customers coming \nback and encourage positive \nword-of-mouth.',
-                          style: AppTextStyle.openSans16W700,
+                          style: AppTextStyle.poppins20W700,
                           textAlign: TextAlign.center,
                         ),
                       ],
@@ -78,13 +78,13 @@ class _Onboarding1State extends State<Onboarding1> {
                         const SizedBox(height: 32),
                         Text(
                           'Manage Restaurant',
-                          style: AppTextStyle.openSans16W700,
+                          style: AppTextStyle.poppins20W700,
                         ),
 
                         const SizedBox(height: 16),
                         Text(
                           'Develop a marketing strategy\nto create awareness and\nattract customers.',
-                          style: AppTextStyle.openSans16W700,textAlign: TextAlign.center,
+                          style: AppTextStyle.poppins20W700,textAlign: TextAlign.center,
                         ),
                       ],
                     ),
@@ -100,13 +100,13 @@ class _Onboarding1State extends State<Onboarding1> {
                         const SizedBox(height: 32),
                         Text(
                           'Manage Employee',
-                          style: AppTextStyle.openSans16W700,
+                          style: AppTextStyle.poppins20W700,
                         ),
 
                         const SizedBox(height: 16),
                         Text(
                           'Foster a positive and inclusive\nwork environment that\npromotes teamwork and\ncollaboration.',
-                          style: AppTextStyle.openSans16W700,textAlign: TextAlign.center,
+                          style: AppTextStyle.poppins20W700,textAlign: TextAlign.center,
                         ),
                       ],
                     ),
