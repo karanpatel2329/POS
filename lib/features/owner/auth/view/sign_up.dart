@@ -5,15 +5,16 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/auth/view/login.dart';
+import 'package:pos_app/features/owner/auth/view/restaurant_details.dart';
 
 class SignUpScreen extends StatelessWidget {
-  SignUpScreen({super.key});
+  const SignUpScreen({super.key});
 
 
-  TextEditingController emailController = TextEditingController();  
-  TextEditingController mobileController = TextEditingController();  
-  TextEditingController passwordController = TextEditingController();  
-  TextEditingController confirmPasswordController = TextEditingController();  
+  static TextEditingController emailController = TextEditingController();  
+  static TextEditingController mobileController = TextEditingController();  
+  static TextEditingController passwordController = TextEditingController();  
+  static TextEditingController confirmPasswordController = TextEditingController();  
 
   @override
   Widget build(BuildContext context) {
@@ -47,12 +48,12 @@ class SignUpScreen extends StatelessWidget {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: const BorderSide(
-                              color: saffron,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
-                                  width: 1.0, color: saffron), 
+                                  width: 1.0, color: orange), 
                             ),
                         ),
                         
@@ -70,12 +71,12 @@ class SignUpScreen extends StatelessWidget {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: const BorderSide(
-                              color: saffron,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
-                                  width: 1.0, color: saffron), 
+                                  width: 1.0, color: orange), 
                             ),
                         ),
                         
@@ -94,19 +95,19 @@ class SignUpScreen extends StatelessWidget {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: const BorderSide(
-                              color: saffron,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
-                                  width: 1.0, color: saffron), 
+                                  width: 1.0, color: orange), 
                           ),
                           suffixIcon: const Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Icon(
                               Icons.visibility_off_outlined,
-                              color: saffron,
+                              color: orange,
                             ),
                           ),
                         ),
@@ -126,19 +127,19 @@ class SignUpScreen extends StatelessWidget {
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
                             borderSide: const BorderSide(
-                              color: saffron,
+                              color: orange,
                               width: 1.0,
                             ),
                           ),
                           focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
-                                  width: 1.0, color: saffron), 
+                                  width: 1.0, color: orange), 
                           ),
                           suffixIcon: const Padding(
                             padding: EdgeInsets.all(0.0),
                             child: Icon(
                               Icons.visibility_off_outlined,
-                              color: saffron,
+                              color: orange,
                             ),
                           ),
                         ),
@@ -147,7 +148,7 @@ class SignUpScreen extends StatelessWidget {
         
                       SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), () { }),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), () {Get.to(RestaurantDetailsScreen()); }),
         
                       SizedBox(height: 8 * (SizeConfig.heightMultiplier ?? 1),),
         
@@ -170,8 +171,8 @@ class SignUpScreen extends StatelessWidget {
                           InkWell(
                             onTap: (){Get.to(LoginScreen());},
                             child: Container(
-                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: saffron, width: 1))),
-                              child: Text('LOG IN', style: AppTextStyle.saffron14W600,)))
+                              decoration: BoxDecoration(border: Border(bottom: BorderSide(color: orange, width: 1))),
+                              child: Text('LOG IN', style: AppTextStyle.orange14W600,)))
                         ],
                       )
         

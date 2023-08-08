@@ -3,10 +3,8 @@ import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/image_path.dart';
-import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/auth/view/login.dart';
 
-import 'onboarding_1.dart';
 
 class Onboarding4 extends StatelessWidget {
   const Onboarding4({Key? key}) : super(key: key);
@@ -37,7 +35,7 @@ class Onboarding4 extends StatelessWidget {
                 'LIGHT',
                 Text(
                   'Skip For Now',
-                  style: AppTextStyle.saffron14W600,
+                  style: AppTextStyle.orange14W600,
                 ),
                 () {
                   Get.to(LoginScreen());

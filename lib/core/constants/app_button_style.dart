@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
 import '../constants/color_palette.dart';
-import '../size_config.dart';
 
 // final deviceHeight = MediaQuery.of(context).size.height;
 //     final deviceWidht = MediaQuery.of(context).size.width;
@@ -26,13 +25,13 @@ class AppButtonStyle {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: theme.toUpperCase() == 'LIGHT' ? white : saffron,
+            backgroundColor: theme.toUpperCase() == 'LIGHT' ? white : theme.toUpperCase() == 'GREEN' ? green : orange,
             elevation: 0,
             // padding: EdgeInsets.symmetric(
             //     vertical: 16 * SizeConfig.heightMultiplier!),
-            side: theme.toUpperCase() == 'DARK'
+            side: theme.toUpperCase() == 'DARK' || theme.toUpperCase() == 'GREEN'
                 ? null
-                : const BorderSide(color: saffron),
+                : const BorderSide(color: orange),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),
@@ -51,14 +50,14 @@ class AppButtonStyle {
         child: ElevatedButton(
           onPressed: onPressed,
           style: ElevatedButton.styleFrom(
-            backgroundColor: theme.toUpperCase() == 'LIGHT' ? white : saffron,
+            backgroundColor: theme.toUpperCase() == 'LIGHT' ? white : orange,
             elevation: 0,
             padding: EdgeInsets.symmetric(
                 // vertical: 16 * SizeConfig.heightMultiplier!),
                 vertical: 16),
             side: theme.toUpperCase() == 'DARK'
                 ? null
-                : const BorderSide(color: saffron),
+                : const BorderSide(color: orange),
             shape: const RoundedRectangleBorder(
               borderRadius: BorderRadius.all(Radius.circular(8)),
             ),

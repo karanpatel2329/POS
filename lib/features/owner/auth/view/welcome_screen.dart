@@ -3,8 +3,6 @@ import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/image_path.dart';
-import 'package:pos_app/core/size_config.dart';
-
 import 'onboarding_1.dart';
 
 class WelcomeScreen extends StatelessWidget {
@@ -35,7 +33,7 @@ class WelcomeScreen extends StatelessWidget {
               'LIGHT',
               Text(
                 'I’m An Employee',
-                style: AppTextStyle.saffron14W600,
+                style: AppTextStyle.orange14W600,
               ),
               () {})
         ],

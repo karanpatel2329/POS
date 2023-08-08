@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
-import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/auth/view/onboarding_4.dart';
@@ -34,7 +33,7 @@ class _Onboarding1State extends State<Onboarding1> {
                   onTap: (){
                     Get.to(Onboarding4());
                     },
-                    child: Text('Skip', style: AppTextStyle.saffron14W600))),
+                    child: Text('Skip', style: AppTextStyle.orange14W600))),
             Container(
               margin: const EdgeInsets.only(top: 82),
               height: 450,

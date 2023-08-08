@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-
-import '../size_config.dart';
 import '../constants/color_palette.dart';
 import 'package:google_fonts/google_fonts.dart';
 
@@ -73,16 +71,46 @@ class AppTextStyle {
                                                   // Color Texts
   // ++++++++++++++++++++++++++++============================================================================
 
+  static TextStyle whiteText14W400 = GoogleFonts.poppins(
+    color: white,
+    fontWeight: FontWeight.w400,
+    fontSize: 14,
+  );
+
   static TextStyle whiteText14W600 = GoogleFonts.poppins(
     color: white,
     fontWeight: FontWeight.w600,
     fontSize: 14,
   );
 
-    static TextStyle saffron14W600 = GoogleFonts.poppins(
-    color: saffron,
+  static TextStyle whiteText18W600 = GoogleFonts.poppins(
+    color: white,
     fontWeight: FontWeight.w600,
     fontSize: 14,
+  );
+
+    static TextStyle orange12W400 = GoogleFonts.poppins(
+    color: orange,
+    fontWeight: FontWeight.w400,
+    fontSize: 12,
+  );
+
+    static TextStyle orange14W600 = GoogleFonts.poppins(
+    color: orange,
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+  );
+
+    static TextStyle orange18W600 = GoogleFonts.poppins(
+    color: orange,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
+  );
+
+    static TextStyle orange20W600 = GoogleFonts.poppins(
+    color: orange,
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
   );
 
     static TextStyle black40416W400 = GoogleFonts.poppins(
@@ -91,11 +119,54 @@ class AppTextStyle {
     fontSize: 16,
   );
 
+    static TextStyle black40412W500 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w500,
+    fontSize: 12,
+  );
+
+    static TextStyle black40420W500 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w500,
+    fontSize: 20,
+  );
+
+    static TextStyle black40412W600 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w600,
+    fontSize: 12,
+  );
+
+    static TextStyle black40414W600 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w600,
+    fontSize: 14,
+  );
+
+    static TextStyle black40416W600 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w600,
+    fontSize: 16,
+  );
+
+    static TextStyle black40420W600 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+  );
+
     static TextStyle black40412W400 = GoogleFonts.poppins(
     color: black404,
     fontWeight: FontWeight.w400,
     fontSize: 12,
   );
+
+    static TextStyle black40416W300 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w300,
+    fontSize: 16,
+  );
+
 
     static TextStyle black40414W400 = GoogleFonts.poppins(
     color: black404,
@@ -109,73 +180,22 @@ class AppTextStyle {
     fontSize: 10,
   );
 
+    static TextStyle black40418W700 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w700,
+    fontSize: 18,
+  );
+
     static TextStyle black40410W400 = GoogleFonts.poppins(
     color: black404,
     fontWeight: FontWeight.w400,
     fontSize: 10,
   );
 
-
-
-  static TextStyle greyText12W400 =
-      GoogleFonts.inter(fontWeight: FontWeight.w400, fontSize: 12, color: grey);
-
-  static TextStyle purpleText14W600 = GoogleFonts.inter(
-    // color: purple,
-    fontWeight: FontWeight.w600,
-    fontSize: 14,
-  );
-  static TextStyle purpleText12W400 = GoogleFonts.inter(
-    // color: purple,
-    fontWeight: FontWeight.w400,
-    fontSize: 12,
-  );
-
-  static TextStyle normalText20 = GoogleFonts.inter(
-    fontWeight: FontWeight.normal,
-    fontSize: 20,
-  );
-  static TextStyle blackText25WBold = GoogleFonts.inter(
-    color: Colors.black,
-    fontWeight: FontWeight.bold,
-    // fontSize: 25*SizeConfig.textMultiple!,
-  );
-
-  static TextStyle purpleText15W500 = GoogleFonts.inter(
-    // color: purple,
-    fontWeight: FontWeight.w500,
-    fontSize: 15,
-  );
-  static TextStyle normal17 = GoogleFonts.inter(
-    fontSize: 17,
-  );
-  static TextStyle white20WBold = GoogleFonts.inter(
-    color: white,
-    fontWeight: FontWeight.bold,
-    fontSize: 20,
-  );
-  static TextStyle white15 = GoogleFonts.inter(
-    color: white,
-    // fontWeight: FontWeight,
-    fontSize: 15,
-  );
-
-  static TextStyle normalText10W400 = GoogleFonts.inter(
-    fontWeight: FontWeight.w400,
-    fontSize: 10,
-  );
-  static TextStyle purpleText10W600 = GoogleFonts.inter(
-    // color: purple,
-    fontWeight: FontWeight.w600,
-    fontSize: 10,
-  );
-  static TextStyle normalText14 = GoogleFonts.inter(
-    fontWeight: FontWeight.w400,
-    fontSize: 14,
-  );
-  static TextStyle normalText22W600 = GoogleFonts.inter(
-    fontWeight: FontWeight.w600,
-    fontSize: 22,
+  static TextStyle greyText12W400 = GoogleFonts.poppins(
+    fontWeight: FontWeight.w400, 
+    fontSize: 12, 
+    color: grey
   );
 
   static TextStyle poppins20W700 = GoogleFonts.poppins(
