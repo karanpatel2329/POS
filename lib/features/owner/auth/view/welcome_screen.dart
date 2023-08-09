@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
+import 'package:pos_app/core/constants/color_palette.dart';
+import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'onboarding_1.dart';
 
@@ -22,19 +24,13 @@ class WelcomeScreen extends StatelessWidget {
           ),
           // SizedBox(height: 32 * SizeConfig.heightMultiplier!,),
           const SizedBox(height: 32),
-          AppButtonStyle.ElevatedButtonStyled(
-              'DARK',
-              Text(
-                'I’m an Owner',
-                style: AppTextStyle.whiteText14W600,
-              ),
-              () {Get.to(Onboarding1());}),
+          AppButtonStyle.ElevatedButtonStyled('DARK',Text("I’m an Owner",style: AppTextStyle.whiteText14W600,),() {Get.to(Onboarding1());}),
           AppButtonStyle.ElevatedButtonStyledUnchecked(
               'LIGHT',
               Text(
-                'I’m An Employee',
+                "I’m An Employee",
                 style: AppTextStyle.orange14W600,
-              ),
+            ),
               () {})
         ],
       ),
