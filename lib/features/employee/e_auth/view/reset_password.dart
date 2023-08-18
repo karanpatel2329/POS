@@ -1,19 +1,15 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
+import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
-import 'package:pos_app/features/owner/auth/view/forgot_password.dart';
-import 'package:pos_app/features/owner/auth/view/sign_up.dart';
-import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
 
-class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+class ResetPasswordScreen extends StatelessWidget {
+  const ResetPasswordScreen({super.key});
 
-
-  static TextEditingController emailController = TextEditingController();  
   static TextEditingController passwordController = TextEditingController();  
+  static TextEditingController confirmPasswordController = TextEditingController();  
 
   @override
   Widget build(BuildContext context) {
@@ -25,23 +21,38 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: SingleChildScrollView(
           child: Padding(
-            padding: const EdgeInsets.only(top: 72, left: 20, right: 20),
+            padding: const EdgeInsets.only(top: 56, left: 20, right: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-        
+              crossAxisAlignment: CrossAxisAlignment.center,
+
               children: [
-                Text('Log In', style: AppTextStyle.normalText20W700,),
+
+                Image.asset(
+                  ImagePath.resetPasswordImage,
+                  height: 255,
+                  width: 340,
+                ),
+
+                SizedBox(
+                  height: 40 * (SizeConfig.heightMultiplier ?? 1),
+                ),
+
+                Text('Reset Password', style: AppTextStyle.normalText20W700,),
+
                 SizedBox(
                   height: 32 * (SizeConfig.heightMultiplier ?? 1),
                 ),
+
                 Form(
                   key: _formKey,
                   child: Column(
                     children: [
+        
                       TextFormField(
+                        controller: passwordController,
                         decoration: InputDecoration(
-                          hintText: 'Email',
-                          labelText: 'Email',
+                          hintText: 'Password',
+                          labelText: 'Enter Password',
                           labelStyle: AppTextStyle.black40416W400,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -53,18 +64,27 @@ class LoginScreen extends StatelessWidget {
                           focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
                                   width: 1.0, color: orange), 
+                          ),
+                          suffixIcon: const Padding(
+                            padding: EdgeInsets.all(0.0),
+                            child: Icon(
+                              Icons.visibility_off_outlined,
+                              color: orange,
                             ),
+                          ),
                         ),
                         
                       ),
+        
                       SizedBox(
                         height: 16 * (SizeConfig.heightMultiplier ?? 1),
                       ),
         
                       TextFormField(
+                        controller: confirmPasswordController,
                         decoration: InputDecoration(
-                          hintText: 'Password',
-                          labelText: '*******',
+                          hintText: 'Confirm Password',
+                          labelText: 'Confirm Password',
                           labelStyle: AppTextStyle.black40416W400,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),
@@ -76,36 +96,22 @@ class LoginScreen extends StatelessWidget {
                           focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
                                   width: 1.0, color: orange), 
+                          ),
+                          suffixIcon: const Padding(
+                            padding: EdgeInsets.all(0.0),
+                            child: Icon(
+                              Icons.visibility_off_outlined,
+                              color: orange,
                             ),
+                          ),
                         ),
                         
                       ),
         
-                      SizedBox(height: 21 * (SizeConfig.heightMultiplier ?? 1),),
+                      SizedBox(height: 61 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      Align(
-                        alignment: Alignment.centerRight,
-                        child: InkWell(
-                          onTap: (){Get.to(ForgotPasswordScreen());},
-                          child: Text('Forgot Password?', style: AppTextStyle.orange14W600,)),
-                      ),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () { }),
         
-                      SizedBox(height: 75 * (SizeConfig.heightMultiplier ?? 1),),
-        
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('LOG IN', style: AppTextStyle.whiteText14W600,), () {Get.offAll(Dashboard()); }),
-        
-        
-                      SizedBox(height: 24 * (SizeConfig.heightMultiplier ?? 1),),
-        
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text('DON\'T HAVE AN ACCOUNT? ', style: AppTextStyle.black40412W400,),
-                          InkWell(
-                            onTap: (){Get.to(SignUpScreen());},
-                            child: Text('CREATE NOW', style: AppTextStyle.orange14W600,))
-                        ],
-                      )
         
                     ],
                   )

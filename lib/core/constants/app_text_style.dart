@@ -71,6 +71,12 @@ class AppTextStyle {
                                                   // Color Texts
   // ++++++++++++++++++++++++++++============================================================================
 
+  static TextStyle blueText16W400 = GoogleFonts.poppins(
+    color: blue,
+    fontWeight: FontWeight.w400,
+    fontSize: 16,
+  );
+
   static TextStyle whiteText14W400 = GoogleFonts.poppins(
     color: white,
     fontWeight: FontWeight.w400,
@@ -147,6 +153,12 @@ class AppTextStyle {
     color: black404,
     fontWeight: FontWeight.w600,
     fontSize: 16,
+  );
+
+    static TextStyle black40418W600 = GoogleFonts.poppins(
+    color: black404,
+    fontWeight: FontWeight.w600,
+    fontSize: 18,
   );
 
     static TextStyle black40420W600 = GoogleFonts.poppins(

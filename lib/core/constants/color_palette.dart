@@ -8,6 +8,7 @@ const black404 = Color(0xFF0C0404);
 const grey35 = Color(0xFF353535);
 const red = Color(0xFFEA2C2C);
 const green = Color(0xFF3BD438);
+const blue = Color(0xFF725CFF);
 
 const brightGrey = Color(0xFFE6F0F3);
 

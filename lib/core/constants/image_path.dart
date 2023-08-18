@@ -29,6 +29,10 @@ class ImagePath {
   static const String supportIcon ='assets/images/support_icon.svg';
   static const String contactIcon ='assets/images/contact_icon.svg';
   static const String faqIcon ='assets/images/faq_icon.svg';
+  static const String eOnboarding01 ='assets/images/e_onboarding_01.svg';
+  static const String eOnboarding02 ='assets/images/e_onboarding_02.svg';
+  static const String eOnboarding03 ='assets/images/e_onboarding_03.svg';
+  static const String clockIcon ='assets/images/clock.svg';
 
 
   

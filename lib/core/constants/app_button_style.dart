@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
+import 'package:pos_app/core/size_config.dart';
 
 import '../constants/color_palette.dart';
 
@@ -38,6 +39,30 @@ class AppButtonStyle {
           ),
           child: child,
         ));
+  }
+
+  static appButton(
+    String theme,
+    Widget child,
+    void Function() onPressed,
+  ) {
+    return ElevatedButton(
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        minimumSize: Size(Get.width, 45 * (SizeConfig.heightMultiplier ?? 1)),
+        backgroundColor: theme.toUpperCase() == 'LIGHT' ? white : theme.toUpperCase() == 'GREEN' ? green : orange,
+        elevation: 0,
+        // padding: EdgeInsets.symmetric(
+        //     vertical: 16 * SizeConfig.heightMultiplier!),
+        side: theme.toUpperCase() == 'DARK' || theme.toUpperCase() == 'GREEN'
+            ? null
+            : const BorderSide(color: orange),
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(8)),
+        ),
+      ),
+      child: child,
+    );
   }
 
   static Container ElevatedButtonStyledUnchecked(
