@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
 
 class RestaurantDetailsScreen extends StatefulWidget {
@@ -16,20 +17,10 @@ class RestaurantDetailsScreen extends StatefulWidget {
 
 class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
 
-  static TextEditingController businessLegalName = TextEditingController();  
-  static TextEditingController address = TextEditingController();  
-
-    // Initial Selected Value
-  String dropdownvalue = 'Business Type';   
+  AuthController authController = Get.find<AuthController>();
   
   // List of items in our dropdown menu
-  var items = [    
-    'Business Type',
-    'Restaurant',
-    'Bar & Restaurant',
-    'Food Truck',
-    'Other',
-  ];
+
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +66,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: businessLegalName,
+                        controller: authController.businessLegalName,
                         decoration: InputDecoration(
                           hintText: 'Business Legal Name',
                           labelText: 'Business Legal Name',
@@ -106,28 +97,26 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                             border: Border.all(
                                 color: orange, style: BorderStyle.solid, width: 0.80),
                           ),
-                        child: DropdownButton(
+                        child: Obx(()=>DropdownButton(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-                          value: dropdownvalue,
+                          value: authController.dropdownvalue.value,
                           isDense: true,
                           isExpanded: true,
                           underline: const SizedBox(),
-                          
-                          icon: const Icon(Icons.keyboard_arrow_down, color: orange,),    
-                          
-                          items: items.map((String items) {
+
+                          icon: const Icon(Icons.keyboard_arrow_down, color: orange,),
+
+                          items: authController.items.map((String items) {
                             return DropdownMenuItem(
                               value: items,
                               child: Text(items, style: AppTextStyle.black40416W400,),
                             );
                           }).toList(),
 
-                          onChanged: (String? newValue) { 
-                            setState(() {
-                              dropdownvalue = newValue!;
-                            });
+                          onChanged: (String? newValue) {
+                            authController.dropdownvalue.value = newValue!;
                           },
-                        ),
+                        )),
                       ),
 
                       SizedBox(
@@ -135,7 +124,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       ),
         
                       TextFormField(
-                        controller: address,
+                        controller: authController.address,
                         decoration: InputDecoration(
                           hintText: 'Address',
                           labelText: 'Address',
@@ -157,9 +146,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
         
                       SizedBox(height: 115 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () { Get.offAll(Dashboard());}),
-        
-        
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () {
+                        authController.signUp();
+                      }),
+
                       SizedBox(height: 24 * (SizeConfig.heightMultiplier ?? 1),),
         
                     ],

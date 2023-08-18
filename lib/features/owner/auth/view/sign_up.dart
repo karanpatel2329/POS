@@ -4,24 +4,17 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
 import 'package:pos_app/features/owner/auth/view/login.dart';
 import 'package:pos_app/features/owner/auth/view/restaurant_details.dart';
 
 class SignUpScreen extends StatelessWidget {
-  const SignUpScreen({super.key});
-
-
-  static TextEditingController emailController = TextEditingController();  
-  static TextEditingController mobileController = TextEditingController();  
-  static TextEditingController passwordController = TextEditingController();  
-  static TextEditingController confirmPasswordController = TextEditingController();  
+  SignUpScreen({super.key});
+  final _formKey = GlobalKey<FormState>();
+  AuthController authController = Get.put(AuthController());
 
   @override
   Widget build(BuildContext context) {
-
-
-    final _formKey = GlobalKey<FormState>();
-
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -40,7 +33,7 @@ class SignUpScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
-                        controller: emailController,
+                        controller: authController.emailController,
                         decoration: InputDecoration(
                           hintText: 'Email',
                           labelText: 'Enter Email',
@@ -63,7 +56,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
         
                       TextFormField(
-                        controller: mobileController,
+                        controller: authController.mobileController,
                         decoration: InputDecoration(
                           hintText: 'Mobile Number',
                           labelText: 'Mobile Number',
@@ -87,7 +80,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
         
                       TextFormField(
-                        controller: passwordController,
+                        controller: authController.passwordController,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           labelText: 'Enter Password',
@@ -119,7 +112,7 @@ class SignUpScreen extends StatelessWidget {
                       ),
         
                       TextFormField(
-                        controller: confirmPasswordController,
+                        controller: authController.confirmPasswordController,
                         decoration: InputDecoration(
                           hintText: 'Confirm Password',
                           labelText: 'Confirm Password',
@@ -148,7 +141,14 @@ class SignUpScreen extends StatelessWidget {
         
                       SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), () {Get.to(RestaurantDetailsScreen()); }),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), () {
+                        if(authController.confirmPasswordController.text==authController.passwordController.text){
+                          Get.to(RestaurantDetailsScreen());
+                        }else{
+                          Get.snackbar("Error", "Password should match");
+                        }
+
+                      }),
         
                       SizedBox(height: 8 * (SizeConfig.heightMultiplier ?? 1),),
         

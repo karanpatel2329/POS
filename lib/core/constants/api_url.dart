@@ -5,5 +5,6 @@ class ApiUrl {
     //========================AUTH============================
 
   static String signUp = liveBaseURL + '/owner/ownerRegister';
+  static String login = liveBaseURL + '/owner/ownerLogin';
 
 }
