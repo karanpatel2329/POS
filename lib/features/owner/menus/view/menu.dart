@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 import 'package:pos_app/features/owner/menus/view/add_new_menu.dart';
 import 'package:pos_app/features/owner/menus/view/edit_menu.dart';
 
@@ -13,9 +14,20 @@ class MenuScreen extends StatefulWidget {
 
   @override
   State<MenuScreen> createState() => _MenuScreenState();
+
 }
 
 class _MenuScreenState extends State<MenuScreen> {
+
+  MenusController menusController = Get.put(MenusController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    menusController.getMenu();
+  }
+
   @override
   Widget build(BuildContext context) {
 
@@ -26,7 +38,7 @@ class _MenuScreenState extends State<MenuScreen> {
       backgroundColor: white,
       appBar: AppBar(
         backgroundColor: white,
-        title: Text('Confirm Order', style: AppTextStyle.black40420W600,),
+        title: Text('Menus', style: AppTextStyle.black40420W600,),
         centerTitle: true,
       ),
       body: SafeArea(
@@ -80,6 +92,7 @@ class _MenuScreenState extends State<MenuScreen> {
                   direction: Axis.horizontal,
                   spacing: 10,
                   children: [
+                    for(var item in menusController.menus)
                     Container(
                       width: MediaQuery.of(context).size.width / 2 - 35,
                       decoration: BoxDecoration(
@@ -88,30 +101,32 @@ class _MenuScreenState extends State<MenuScreen> {
                       ),
                       child: Column(
                         children: [
-                          Image.asset(ImagePath.FoodImage1),
+                          Image.asset(ImagePath.FoodImage1,),
                           Padding(
                             padding: const EdgeInsets.all(15),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Veg Noodles', style: AppTextStyle.black40414W400,),
+                                Text(item['itemName'], style: AppTextStyle.black40414W400,),
                                 SizedBox(
                                   height: 8 * (SizeConfig.heightMultiplier ?? 1),
                                 ),
                                 Row(
                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
-                                    Text('₹ 350', style: AppTextStyle.black40414W600,),
+                                    Text('₹ ${item['itemPrice']}', style: AppTextStyle.black40414W600,),
                                     Row(
                                       children: [
                                         InkWell(
-                                          onTap: (){Get.to(EditMenuScreen());},
+                                          onTap: (){Get.to(EditMenuScreen(menuId: item['_id'],));},
                                           child: Icon(Icons.edit_outlined, color: grey,)
                                         ),
                                         SizedBox(
                                           width: 8 * (SizeConfig.widthMultiplier ?? 1),
                                         ),
-                                        Icon(Icons.delete, color: grey,),
+                                        InkWell(
+                                          onTap: (){menusController.deleteMenu(item['_id']);},
+                                          child: Icon(Icons.delete, color: grey,)),
                                       ],
                                     )
                                   ],
@@ -123,49 +138,49 @@ class _MenuScreenState extends State<MenuScreen> {
                         ],
                       ),
                     ),
-                    Container(
-                      width: MediaQuery.of(context).size.width / 2 - 35,
-                      decoration: BoxDecoration(
-                        border: Border.all(width: 1, color: lightOrange),
-                        borderRadius: BorderRadius.circular(8),
-                      ),
-                      child: Column(
-                        children: [
-                          Image.asset(ImagePath.FoodImage1),
-                          Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text('Veg Noodles', style: AppTextStyle.black40414W400,),
-                                SizedBox(
-                                  height: 8 * (SizeConfig.heightMultiplier ?? 1),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('₹ 350', style: AppTextStyle.black40414W600,),
-                                    Row(
-                                      children: [
-                                        InkWell(
-                                          onTap: (){Get.to(EditMenuScreen());},
-                                          child: Icon(Icons.edit_outlined, color: grey,)
-                                        ),
-                                        SizedBox(
-                                          width: 8 * (SizeConfig.widthMultiplier ?? 1),
-                                        ),
-                                        Icon(Icons.delete, color: grey,),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                          ),
+                    // Container(
+                    //   width: MediaQuery.of(context).size.width / 2 - 35,
+                    //   decoration: BoxDecoration(
+                    //     border: Border.all(width: 1, color: lightOrange),
+                    //     borderRadius: BorderRadius.circular(8),
+                    //   ),
+                    //   child: Column(
+                    //     children: [
+                    //       Image.asset(ImagePath.FoodImage1),
+                    //       Padding(
+                    //         padding: const EdgeInsets.all(15),
+                    //         child: Column(
+                    //           crossAxisAlignment: CrossAxisAlignment.start,
+                    //           children: [
+                    //             Text('Veg Noodles', style: AppTextStyle.black40414W400,),
+                    //             SizedBox(
+                    //               height: 8 * (SizeConfig.heightMultiplier ?? 1),
+                    //             ),
+                    //             Row(
+                    //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    //               children: [
+                    //                 Text('₹ 350', style: AppTextStyle.black40414W600,),
+                    //                 Row(
+                    //                   children: [
+                    //                     InkWell(
+                    //                       onTap: (){Get.to(EditMenuScreen());},
+                    //                       child: Icon(Icons.edit_outlined, color: grey,)
+                    //                     ),
+                    //                     SizedBox(
+                    //                       width: 8 * (SizeConfig.widthMultiplier ?? 1),
+                    //                     ),
+                    //                     Icon(Icons.delete, color: grey,),
+                    //                   ],
+                    //                 )
+                    //               ],
+                    //             )
+                    //           ],
+                    //         ),
+                    //       ),
               
-                        ],
-                      ),
-                    ),
+                    //     ],
+                    //   ),
+                    // ),
                   ],
                 
               )

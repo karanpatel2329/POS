@@ -1,8 +1,5 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:pos_app/core/constants/api_url.dart';
 import 'package:pos_app/features/owner/auth/models/owner.dart';
 

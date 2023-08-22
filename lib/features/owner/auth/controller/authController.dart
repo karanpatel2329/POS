@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_app/core/constants/enum.dart';
 import 'package:pos_app/features/owner/auth/models/owner.dart';
 import 'package:pos_app/features/owner/auth/service/auth_services.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
 
-class AuthController extends GetxController{
+class AuthController extends GetxController {
   Rx<Owner>? owner;
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
@@ -26,31 +25,40 @@ class AuthController extends GetxController{
   ];
   Future signUp() async {
     try {
-      Owner owner = Owner(name: businessLegalName.text, email: emailController.text, password: passwordController.text, legalName: businessLegalName.text, businessType: dropdownvalue.value, address: address.text, photo: "", mobileNo: mobileController.text, username: businessLegalName.text, userType: 1);
+      Owner owner = Owner(
+          name: businessLegalName.text,
+          email: emailController.text,
+          password: passwordController.text,
+          legalName: businessLegalName.text,
+          businessType: dropdownvalue.value,
+          address: address.text,
+          photo: "",
+          mobileNo: mobileController.text,
+          username: businessLegalName.text,
+          userType: 1);
       Response? response = await AuthService.signUp(owner);
-      if(response!=null){
+      if (response != null) {
         Get.to(Dashboard());
       }
     } catch (e) {
-        Get.snackbar("Error", "Something went wrong");
+      Get.snackbar("Error", "Something went wrong");
     }
   }
 
   Future login() async {
     try {
-      isLoadingLogin.value=true;
-      final response = await AuthService.login(email: loginEmailController.text,password: loginPasswordController.text);
-      isLoadingLogin.value=false;
-      if(response!=null){
+      isLoadingLogin.value = true;
+      final response = await AuthService.login(
+          email: loginEmailController.text,
+          password: loginPasswordController.text);
+      isLoadingLogin.value = false;
+      if (response != null) {
         Get.to(Dashboard());
-      }else{
-
-      }
+      } else {}
     } catch (e) {
       print(e);
-      isLoadingLogin.value=false;
+      isLoadingLogin.value = false;
       Get.snackbar("Error", "Something went wrong");
     }
   }
-
 }

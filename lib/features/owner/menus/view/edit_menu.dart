@@ -9,7 +9,8 @@ import 'package:pos_app/features/owner/menus/view/menu.dart';
 
 
 class EditMenuScreen extends StatefulWidget {
-  EditMenuScreen({super.key});
+  final String menuId;
+  const EditMenuScreen({super.key, required this.menuId});
 
   static TextEditingController nameController = TextEditingController();
   static TextEditingController phoneController = TextEditingController();
@@ -22,6 +23,8 @@ class EditMenuScreenState extends State<EditMenuScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print(widget.menuId);
+    print('widget.menuId');
 
       // Initial Selected Value
   String dropdownvalue = 'Veg';

@@ -6,13 +6,11 @@ import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
+import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 
 
 class AddNewMenuScreen extends StatefulWidget {
   AddNewMenuScreen({super.key});
-
-  static TextEditingController nameController = TextEditingController();
-  static TextEditingController phoneController = TextEditingController();
 
   @override
   State<AddNewMenuScreen> createState() => AddNewMenuScreenState();
@@ -20,8 +18,11 @@ class AddNewMenuScreen extends StatefulWidget {
 
 class AddNewMenuScreenState extends State<AddNewMenuScreen> {
 
+  
   @override
   Widget build(BuildContext context) {
+  MenusController menusController = Get.put(MenusController());
+
 
       // Initial Selected Value
   String dropdownvalue = 'Veg';
@@ -111,6 +112,7 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                 ),
 
                 TextFormField(
+                  controller: menusController.itemNameController,
                   decoration: InputDecoration(
                     hintText: 'Name of the item',
                     labelText: 'Name of the item',
@@ -132,6 +134,7 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
                 TextFormField(
+                  controller: menusController.priceController,
                   decoration: InputDecoration(
                     hintText: 'Price',
                     labelText: 'Price',
@@ -153,6 +156,7 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
                 TextFormField(
+                  controller: menusController.aboutController,
                   maxLines: 4,
                   decoration: InputDecoration(
                     hintText: 'About Food',
@@ -175,7 +179,11 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                AppButtonStyle.ElevatedButtonStyled('DARK', Text('UPDATE', style: AppTextStyle.whiteText14W600,), () {Get.back();Get.to(MenuScreen());})
+                AppButtonStyle.ElevatedButtonStyled(
+                  'DARK', Text('UPDATE', style: AppTextStyle.whiteText14W600,), 
+                  () {
+                    menusController.addNewMenu();
+                  })
 
               ],
             ),

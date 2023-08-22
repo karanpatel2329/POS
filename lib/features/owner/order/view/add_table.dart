@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/order/controller/tableController.dart';
 
 class AddTableScreen extends StatefulWidget {
   AddTableScreen({super.key});
@@ -12,9 +14,10 @@ class AddTableScreen extends StatefulWidget {
 }
 
 class _AddTableScreenState extends State<AddTableScreen> {
-  TextEditingController tableName = TextEditingController();
 
-  // Initial Selected Value
+  TableController tableController = Get.put(TableController());  
+
+      // Initial Selected Value
   String dropdownvalue = '2';
 
   // List of items in our dropdown menu
@@ -51,7 +54,7 @@ class _AddTableScreenState extends State<AddTableScreen> {
                 ),
 
                 TextFormField(
-                  controller: tableName,
+                  controller: tableController.tableName,
                   decoration: InputDecoration(
                     hintText: 'Name of the table',
                     labelText: 'Name of the table',
@@ -110,7 +113,10 @@ class _AddTableScreenState extends State<AddTableScreen> {
                 SizedBox(
                   height: 32 * (SizeConfig.heightMultiplier ?? 1),
                 ),
-                AppButtonStyle.ElevatedButtonStyled('DARK', Text('ADD', style: AppTextStyle.whiteText14W600,), () { })
+                AppButtonStyle.ElevatedButtonStyled(
+                  'DARK', Text('ADD', style: AppTextStyle.whiteText14W600,), 
+                  () {tableController.addTable();}
+                )
               ],
             ),
           ),
