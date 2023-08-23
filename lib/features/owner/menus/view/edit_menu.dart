@@ -5,15 +5,15 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
+
+import '../model/addMenu.dart';
 
 
 class EditMenuScreen extends StatefulWidget {
-  final String menuId;
-  const EditMenuScreen({super.key, required this.menuId});
-
-  static TextEditingController nameController = TextEditingController();
-  static TextEditingController phoneController = TextEditingController();
+  final MenuModel menu;
+  const EditMenuScreen({super.key, required this.menu});
 
   @override
   State<EditMenuScreen> createState() => EditMenuScreenState();
@@ -21,28 +21,26 @@ class EditMenuScreen extends StatefulWidget {
 
 class EditMenuScreenState extends State<EditMenuScreen> {
 
+  MenusController menusController = Get.put(MenusController());
+
+  @override
+  void initState() {
+    menusController.itemNameControllerEdit.text = widget.menu.itemName;
+    menusController.priceControllerEdit.text = widget.menu.itemPrice.toString();
+    menusController.aboutControllerEdit.text = widget.menu.itemDes;
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
-    print(widget.menuId);
-    print('widget.menuId');
-
-      // Initial Selected Value
-  String dropdownvalue = 'Veg';
-
-  // List of items in our dropdown menu
-  var items = [
-    'Veg',
-    '4',
-    '6',
-  ];
-
     return Scaffold(
       // App Bar Content
 
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text('Veg Noodles', style: AppTextStyle.black40420W600,),
+        title: Text(widget.menu.itemName, style: AppTextStyle.black40420W600,),
         centerTitle: true,
       ),
 
@@ -71,7 +69,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
-                Text('Veg Noodles', style: AppTextStyle.black40414W600,),
+                Text(widget.menu.itemName, style: AppTextStyle.black40414W600,),
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
@@ -83,9 +81,9 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                         color: orange, style: BorderStyle.solid, width: 0.80),
                   ),
                   child: DropdownButton(
-                    hint: Text('Select seater'),
+                    hint: Text('Select Category'),
                     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-                    value: dropdownvalue,
+                    value: menusController.dropdownvalue.value,
                     isDense: true,
                     isExpanded: true,
                     underline: const SizedBox(),
@@ -93,7 +91,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                       Icons.keyboard_arrow_down,
                       color: orange,
                     ),
-                    items: items.map((String items) {
+                    items: menusController.items.map((String items) {
                       return DropdownMenuItem(
                         value: items,
                         child: Text(
@@ -103,9 +101,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                      });
+                      menusController.dropdownvalue.value =newValue!;
                     },
                   ),
                 ),
@@ -114,6 +110,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                 ),
 
                 TextFormField(
+                  controller: menusController.itemNameControllerEdit,
                   decoration: InputDecoration(
                     hintText: 'Name of the item',
                     labelText: 'Name of the item',
@@ -135,6 +132,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
                 TextFormField(
+                  controller: menusController.priceControllerEdit,
                   decoration: InputDecoration(
                     hintText: 'Price',
                     labelText: 'Price',
@@ -156,6 +154,7 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
                 TextFormField(
+                  controller: menusController.aboutControllerEdit,
                   maxLines: 4,
                   decoration: InputDecoration(
                     hintText: 'About Food',
@@ -178,8 +177,8 @@ class EditMenuScreenState extends State<EditMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                AppButtonStyle.ElevatedButtonStyled('DARK', Text('UPDATE', style: AppTextStyle.whiteText14W600,), () {Get.to(MenuScreen());})
-
+              Obx(()=>  AppButtonStyle.ElevatedButtonStyled('DARK',menusController.isLoadingUpdate.value?CircularProgressIndicator(color: Colors.white,):Text('UPDATE', style: AppTextStyle.whiteText14W600,), () {menusController.updateMenu(widget.menu);})
+              )
               ],
             ),
           )

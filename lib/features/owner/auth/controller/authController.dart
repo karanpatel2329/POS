@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:pos_app/features/owner/auth/models/owner.dart';
 import 'package:pos_app/features/owner/auth/service/auth_services.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthController extends GetxController {
   Rx<Owner>? owner;
@@ -47,14 +48,17 @@ class AuthController extends GetxController {
 
   Future login() async {
     try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
       isLoadingLogin.value = true;
       final response = await AuthService.login(
           email: loginEmailController.text,
           password: loginPasswordController.text);
       isLoadingLogin.value = false;
       if (response != null) {
+        prefs.setString('token', response.data['data']['token']);
+        prefs.setString('ownerId', response.data['data']['_id']);
         Get.to(Dashboard());
-      } else {}
+       } else {}
     } catch (e) {
       print(e);
       isLoadingLogin.value = false;

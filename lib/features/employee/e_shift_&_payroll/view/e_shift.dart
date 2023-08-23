@@ -5,7 +5,6 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/employee/e_start_duty/view/e_start_duty.dart';
-import 'package:day_night_time_picker/day_night_time_picker.dart';
 
 
 class EShiftScreen extends StatefulWidget {
@@ -19,14 +18,6 @@ class EShiftScreenState extends State<EShiftScreen> {
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
 
-  Time _time = Time(hour: 11, minute: 30, second: 20);
-  bool iosStyle = true;
-
-  void onTimeChanged(Time newTime) {
-    setState(() {
-      _time = newTime;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,34 +118,6 @@ class EShiftScreenState extends State<EShiftScreen> {
                       SizedBox(
                         height: 16 * (SizeConfig.heightMultiplier ?? 1),
                       ),
-
-                      Container(
-                        decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: orange)
-                        ),
-                        child: showPicker(
-                          dialogInsetPadding: EdgeInsets.all(0),
-                          isInlinePicker: true,
-                          elevation: 0,
-                          value: _time,
-                          onChange: onTimeChanged,
-                          minuteInterval: TimePickerInterval.FIVE,
-                          iosStylePicker: iosStyle,
-                          minHour: 1,
-                          maxHour: 12,
-                          hourLabel: '',
-                          minuteLabel: '',
-                          is24HrFormat: false,
-                          displayHeader: false,
-                          cancelText: 'CANCEL',
-                          cancelStyle: AppTextStyle.orange14W600,
-                          okText: 'SAVE',
-                          okStyle: AppTextStyle.orange14W600,
-                        ),
-                      ),
-
-                      
-                      
                       
                       
                       SizedBox(

@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/menus/model/category.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
 import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 
@@ -18,29 +19,16 @@ class AddNewMenuScreen extends StatefulWidget {
 
 class AddNewMenuScreenState extends State<AddNewMenuScreen> {
 
+  MenusController menusController = Get.put(MenusController());
   
   @override
   Widget build(BuildContext context) {
-  MenusController menusController = Get.put(MenusController());
-
-
-      // Initial Selected Value
-  String dropdownvalue = 'Veg';
-
-  // List of items in our dropdown menu
-  var items = [
-    'Veg',
-    '4',
-    '6',
-  ];
-
     return Scaffold(
       // App Bar Content
-
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text('Veg Noodles', style: AppTextStyle.black40420W600,),
+        title: Text('Add New Item', style: AppTextStyle.black40420W600,),
         centerTitle: true,
       ),
 
@@ -69,7 +57,7 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
-                Text('Veg Noodles', style: AppTextStyle.black40414W600,),
+                Text('Item detail', style: AppTextStyle.black40414W600,),
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
@@ -80,10 +68,10 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                     border: Border.all(
                         color: orange, style: BorderStyle.solid, width: 0.80),
                   ),
-                  child: DropdownButton(
+                  child: Obx(()=>DropdownButton(
                     hint: Text('Select seater'),
                     padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 20),
-                    value: dropdownvalue,
+                    value: menusController.selectedCategoryModel.value.categoryName,
                     isDense: true,
                     isExpanded: true,
                     underline: const SizedBox(),
@@ -91,21 +79,20 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                       Icons.keyboard_arrow_down,
                       color: orange,
                     ),
-                    items: items.map((String items) {
+                    items: menusController.categoryList.map((CategoryModel items) {
                       return DropdownMenuItem(
-                        value: items,
+                        value: items.categoryName,
                         child: Text(
-                          items,
+                          items.categoryName??'',
                           style: AppTextStyle.black40416W400,
                         ),
                       );
                     }).toList(),
                     onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                      });
-                    },
-                  ),
+                      menusController.selectedCategoryModel.value = menusController.categoryList.value.firstWhere((element) => element.categoryName == (newValue??''));
+                    print(menusController.selectedCategoryModel.value.categoryName);
+                      },
+                  ),)
                 ),
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
@@ -179,11 +166,11 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                AppButtonStyle.ElevatedButtonStyled(
-                  'DARK', Text('UPDATE', style: AppTextStyle.whiteText14W600,), 
-                  () {
-                    menusController.addNewMenu();
-                  })
+                Obx(()=>AppButtonStyle.ElevatedButtonStyled(
+                    'DARK', menusController.isLoadingAdd.value?CircularProgressIndicator(color: Colors.white,): Text('Add', style: AppTextStyle.whiteText14W600,),
+                        () {
+                      menusController.addNewMenu();
+                    }))
 
               ],
             ),

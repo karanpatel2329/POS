@@ -1,22 +1,20 @@
 import 'package:dio/dio.dart';
 import 'package:pos_app/core/constants/api_url.dart';
 import 'package:pos_app/features/owner/order/model/tableModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TableService {
-  
+    static Dio dio = Dio();
 
     // Add new Table
     static Future addNewTable(TableModel tableModel) async {
     try {
-      final dio = Dio();
-      final response = await dio.post(ApiUrl.table, data: tableModel.toJson(), options: Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTI2MzczNDN9.RFDGXmZQc-0G7pyAvn71X7WoNlJUwhNc_9Alwa7IrG0',
-        // 'Authorization': 'Bearer ${response.data["token"]} ',
-      },
-    ));
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.post(ApiUrl.table, data: tableModel.toJson(),);
       return response;
     } catch (e) {
     print(e);
@@ -27,15 +25,12 @@ class TableService {
     // Get Table
     static Future getTable() async {
     try {
-      final dio = Dio();
-      final response = await dio.get(ApiUrl.table, options: Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTI2MzczNDN9.RFDGXmZQc-0G7pyAvn71X7WoNlJUwhNc_9Alwa7IrG0',
-        // 'Authorization': 'Bearer ${response.data["token"]} ',
-      },
-    ));
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.get(ApiUrl.table,);
       return response;
     } catch (e) {
     print(e);

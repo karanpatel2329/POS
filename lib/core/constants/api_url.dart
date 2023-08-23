@@ -6,7 +6,9 @@ class ApiUrl {
 
   static String signUp = liveBaseURL + '/owner/ownerRegister';
   static String login = liveBaseURL + '/owner/ownerLogin';
+  static String addCategoru = liveBaseURL + '/categories';
   static String addMenu = liveBaseURL + '/menu/menu';
+  static String dashboard = liveBaseURL + '/owner/dashboard';
   static String order = liveBaseURL + '/order/orders';
   static String table = liveBaseURL + '/table/tables';
 

@@ -5,14 +5,37 @@ import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_onboarding_1.dart';
+import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'onboarding_1.dart';
 
-class WelcomeScreen extends StatelessWidget {
-  const WelcomeScreen({Key? key}) : super(key: key);
+
+
+class WelcomeScreen extends StatefulWidget {
+  const WelcomeScreen({super.key});
 
   @override
+  State<WelcomeScreen> createState() => _WelcomeScreenState();
+}
+
+class _WelcomeScreenState extends State<WelcomeScreen> {
+
+  @override
+  void initState() {
+    goToMain();
+    super.initState();
+  }
+  void goToMain()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? token = prefs.getString('token');
+    String? ownerId = prefs.getString('ownerId');
+    if(token != null && ownerId != null){
+      Get.off(Dashboard());
+    }
+  }
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
+   return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 10),

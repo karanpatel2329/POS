@@ -1,22 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:pos_app/core/constants/api_url.dart';
 import 'package:pos_app/features/owner/order/model/orderModel.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class OrderService {
-  
+
+  static Dio dio = Dio();
 
     // Add new Menu
     static Future newOrder(OrderModel orderModel) async {
     try {
-      final dio = Dio();
-      final response = await dio.post(ApiUrl.order, data: orderModel.toJson(), options: Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTI2MzczNDN9.RFDGXmZQc-0G7pyAvn71X7WoNlJUwhNc_9Alwa7IrG0',
-        // 'Authorization': 'Bearer ${response.data["token"]} ',
-      },
-    ));
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.post(ApiUrl.order, data: orderModel.toJson(),);
       return response;
     } catch (e) {
     print(e);
@@ -28,20 +27,14 @@ class OrderService {
   static Future getNewMenu() async {
     print('object11');
     try {
-      final dio = Dio();
-      final response = await dio.get(ApiUrl.addMenu, options: Options(
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTI2MzczNDN9.RFDGXmZQc-0G7pyAvn71X7WoNlJUwhNc_9Alwa7IrG0',
-        // 'Authorization': 'Bearer ${response.data["token"]} ',
-      },
-    ));
-    print(response.data);
-    print(response.statusCode);
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.get(ApiUrl.addMenu,);
       return response;
     } catch (e) {
-    print(e);
       return null;
     }
   }

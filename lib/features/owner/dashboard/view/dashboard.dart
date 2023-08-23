@@ -7,6 +7,7 @@ import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/add_employee/view/employee.dart';
+import 'package:pos_app/features/owner/dashboard/controller/dashboardController.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
 import 'package:pos_app/features/owner/order/view/dine_in_screen.dart';
 import 'package:pos_app/features/owner/others/view/about_us.dart';
@@ -18,6 +19,8 @@ import 'package:pos_app/features/owner/sales/view/sales.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
+import '../../menus/controller/menu_controller.dart';
+
 class Dashboard extends StatefulWidget {
   const Dashboard({super.key});
 
@@ -26,7 +29,8 @@ class Dashboard extends StatefulWidget {
 }
 
 class DashboardState extends State<Dashboard> {
-
+  MenusController menusController = Get.put(MenusController());
+  DashboardController dashboardController = Get.put(DashboardController());
   late List<_ChartData> data;
   late TooltipBehavior _tooltip;
 
@@ -37,6 +41,7 @@ class DashboardState extends State<Dashboard> {
  
   @override
   void initState() {
+    dashboardController.getDashboard();
     data = [
       _ChartData('CHN', 12),
       _ChartData('GER', 15),
@@ -87,11 +92,11 @@ class DashboardState extends State<Dashboard> {
         child: SingleChildScrollView(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
-            child: Column(
+            child: Obx(()=>dashboardController.isLoadingDashboard.value?CircularProgressIndicator(color: Colors.white,):Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text('Good Morning!', style: AppTextStyle.black40416W300,),
-                Text('Jane', style: AppTextStyle.black40418W700,),
+                Text(dashboardController.dashboard?.value.name??"", style: AppTextStyle.black40418W700,),
                 SizedBox(
                   height: 24 * (SizeConfig.heightMultiplier ?? 1),
                 ),
@@ -101,8 +106,8 @@ class DashboardState extends State<Dashboard> {
                       height: 108 * (SizeConfig.heightMultiplier ?? 1),
                       width: 152 * (SizeConfig.heightMultiplier ?? 1),
                       decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        color: orange
+                          borderRadius: BorderRadius.circular(8),
+                          color: orange
                       ),
                       child: Padding(
                         padding: const EdgeInsets.only(left: 20),
@@ -111,7 +116,8 @@ class DashboardState extends State<Dashboard> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text('Total revenue', style: AppTextStyle.whiteText14W400,),
-                            Text('₹ 4500', style: AppTextStyle.whiteText18W600,),
+                            Obx(()=> Text('₹ ${dashboardController.dashboard?.value.totalRevenue??""}', style: AppTextStyle.whiteText18W600,),
+                            )
                           ],
                         ),
                       ),
@@ -133,8 +139,8 @@ class DashboardState extends State<Dashboard> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total revenue', style: AppTextStyle.black40416W400,),
-                            Text('35', style: AppTextStyle.poppins20W700,),
+                            Text('Total Menu Count', style: AppTextStyle.black40416W400,),
+                            Obx(()=>Text('${dashboardController.dashboard?.value.totalMenuCount??""}', style: AppTextStyle.poppins20W700,),)
                           ],
                         ),
                       ),
@@ -148,7 +154,7 @@ class DashboardState extends State<Dashboard> {
                 ),
 
                 Container(
-                  
+
                   padding: EdgeInsets.symmetric(horizontal: 6),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
@@ -158,7 +164,7 @@ class DashboardState extends State<Dashboard> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      
+
                       Padding(
                         padding: const EdgeInsets.only(left: 20, top: 10),
                         child: Text('Total revenue', style: AppTextStyle.black40414W600,),
@@ -182,7 +188,7 @@ class DashboardState extends State<Dashboard> {
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(width: 1, color: orange),
                             ),
-                          
+
                             child: Container(
                               padding: const EdgeInsets.only(left: 6),
                               child: Row(
@@ -192,13 +198,13 @@ class DashboardState extends State<Dashboard> {
                                   SizedBox(
                                     width: 6 * (SizeConfig.widthMultiplier ?? 1),
                                   ),
-                                  
+
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text('Current order', style: AppTextStyle.black40412W500,),
-                                      Text('12', style: AppTextStyle.orange20W600,),
+                                      Text('${dashboardController.dashboard?.value.totalCurrentOrders??""}', style: AppTextStyle.orange20W600,),
                                     ],
                                   ),
                                 ],
@@ -217,7 +223,7 @@ class DashboardState extends State<Dashboard> {
                               borderRadius: BorderRadius.circular(8),
                               border: Border.all(width: 1, color: orange),
                             ),
-                          
+
                             child: Container(
                               padding: const EdgeInsets.only(left: 6),
                               child: Row(
@@ -227,13 +233,13 @@ class DashboardState extends State<Dashboard> {
                                   SizedBox(
                                     width: 6 * (SizeConfig.widthMultiplier ?? 1),
                                   ),
-                                  
+
                                   Column(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Text('Order completed', style: AppTextStyle.black40412W500,),
-                                      Text('23', style: AppTextStyle.orange20W600,),
+                                      Text('${dashboardController.dashboard?.value.totalCompletedOrders??""}', style: AppTextStyle.orange20W600,),
                                     ],
                                   ),
                                 ],
@@ -242,11 +248,11 @@ class DashboardState extends State<Dashboard> {
                           ),
                         ],
                       ),
-                      
+
                       SizedBox(
                         height: 12 * (SizeConfig.heightMultiplier ?? 1),
                       ),
-                      
+
                       AppButtonStyle.ElevatedButtonStyled('DARK', Text('GO TO NEW ORDER', style: AppTextStyle.whiteText14W600,), () { })
 
                     ],
@@ -259,58 +265,58 @@ class DashboardState extends State<Dashboard> {
 
                 // Chart
 
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8),
-                        border: Border.all(width: 1, color: lightOrange),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(width: 1, color: lightOrange),
+                  ),
+                  child: Column(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: SfCartesianChart(
+                            primaryXAxis: CategoryAxis(),
+                            primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
+                            tooltipBehavior: _tooltip,
+                            series: <ChartSeries<_ChartData, String>>[
+                              ColumnSeries<_ChartData, String>(
+                                dataSource: data,
+                                xValueMapper: (_ChartData data, _) => data.x,
+                                yValueMapper: (_ChartData data, _) => data.y,
+                                name: 'Gold',
+                                color: orange,
+                              )
+                            ]
+                        ),
                       ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: SfCartesianChart(
-                              primaryXAxis: CategoryAxis(),
-                              primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
-                              tooltipBehavior: _tooltip,
-                              series: <ChartSeries<_ChartData, String>>[
-                                ColumnSeries<_ChartData, String>(
-                                    dataSource: data,
-                                    xValueMapper: (_ChartData data, _) => data.x,
-                                    yValueMapper: (_ChartData data, _) => data.y,
-                                    name: 'Gold',
-                                    color: orange,
-                                  )
-                              ]
-                            ),
-                          ),
-                          Container(
-                            height: 1,
-                            color: lightOrange,
-                          ),
+                      Container(
+                        height: 1,
+                        color: lightOrange,
+                      ),
 
-                          Padding(
-                            padding: const EdgeInsets.all(20.0),
-                            child: SfCartesianChart(
-                              primaryXAxis: CategoryAxis(),
-                              primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
-                              tooltipBehavior: _tooltip2,
-                              series: <ChartSeries<_ChartData2, String>>[
-                                ColumnSeries<_ChartData2, String>(
-                                    dataSource: data2,
-                                    xValueMapper: (_ChartData2 data, _) => data.x,
-                                    yValueMapper: (_ChartData2 data, _) => data.y,
-                                    name: 'Gold',
-                                    color: orange
-                                  )
-                              ]
-                            ),
-                          ),
-                          
-                        ],
+                      Padding(
+                        padding: const EdgeInsets.all(20.0),
+                        child: SfCartesianChart(
+                            primaryXAxis: CategoryAxis(),
+                            primaryYAxis: NumericAxis(minimum: 0, maximum: 40, interval: 10),
+                            tooltipBehavior: _tooltip2,
+                            series: <ChartSeries<_ChartData2, String>>[
+                              ColumnSeries<_ChartData2, String>(
+                                  dataSource: data2,
+                                  xValueMapper: (_ChartData2 data, _) => data.x,
+                                  yValueMapper: (_ChartData2 data, _) => data.y,
+                                  name: 'Gold',
+                                  color: orange
+                              )
+                            ]
+                        ),
                       ),
-                    )
+
+                    ],
+                  ),
+                )
               ],
-            ),
+            ),)
           )
         ),
       ),
