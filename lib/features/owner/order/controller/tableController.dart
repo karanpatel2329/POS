@@ -18,7 +18,7 @@ class TableController extends GetxController {
     '6',
   ];
 
-  List<dynamic> tables = [];
+  RxList<dynamic> tables = [].obs;
 
     Future addTable() async {
     try {
@@ -49,11 +49,9 @@ class TableController extends GetxController {
     try {
       res.Response? response = await TableService.getTable();
     if (response != null) {
-        print('Table object 2');
-        tables = response.data;
+        tables.addAll(response.data);// = response.data;
       }else{
         Get.snackbar("Table Error 2", "Something went wrong");
-
       }
     } catch (e) {
       print(e);

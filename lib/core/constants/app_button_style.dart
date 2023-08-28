@@ -17,7 +17,7 @@ class AppButtonStyle {
     void Function() onPressed,
   ) {
     return Container(
-        padding: EdgeInsets.symmetric(
+       padding: EdgeInsets.symmetric(
           // vertical: 14 * SizeConfig.heightMultiplier!,
           vertical: 14,
         ),

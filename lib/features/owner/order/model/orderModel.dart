@@ -5,30 +5,32 @@ List<OrderModel> orderModelFromJson(String str) => List<OrderModel>.from(json.de
 String orderModelToJson(List<OrderModel> data) => json.encode(List<dynamic>.from(data.map((x) => x.toJson())));
 
 class OrderModel {
-    Customer customer;
+    Customer? customer;
     String id;
     String orderType;
     List<Item> items;
     String status;
-    String takeawayName;
-    String ownerId;
-    String employeeId;
+    String? takeawayName;
+    String? tableNumber;
+    String? ownerId;
+    String? employeeId;
     String cookingStatus;
-    int total;
+    double total;
     String paymentStatus;
     String orderId;
     DateTime createdAt;
     int v;
 
     OrderModel({
-        required this.customer,
+        this.customer,
         required this.id,
         required this.orderType,
         required this.items,
         required this.status,
-        required this.takeawayName,
-        required this.ownerId,
-        required this.employeeId,
+        this.tableNumber,
+        this.takeawayName,
+        this.ownerId,
+        this.employeeId,
         required this.cookingStatus,
         required this.total,
         required this.paymentStatus,
@@ -38,16 +40,17 @@ class OrderModel {
     });
 
     factory OrderModel.fromJson(Map<String, dynamic> json) => OrderModel(
-        customer: Customer.fromJson(json["customer"]),
+        customer: json["customer"]!=null?Customer.fromJson(json["customer"]):null,
         id: json["_id"],
         orderType: json["orderType"],
         items: List<Item>.from(json["items"].map((x) => Item.fromJson(x))),
         status: json["status"],
+        tableNumber: json["tableNumber"].toString(),
         takeawayName: json["takeawayName"],
         ownerId: json["ownerId"],
         employeeId: json["employeeId"],
         cookingStatus: json["cookingStatus"],
-        total: json["total"],
+        total: double.tryParse(json["total"].toString())??0.0,
         paymentStatus: json["paymentStatus"],
         orderId: json["orderID"],
         createdAt: DateTime.parse(json["createdAt"]),
@@ -55,7 +58,7 @@ class OrderModel {
     );
 
     Map<String, dynamic> toJson() => {
-        "customer": customer.toJson(),
+        "customer": customer!=null?customer!.toJson():null,
         "_id": id,
         "orderType": orderType,
         "items": List<dynamic>.from(items.map((x) => x.toJson())),

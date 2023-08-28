@@ -6,6 +6,10 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/core/utlis/timeAgo.dart';
+import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
+import 'package:pos_app/features/owner/order/controller/cartController.dart';
+import 'package:pos_app/features/owner/order/controller/orderController.dart';
 import 'package:pos_app/features/owner/order/view/order_details.dart';
 import 'package:pos_app/features/owner/order/view/take_order.dart';
 
@@ -20,7 +24,13 @@ class DineInScreen extends StatefulWidget {
 }
 
 class _DineInScreenState extends State<DineInScreen> {
-
+  OrderController orderController = Get.put(OrderController());
+  CartController cartController = Get.put(CartController());
+  @override
+  void initState() {
+    orderController.getOrder();
+    super.initState();
+  }
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -58,10 +68,10 @@ class _DineInScreenState extends State<DineInScreen> {
             ), // TabBar
             title: Text('Orders', style: AppTextStyle.black40420W600,),
             centerTitle: true,
-            
+
             backgroundColor: white,
           ), // AppBar
-          body: const TabBarView(
+          body:  TabBarView(
             physics: NeverScrollableScrollPhysics(),
             children: [
               Padding(
@@ -90,8 +100,8 @@ class _DineInScreenState extends State<DineInScreen> {
 
 // Dine in View
 class DineInView extends StatelessWidget {
-  const DineInView ({super.key});
-
+  DineInView ({super.key});
+  OrderController orderController = Get.put(OrderController());
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -99,176 +109,221 @@ class DineInView extends StatelessWidget {
         Row(
           children: [
             Text('Table Occupied : ', style: AppTextStyle.black40412W400,),
-            Text('16', style: AppTextStyle.black40412W600,),
+           Obx(()=> Text('${orderController.dineInOrderList.length}', style: AppTextStyle.black40412W600,),)
           ],
         ),
         SizedBox(
           height: 16 * (SizeConfig.heightMultiplier ?? 1),
         ),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (BuildContext context, int index) {
-          return Container(
-            padding: EdgeInsets.symmetric(horizontal: 20),
-            height: 60,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-              color: index.isEven == true ? lightPink : white
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text('Table 1', style: AppTextStyle.black40414W400,),
-                Text('3 min ago', style: AppTextStyle.black40412W400,),
-                InkWell(
-                  onTap: (){Get.to(OrderDetailsScreen());},
-                  child: Text('VIEW', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontWeight: FontWeight.w600), )
+        Obx(()=>ListView.builder(
+            shrinkWrap: true,
+            itemCount: orderController.dineInOrderList.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Container(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                height: 60,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(8),
+                    color: index.isEven == true ? lightPink : white
                 ),
-              ],
-            ),
-          );
-        }),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Table ${orderController.dineInOrderList[index].tableNumber}', style: AppTextStyle.black40414W400,),
+                    Text('${convertToAgo(orderController.dineInOrderList[index].createdAt)}', style: AppTextStyle.black40412W400,),
+                    InkWell(
+                        onTap: (){Get.to(OrderDetailsScreen());},
+                        child: Text('VIEW', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontWeight: FontWeight.w600), )
+                    ),
+                  ],
+                ),
+              );
+            }),),
         SizedBox(
           height: 16 * (SizeConfig.heightMultiplier ?? 1),
         ),
-        AppButtonStyle.ElevatedButtonStyled('DARK', Text('NEW ORDER'), () {Get.to(NewOrderScreen());})
+        AppButtonStyle.ElevatedButtonStyled('DARK', Text('NEW ORDER'), () {
+
+          orderController.isTakeaway.value = false;
+          Get.to(NewOrderScreen());})
       ],
     );
   }
 }
 
-// Takeaway View
-class TakeawayView extends StatelessWidget {
-  const TakeawayView ({super.key});
+
+class TakeawayView extends StatefulWidget {
+  const TakeawayView({super.key});
+
+  @override
+  State<TakeawayView> createState() => _TakeawayViewState();
+}
+
+class _TakeawayViewState extends State<TakeawayView> {
+
+  CartController cartController = Get.find<CartController>();
+  OrderController orderController = Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
-    return Column(
+    return Stack(
       children: [
-        Row(
-          children: [
-            Text('Current Order : ', style: AppTextStyle.black40412W400,),
-            Text('4', style: AppTextStyle.black40412W600,),
-          ],
-        ),
-        SizedBox(
-          height: 16 * (SizeConfig.heightMultiplier ?? 1),
-        ),
-        Expanded(
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: 2,
-            scrollDirection: Axis.vertical,
-            itemBuilder: (BuildContext context, index) {
-            return Container(
-              margin: const EdgeInsets.only(bottom: 16),
-              decoration: BoxDecoration(
-                border: Border.all(width: 1, color: lightOrange),
-                borderRadius: BorderRadius.circular(8),
-                color: index.isEven ? brightGrey : lightPink
-              ),
-              child: Column(
+        SingleChildScrollView(
+          child:  Column(
+            children: [
+              Row(
                 children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Order 1', style: AppTextStyle.black40414W600,),
-                            InkWell(
-                              onTap: (){Get.to(TakeOrderScreen());},
-                              child: Icon(Icons.edit)),
-                          ],
-                        ),
-                        
-                        Text('3 min ago', style: AppTextStyle.orange12W400,),
-                        SizedBox(
-                          height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                        ),
-                        Text('Cody', style: AppTextStyle.black40414W400,),
-                        Text('+91 8918496102', style: AppTextStyle.black40414W400,),
-                        SizedBox(
-                          height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                        ),
-                        Text('Order Id- 4387D', style: AppTextStyle.black40412W500,),
-                  
-                        ListView.builder(
-                          scrollDirection: Axis.vertical,
-                          shrinkWrap: true,
-                          itemCount: 2,
-                          itemBuilder: (BuildContext context, int index) {
-                            return Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Padding(
-                                  padding: const EdgeInsets.only(top: 8.0),
-                                  child: Row(
-                                    children: [
-                                      Text(index.toString(), style: AppTextStyle.black40414W400,),
-                                      Text('. ', style: AppTextStyle.black40414W400,),
-                                      Text('Veg Pizza', style: AppTextStyle.black40414W400,),
-                                    ],
-                                  ),
-                                ),
-                                Text('₹ 200', style: AppTextStyle.black40414W400,),
-                              ],
-                            );
-                          }
-                        ),
-                        Container(
-                          margin: EdgeInsets.symmetric(vertical: 8),
-                          height: 1,
-                          color: lightOrange,
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Total :', style: AppTextStyle.black40414W400,),
-                            Text('₹ 370', style: AppTextStyle.black40414W400,),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 6 * (SizeConfig.heightMultiplier ?? 1),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Payment:', style: AppTextStyle.black40414W400,),
-                            Container(
-                              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(8),
-                                color: red,
-                              ),
-                              child: Text('Not Done', style: AppTextStyle.whiteText14W400,),
-                            )
-                          ],
-                        ),
-          
-                      ],
-                    ),
-                  ),
-                  
-                  AppButtonStyle.ElevatedButtonStyled('DARK', Text('TAKE PAYMENT', style: AppTextStyle.whiteText14W600,), () {})
+                  Text('Current Order : ', style: AppTextStyle.black40412W400,),
+                  Obx(()=> Text('${orderController.takeAwayOrderList.length}', style: AppTextStyle.black40412W600,),)
                 ],
               ),
-            );}
+              SizedBox(
+                height: 16 * (SizeConfig.heightMultiplier ?? 1),
+              ),
+              Obx(()=>ListView.builder(
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  itemCount: orderController.takeAwayOrderList.length,
+                  scrollDirection: Axis.vertical,
+                  itemBuilder: (BuildContext context, index) {
+                    return Container(
+                      margin: const EdgeInsets.only(bottom: 16),
+                      decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: lightOrange),
+                          borderRadius: BorderRadius.circular(8),
+                          color: index.isEven ? brightGrey : lightPink
+                      ),
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Order :-${orderController.takeAwayOrderList[index].takeawayName}', style: AppTextStyle.black40414W600,),
+                                    InkWell(
+                                        onTap: (){Get.to(TakeOrderScreen());},
+                                        child: Icon(Icons.edit)),
+                                  ],
+                                ),
+
+                                Text('${convertToAgo(orderController.takeAwayOrderList[index].createdAt)}', style: AppTextStyle.orange12W400,),
+                                SizedBox(
+                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                ),
+                                Text('${orderController.takeAwayOrderList[index].customer?.name??"Test"}', style: AppTextStyle.black40414W400,),
+                                Text('${orderController.takeAwayOrderList[index].customer?.mobileNumber??"Test Mobile"}', style: AppTextStyle.black40414W400,),
+                                SizedBox(
+                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                ),
+                                Text('Order Id- ${orderController.takeAwayOrderList[index].orderId}', style: AppTextStyle.black40412W500,),
+
+                                ListView.builder(
+                                    scrollDirection: Axis.vertical,
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount: orderController.takeAwayOrderList[index].items.length,
+                                    itemBuilder: (BuildContext context, int i) {
+                                      return Row(
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.only(top: 8.0),
+                                            child: Row(
+                                              children: [
+                                                Text(index.toString(), style: AppTextStyle.black40414W400,),
+                                                Text('. ', style: AppTextStyle.black40414W400,),
+                                                Text('${orderController.takeAwayOrderList[index].items[i].name}', style: AppTextStyle.black40414W400,),
+                                              ],
+                                            ),
+                                          ),
+                                          Text('${orderController.takeAwayOrderList[index].items[i].quantity}', style: AppTextStyle.black40414W400,),
+                                        ],
+                                      );
+                                    }
+                                ),
+                                Container(
+                                  margin: EdgeInsets.symmetric(vertical: 8),
+                                  height: 1,
+                                  color: lightOrange,
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Total :', style: AppTextStyle.black40414W400,),
+                                    Text('${orderController.takeAwayOrderList[index].total}', style: AppTextStyle.black40414W400,),
+                                  ],
+                                ),
+                                SizedBox(
+                                  height: 6 * (SizeConfig.heightMultiplier ?? 1),
+                                ),
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text('Payment:', style: AppTextStyle.black40414W400,),
+                                    Container(
+                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                                      decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(8),
+                                        color: orderController.takeAwayOrderList[index].paymentStatus=='Pending'?red:green,
+                                      ),
+                                      child: Text('${orderController.takeAwayOrderList[index].paymentStatus}', style: AppTextStyle.whiteText14W400,),
+                                    )
+                                  ],
+                                ),
+
+                              ],
+                            ),
+                          ),
+                          Obx(()=> orderController.takeAwayOrderList[index].paymentStatus=='Pending'?GestureDetector(
+                            onTap: (){
+                              orderController.takeAwayOrderList[index].paymentStatus='Paid';
+                              orderController.updatePaymentStatus( orderController.takeAwayOrderList[index].id);
+                              setState(() {
+
+                              });
+                            },
+                            child: Container(
+                                width: double.infinity,
+                                height: 50,
+                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                                decoration: BoxDecoration(
+                                    color: Colors.white,
+                                    borderRadius: BorderRadius.all(Radius.circular(8)),
+                                    border: Border.all(color: orange)
+                                ),
+                                child:Center(child: Text("TAKE PAYMENT",style: AppTextStyle.whiteText14W600.copyWith(color: orange),))
+                            ),
+                          ):SizedBox(),),
+
+                        ],
+                      ),
+                    );}
+              ),),
+              SizedBox(
+                height: 16 * (SizeConfig.heightMultiplier ?? 1),
+              ),
+
+            ],
           ),
         ),
-        SizedBox(
-          height: 16 * (SizeConfig.heightMultiplier ?? 1),
-        ),
         Align(
-          alignment: Alignment.bottomCenter,
-          child: AppButtonStyle.ElevatedButtonStyled('LIGHT', Text('NEW ORDER', style: AppTextStyle.orange14W600,), () {Get.to(NewOrderScreen());}))
+            alignment: Alignment.bottomCenter,
+            child: AppButtonStyle.ElevatedButtonStyled('LIGHT', Text('NEW ORDER', style: AppTextStyle.orange14W600,), () {
+              //menusController.menus.clear();
+              // orderController.items.clear();
+              cartController.items.clear();
+              orderController.isTakeaway.value = true;
+              Get.to(TakeOrderScreen());
+            }))
       ],
     );
   }
 }
+
 
 
 // Kitchen View
@@ -279,11 +334,10 @@ class KitchenView extends StatefulWidget {
   State<KitchenView> createState() => _KitchenViewState();
 }
 class _KitchenViewState extends State<KitchenView> {
+  RxBool openOrders = true.obs;
+  OrderController orderController = Get.put(OrderController());
   @override
   Widget build(BuildContext context) {
-  
-    RxBool openOrders = true.obs;
-
     return Column(
       children: [
         Container(
@@ -336,107 +390,144 @@ class _KitchenViewState extends State<KitchenView> {
         SizedBox(
           height: 16 * (SizeConfig.heightMultiplier ?? 1),
         ),
-        
+
         // Open View
 
         Obx(() => Visibility(
           visible: openOrders.value,
           child: Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 2,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: lightOrange),
-                  borderRadius: BorderRadius.circular(8),
-                  color: index.isEven ? brightGrey : lightPink
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(()=>ListView.builder(
+                shrinkWrap: true,
+                itemCount: orderController.kitchenOpenList.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: lightOrange),
+                        borderRadius: BorderRadius.circular(8),
+                        color: index.isEven ? brightGrey : lightPink
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Order 1', style: AppTextStyle.orange14W600,),
-                              Text('3 min ago', style: AppTextStyle.orange12W400,),
-                            ],
-                          ),
-                          
-                          SizedBox(
-                            height: 8 * (SizeConfig.heightMultiplier ?? 1),
-                          ),
-        
-                          Text('Order Id- 4387D', style: AppTextStyle.black40412W500,),
-                    
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(index.toString(), style: AppTextStyle.black40414W400,),
-                                        Text('. ', style: AppTextStyle.black40414W400,),
-                                        Text('Veg Pizza', style: AppTextStyle.black40414W400,),
-                                      ],
-                                    ),
-                                  ),
-                                  Text('₹ 200', style: AppTextStyle.black40414W400,),
+                                  Text('${orderController.kitchenOpenList[index].takeawayName==null?'Takeaway No:- ':'Table No:- '} ${orderController.kitchenOpenList[index].takeawayName==null?orderController.kitchenOpenList[index].tableNumber:orderController.kitchenOpenList[index].takeawayName}', style: AppTextStyle.orange14W600,),
+                                  Text(convertToAgo(orderController.kitchenOpenList[index].createdAt), style: AppTextStyle.orange12W400,),
                                 ],
-                              );
-                            }
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            height: 1,
-                            color: lightOrange,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total :', style: AppTextStyle.black40414W400,),
-                              Text('₹ 370', style: AppTextStyle.black40414W400,),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 6 * (SizeConfig.heightMultiplier ?? 1),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Payment:', style: AppTextStyle.black40414W400,),
+                              ),
+
+                              SizedBox(
+                                height: 8 * (SizeConfig.heightMultiplier ?? 1),
+                              ),
+
+                              Text('Order Id- ${orderController.kitchenOpenList[index].orderId}', style: AppTextStyle.black40412W500,),
+
+                              ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemCount: orderController.kitchenOpenList[index].items.length,
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 8.0),
+                                          child: Row(
+                                            children: [
+                                              Text('${i+1}', style: AppTextStyle.black40414W400,),
+                                              Text('. ', style: AppTextStyle.black40414W400,),
+                                              Text('${orderController.kitchenOpenList[index].items[i].name}', style: AppTextStyle.black40414W400,),
+                                            ],
+                                          ),
+                                        ),
+                                        Text('${orderController.kitchenOpenList[index].items[i].quantity}', style: AppTextStyle.black40414W400,),
+                                      ],
+                                    );
+                                  }
+                              ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: green,
-                                ),
-                                child: Text('Done', style: AppTextStyle.whiteText14W400,),
-                              )
+                                margin: EdgeInsets.symmetric(vertical: 8),
+                                height: 1,
+                                color: lightOrange,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Total :', style: AppTextStyle.black40414W400,),
+                                  Text('Rs ${orderController.kitchenOpenList[index].total}', style: AppTextStyle.black40414W400,),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 6 * (SizeConfig.heightMultiplier ?? 1),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Payment:', style: AppTextStyle.black40414W400,),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: green,
+                                    ),
+                                    child: Text('${orderController.kitchenOpenList[index].paymentStatus}', style: AppTextStyle.whiteText14W400,),
+                                  )
+                                ],
+                              ),
+
+
+
                             ],
                           ),
-            
-                        ],
-                      ),
+                        ),
+                       Obx(()=> orderController.kitchenOpenList[index].paymentStatus=='Pending'?GestureDetector(
+                         onTap: (){
+                           orderController.kitchenOpenList[index].paymentStatus='Paid';
+                           orderController.updatePaymentStatus( orderController.kitchenOpenList[index].id);
+                           setState(() {
+                           });
+                         },
+                         child: Container(
+                             width: double.infinity,
+                             height: 50,
+                             padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                             decoration: BoxDecoration(
+                                 color: Colors.white,
+                                 borderRadius: BorderRadius.all(Radius.circular(8)),
+                                 border: Border.all(color: orange)
+                             ),
+                             child:Center(child: Text("TAKE PAYMENT",style: AppTextStyle.whiteText14W600.copyWith(color: orange),))
+                         ),
+                       ):SizedBox(),),
+                        AppButtonStyle.ElevatedButtonStyled('dark', Obx(()=>Text(orderController.kitchenOpenList[index].cookingStatus=='Not Started'?'START COOKING':'COMPLETED', style: AppTextStyle.whiteText14W600,),), () {
+                          if(orderController.kitchenOpenList[index].cookingStatus=='Not Started'){
+                            orderController.kitchenOpenList[index].cookingStatus='In Progress';
+                            orderController.updateCookingStatus('In Progress', orderController.kitchenOpenList[index].id);
+                            setState(() {
+                            });
+                          }
+                          if(orderController.kitchenOpenList[index].cookingStatus=='In Progress'){
+                            orderController.kitchenOpenList[index].cookingStatus='Completed';
+                            orderController.updateCookingStatus('Completed', orderController.kitchenOpenList[index].id);
+                            orderController.kitchenOpenList.remove(orderController.kitchenOpenList[index]);
+                            orderController.kitchenCompletedList.add(orderController.kitchenOpenList[index]);
+                            setState(() {
+                            });
+                          }
+
+                        })
+                      ],
                     ),
-                    
-                    AppButtonStyle.ElevatedButtonStyled('dark', Text('START COOKING', style: AppTextStyle.whiteText14W600,), () {})
-                  ],
-                ),
-              );}
-            ),
+                  );}
+            ),)
           ),
         ),
         ),
@@ -447,103 +538,104 @@ class _KitchenViewState extends State<KitchenView> {
           () => Visibility(
           visible: !openOrders.value,
           child: Expanded(
-            child: ListView.builder(
-              shrinkWrap: true,
-              itemCount: 2,
-              scrollDirection: Axis.vertical,
-              itemBuilder: (BuildContext context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: lightOrange),
-                  borderRadius: BorderRadius.circular(8),
-                  color: index.isEven ? brightGrey : lightPink
-                ),
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            child: Obx(()=>ListView.builder(
+                shrinkWrap: true,
+                itemCount: orderController.kitchenCompletedList.length,
+                scrollDirection: Axis.vertical,
+                itemBuilder: (BuildContext context, index) {
+                  return Container(
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: lightOrange),
+                        borderRadius: BorderRadius.circular(8),
+                        color: index.isEven ? brightGrey : lightPink
+                    ),
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text('Order 1', style: AppTextStyle.orange14W600,),
-                              Text('3 min ago', style: AppTextStyle.orange12W400,),
-                            ],
-                          ),
-                          
-                          SizedBox(
-                            height: 8 * (SizeConfig.heightMultiplier ?? 1),
-                          ),
-        
-                          Text('Order Id- 4387D', style: AppTextStyle.black40412W500,),
-                    
-                          ListView.builder(
-                            scrollDirection: Axis.vertical,
-                            shrinkWrap: true,
-                            itemCount: 2,
-                            itemBuilder: (BuildContext context, int index) {
-                              return Row(
+                              Row(
                                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                 children: [
-                                  Padding(
-                                    padding: const EdgeInsets.only(top: 8.0),
-                                    child: Row(
-                                      children: [
-                                        Text(index.toString(), style: AppTextStyle.black40414W400,),
-                                        Text('. ', style: AppTextStyle.black40414W400,),
-                                        Text('Veg Pizza', style: AppTextStyle.black40414W400,),
-                                      ],
-                                    ),
-                                  ),
-                                  Text('₹ 200', style: AppTextStyle.black40414W400,),
+                                  Text('${orderController.kitchenCompletedList[index].takeawayName==null?'Takeaway No:- ':'Table No:- '} ${orderController.kitchenCompletedList[index].takeawayName==null?orderController.kitchenCompletedList[index].tableNumber:orderController.kitchenCompletedList[index].takeawayName}', style: AppTextStyle.orange14W600,),
+                                  Text('${convertToAgo(orderController.kitchenCompletedList[index].createdAt)}', style: AppTextStyle.orange12W400,),
                                 ],
-                              );
-                            }
-                          ),
-                          Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
-                            height: 1,
-                            color: lightOrange,
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Total :', style: AppTextStyle.black40414W400,),
-                              Text('₹ 370', style: AppTextStyle.black40414W400,),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 6 * (SizeConfig.heightMultiplier ?? 1),
-                          ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text('Payment:', style: AppTextStyle.black40414W400,),
+                              ),
+
+                              SizedBox(
+                                height: 8 * (SizeConfig.heightMultiplier ?? 1),
+                              ),
+
+                              Text('Order Id- ${orderController.kitchenCompletedList[index].orderId}', style: AppTextStyle.black40412W500,),
+
+                              ListView.builder(
+                                  scrollDirection: Axis.vertical,
+                                  shrinkWrap: true,
+                                  itemCount: orderController.kitchenCompletedList[index].items.length,
+                                  physics: NeverScrollableScrollPhysics(),
+                                  itemBuilder: (BuildContext context, int i) {
+                                    return Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.only(top: 8.0),
+                                          child: Row(
+                                            children: [
+                                              Text('${i+1}', style: AppTextStyle.black40414W400,),
+                                              Text('. ', style: AppTextStyle.black40414W400,),
+                                              Text('${orderController.kitchenCompletedList[index].items[i].name}', style: AppTextStyle.black40414W400,),
+                                            ],
+                                          ),
+                                        ),
+                                        Text('${orderController.kitchenCompletedList[index].items[i].quantity}', style: AppTextStyle.black40414W400,),
+                                      ],
+                                    );
+                                  }
+                              ),
                               Container(
-                                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(8),
-                                  color: green,
-                                ),
-                                child: Text('Done', style: AppTextStyle.whiteText14W400,),
-                              )
+                                margin: EdgeInsets.symmetric(vertical: 8),
+                                height: 1,
+                                color: lightOrange,
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Total :', style: AppTextStyle.black40414W400,),
+                                  Text('Rs ${orderController.kitchenCompletedList[index].total}', style: AppTextStyle.black40414W400,),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 6 * (SizeConfig.heightMultiplier ?? 1),
+                              ),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text('Payment:', style: AppTextStyle.black40414W400,),
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(8),
+                                      color: green,
+                                    ),
+                                    child: Text('${orderController.kitchenCompletedList[index].paymentStatus}', style: AppTextStyle.whiteText14W400,),
+                                  )
+                                ],
+                              ),
+
                             ],
                           ),
-            
-                        ],
-                      ),
+                        ),
+
+                        //AppButtonStyle.ElevatedButtonStyled('green', Text('START COOKING', style: AppTextStyle.whiteText14W600,), () {})
+                      ],
                     ),
-                    
-                    AppButtonStyle.ElevatedButtonStyled('green', Text('START COOKING', style: AppTextStyle.whiteText14W600,), () {})
-                  ],
-                ),
-              );}
-            ),
+                  );}
+            ),)
           ),
-        ), 
+        ),
         )
       ],
     );
@@ -590,9 +682,9 @@ class _CompletedOrderViewState extends State<CompletedOrderView> {
                 width: 1.0,
               ),
             ),
-            focusedBorder: const OutlineInputBorder( 
+            focusedBorder: const OutlineInputBorder(
                 borderSide: BorderSide(
-                    width: 1.0, color: lightOrange), 
+                    width: 1.0, color: lightOrange),
             ),
             prefixIcon: const Padding(
               padding: EdgeInsets.all(0.0),
@@ -602,7 +694,7 @@ class _CompletedOrderViewState extends State<CompletedOrderView> {
               ),
             ),
           ),
-          
+
         ),
 
         SizedBox(
@@ -614,8 +706,8 @@ class _CompletedOrderViewState extends State<CompletedOrderView> {
           children: [
             Row(
               children: [
-                Text('Completed Order : ', style: AppTextStyle.black40412W400,),            
-                Text('230', style: AppTextStyle.black40412W600,),            
+                Text('Completed Order : ', style: AppTextStyle.black40412W400,),
+                Text('230', style: AppTextStyle.black40412W600,),
               ],
             ),
 
@@ -659,7 +751,7 @@ class _CompletedOrderViewState extends State<CompletedOrderView> {
 
           ],
         ),
-        
+
         SizedBox(
           height: 8 * (SizeConfig.heightMultiplier ?? 1),
         ),
@@ -707,7 +799,7 @@ class _CompletedOrderViewState extends State<CompletedOrderView> {
                             color: green,
                           ),
                           child: Text('₹. 480.00', style: AppTextStyle.whiteText14W400,),
-                        ),                  
+                        ),
                       ],
                     ),
 
