@@ -1,8 +1,9 @@
 import 'package:dio/dio.dart';
 import 'package:pos_app/core/constants/api_url.dart';
+import 'package:pos_app/features/owner/order/model/orderModel.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OrderService {
+class EOrderService {
 
   static Dio dio = Dio();
 

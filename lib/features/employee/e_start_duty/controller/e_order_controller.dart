@@ -1,14 +1,13 @@
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:pos_app/features/owner/menus/model/addMenu.dart';
+import 'package:pos_app/features/employee/e_menus/model/e_menu_model.dart';
+import 'package:pos_app/features/owner/order/controller/cartController.dart';
 import 'package:pos_app/features/owner/order/model/orderModel.dart';
 import 'package:pos_app/features/owner/order/service/orderService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'cartController.dart';
-
-class OrderController extends GetxController {
+class EOrderController extends GetxController {
   List<dynamic> items = [];
   CartController cartController = Get.put(CartController());
   RxList<OrderModel> dineInOrderList = <OrderModel>[].obs;
@@ -17,12 +16,12 @@ class OrderController extends GetxController {
   RxList<OrderModel> takeAwayOrderList = <OrderModel>[].obs;
   RxBool isTakeaway = false.obs;
 
-  void createOrder(List<MenuModel> menuModel,context)async{
+  void createOrder(List<EMenuModel> menuModel,context)async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var req = {};
     items.clear();
     List id = [];
-    for(MenuModel m in menuModel){
+    for(EMenuModel m in menuModel){
       if(!id.contains(m.id)){
         items.add({"name":m.itemName, "quantity":cartController.getItemQuantityById(m.id)});
         id.add(m.id);

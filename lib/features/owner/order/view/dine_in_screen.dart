@@ -152,6 +152,7 @@ class DineInView extends StatelessWidget {
 }
 
 
+// Takeaway View
 class TakeawayView extends StatefulWidget {
   const TakeawayView({super.key});
 

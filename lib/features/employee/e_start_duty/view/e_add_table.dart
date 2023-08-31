@@ -4,7 +4,7 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
-import 'package:pos_app/features/employee/e_start_duty/view/e_start_duty.dart';
+import 'package:pos_app/features/employee/e_start_duty/controller/e_table_controller.dart';
 
 class EAddTableScreen extends StatefulWidget {
   EAddTableScreen({super.key});
@@ -14,7 +14,8 @@ class EAddTableScreen extends StatefulWidget {
 }
 
 class _EAddTableScreenState extends State<EAddTableScreen> {
-  TextEditingController tableName = TextEditingController();
+
+  ETableController tableController = Get.put(ETableController());  
 
   // Initial Selected Value
   String dropdownvalue = '2';
@@ -53,7 +54,7 @@ class _EAddTableScreenState extends State<EAddTableScreen> {
                 ),
 
                 TextFormField(
-                  controller: tableName,
+                  controller: tableController.tableName,
                   decoration: InputDecoration(
                     hintText: 'Name of the table',
                     labelText: 'Name of the table',
@@ -112,7 +113,10 @@ class _EAddTableScreenState extends State<EAddTableScreen> {
                 SizedBox(
                   height: 32 * (SizeConfig.heightMultiplier ?? 1),
                 ),
-                AppButtonStyle.ElevatedButtonStyled('DARK', Text('ADD', style: AppTextStyle.whiteText14W600,), () {Get.back();Get.to(EStartDutyScreen());})
+                AppButtonStyle.ElevatedButtonStyled(
+                  'DARK', Text('ADD', style: AppTextStyle.whiteText14W600,), 
+                  () {tableController.addTable();}
+                )
               ],
             ),
           ),

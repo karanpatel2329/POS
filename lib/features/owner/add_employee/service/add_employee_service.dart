@@ -1,20 +1,21 @@
 import 'package:dio/dio.dart';
 import 'package:pos_app/core/constants/api_url.dart';
+import 'package:pos_app/features/owner/add_employee/model/add_employee_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class OrderService {
-
-  static Dio dio = Dio();
-
-    // Add new Menu
-    static Future newOrder(var orderModel) async {
+class AddEmployeeService {
+    
+    static Dio dio = Dio();
+    
+    // Add new Employee
+    static Future addNewEmployee(AddEmployeeModel addEmployeeModel) async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers['Accept'] = 'application/json';
       dio.options.headers['Authorization'] = 'Bearer $token';
-      final response = await dio.post(ApiUrl.order, data: orderModel,);
+      final response = await dio.post(ApiUrl.addEmployee, data: addEmployeeModel.toJson(),);
       return response;
     } catch (e) {
     print(e);
@@ -22,55 +23,42 @@ class OrderService {
     }
   }
 
-  // Get Menu Data
-  static Future getOrder(String ownerId) async {
-    print('object11');
+  // Get Employee Data
+
+  static Future getEmployee() async {
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers['Accept'] = 'application/json';
       dio.options.headers['Authorization'] = 'Bearer $token';
-      print(ApiUrl.order+"/ownerId=$ownerId");
-      final response = await dio.get(ApiUrl.order+"/?ownerId=$ownerId",);
+      final response = await dio.get(ApiUrl.addEmployee,);
       return response;
     } catch (e) {
-      print(e);
       return null;
     }
   }
 
-  static Future updateCookingStatus(String newStatus,String id)async{
-    try {
+
+  // 
+    static Future updateEmployee(AddEmployeeModel addEmployeeModel) async {
+    // try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
       dio.options.headers['Content-Type'] = 'application/json';
       dio.options.headers['Accept'] = 'application/json';
       dio.options.headers['Authorization'] = 'Bearer $token';
-      final response = await dio.put("${ApiUrl.order}/$id", data: {
-        'cookingStatus':newStatus
-      });
+      print(ApiUrl.addEmployee+(addEmployeeModel.id??''));
+      print(addEmployeeModel.toJson());
+      final response = await dio.put("${ApiUrl.addMenu}/${addEmployeeModel.id??''}", data: addEmployeeModel.toJson(),);
+      print(response.data);
       return response;
-    } catch (e) {
-      print(e);
-      return null;
-    }
+
+    // } catch (e) {
+    // print(e);
+    //   return null;
+    // }
   }
 
-  static Future updatePaymentStatus(String id)async{
-    try {
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      String? token = prefs.getString('token');
-      dio.options.headers['Content-Type'] = 'application/json';
-      dio.options.headers['Accept'] = 'application/json';
-      dio.options.headers['Authorization'] = 'Bearer $token';
-      final response = await dio.put("${ApiUrl.order}/$id", data: {
-        'paymentStatus':'Paid'
-      });
-      return response;
-    } catch (e) {
-      print(e);
-      return null;
-    }
-  }
+
 }

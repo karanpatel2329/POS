@@ -6,6 +6,8 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/employee/e_auth/view/e_onboarding_1.dart';
+import 'package:pos_app/features/employee/e_dashboard/controller/e_dashboard_controller.dart';
 import 'package:pos_app/features/employee/e_menus/view/e_menu.dart';
 import 'package:pos_app/features/employee/e_shift_&_payroll/view/e_payroll.dart';
 import 'package:pos_app/features/employee/e_start_duty/view/e_start_duty.dart';
@@ -14,6 +16,7 @@ import 'package:pos_app/features/owner/others/view/help.dart';
 import 'package:pos_app/features/owner/others/view/notifications.dart';
 import 'package:pos_app/features/owner/others/view/reviews_and_ratings.dart';
 import 'package:pos_app/features/owner/others/view/settings.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class EDashboard extends StatefulWidget {
   const EDashboard({super.key});
@@ -25,6 +28,14 @@ class EDashboard extends StatefulWidget {
 class EDashboardState extends State<EDashboard> {
 
   final GlobalKey<ScaffoldState> _key = GlobalKey();
+
+  EDashboardController eDashboardController = Get.put(EDashboardController());
+
+    @override
+  void initState() {
+    // eDashboardController.getDashboard();
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -306,8 +317,10 @@ class EDashboardState extends State<EDashboard> {
               ListTile(
                 leading: SvgPicture.asset(ImagePath.logoutIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
                 title: Text(' Logout ', style: AppTextStyle.black40414W400,),
-                onTap: () {
-                  Navigator.pop(context);
+                onTap: () async {
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.clear();
+                  Get.offAll(EOnboarding());
                 },
               ),
               

@@ -8,14 +8,14 @@ import 'package:pos_app/features/owner/add_employee/view/employee.dart';
 
 import '../controller/add_employee_controller.dart';
 
-class AddEmployeeAcademicsScreen extends StatefulWidget {
-  AddEmployeeAcademicsScreen({super.key});
+class EditEmployeeAcademicsScreen extends StatefulWidget {
+  EditEmployeeAcademicsScreen({super.key});
 
   @override
-  State<AddEmployeeAcademicsScreen> createState() => _AddEmployeeAcademicsScreenState();
+  State<EditEmployeeAcademicsScreen> createState() => EeditEmployeeAcademicsScreenState();
 }
 
-class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen> {
+class EeditEmployeeAcademicsScreenState extends State<EditEmployeeAcademicsScreen> {
 
   AddEmployeController addEmployeController = Get.put(AddEmployeController()); 
 
@@ -41,7 +41,7 @@ class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen>
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text('Add  Employee', style: AppTextStyle.black40420W600,),
+        title: Text('Edit Employee', style: AppTextStyle.black40420W600,),
         centerTitle: true,
       ),
 
@@ -135,7 +135,7 @@ class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen>
                             controller: addEmployeController.serverController,
                             decoration: InputDecoration(
                               hintText: 'Server',
-                              labelText: 'Position',
+                              labelText: 'Server',
                               labelStyle: AppTextStyle.black40416W400,
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),

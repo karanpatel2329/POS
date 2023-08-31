@@ -8,14 +8,14 @@ import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/add_employee/controller/add_employee_controller.dart';
 import 'package:pos_app/features/owner/add_employee/view/add_employee_academics.dart';
 
-class AddEmployeeBasicScreen extends StatefulWidget {
-  AddEmployeeBasicScreen({super.key});
+class EditEmployeeBasicScreen extends StatefulWidget {
+  EditEmployeeBasicScreen({super.key});
 
   @override
-  State<AddEmployeeBasicScreen> createState() => _AddEmployeeBasicScreenState();
+  State<EditEmployeeBasicScreen> createState() => _EditEmployeeBasicScreenState();
 }
 
-class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
+class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
 
   AddEmployeController addEmployeController = Get.put(AddEmployeController());
 
@@ -41,7 +41,7 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
       appBar: AppBar(
         elevation: 0,
         scrolledUnderElevation: 0,
-        title: Text('Add  Employee', style: AppTextStyle.black40420W600,),
+        title: Text('Edit Employee', style: AppTextStyle.black40420W600,),
         centerTitle: true,
       ),
 

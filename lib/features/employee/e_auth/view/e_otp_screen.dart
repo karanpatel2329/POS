@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
 import 'package:pos_app/features/employee/e_dashboard/view/e_dashboard.dart';
 
-class EOTPScreen extends StatelessWidget {
-  const EOTPScreen({super.key});
+class EOTPScreen extends StatefulWidget {
+  EOTPScreen({super.key});
 
+  @override
+  State<EOTPScreen> createState() => _EOTPScreenState();
+}
 
-  static TextEditingController box1 = TextEditingController();  
-  static TextEditingController box2 = TextEditingController();  
-  static TextEditingController box3 = TextEditingController();  
-  static TextEditingController box4 = TextEditingController();  
+class _EOTPScreenState extends State<EOTPScreen> {
+  EmployeeAuthController employeeAuthController = Get.put(EmployeeAuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -53,9 +56,12 @@ class EOTPScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box1,
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box1,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -77,9 +83,12 @@ class EOTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box2,
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box2,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -102,9 +111,12 @@ class EOTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box3,
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box3,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -128,9 +140,72 @@ class EOTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box4,
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box4,
+                              decoration: InputDecoration(
+                                labelStyle: AppTextStyle.black40416W400,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                    color: orange,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder( 
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: orange), 
+                                ),
+                                
+                              ),
+                              
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 16 * (SizeConfig.heightMultiplier ?? 1),
+                          ),
+        
+                          SizedBox(
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
+                            child: TextFormField(
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box5,
+                              decoration: InputDecoration(
+                                labelStyle: AppTextStyle.black40416W400,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                    color: orange,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder( 
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: orange), 
+                                ),
+                                
+                              ),
+                              
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 16 * (SizeConfig.heightMultiplier ?? 1),
+                          ),
+        
+                          SizedBox(
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            height: 70 * (SizeConfig.heightMultiplier ?? 1),
+                            child: TextFormField(
+                              maxLength: 1,
+                              textAlign: TextAlign.center,
+                              controller: employeeAuthController.box6,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -154,7 +229,7 @@ class EOTPScreen extends StatelessWidget {
         
                         ],
                       ),
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('VERIFY', style: AppTextStyle.whiteText14W600,), () {Get.to(EDashboard());}),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('VERIFY', style: AppTextStyle.whiteText14W600,), () {employeeAuthController.login();}),
 
                     ],
                   )

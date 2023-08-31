@@ -4,13 +4,13 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_otp_screen.dart';
 
 class ELoginScreen extends StatelessWidget {
-  const ELoginScreen({super.key});
+  ELoginScreen({super.key});
 
-
-  static TextEditingController idController = TextEditingController();  
+  EmployeeAuthController authController = Get.put(EmployeeAuthController());
 
   @override
   Widget build(BuildContext context) {
@@ -36,9 +36,10 @@ class ELoginScreen extends StatelessWidget {
                   child: Column(
                     children: [
                       TextFormField(
+                        controller: EmployeeAuthController.emailController,
                         decoration: InputDecoration(
-                          hintText: 'Enter Employee Id Number',
-                          labelText: 'Enter Employee Id Number',
+                          hintText: 'Enter Employee Email',
+                          labelText: 'Enter Employee Email',
                           labelStyle: AppTextStyle.black40416W400,
                           enabledBorder: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8.0),

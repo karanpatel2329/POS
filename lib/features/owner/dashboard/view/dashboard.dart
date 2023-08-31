@@ -7,6 +7,8 @@ import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/add_employee/view/employee.dart';
+import 'package:pos_app/features/owner/auth/view/onboarding_1.dart';
+import 'package:pos_app/features/owner/auth/view/welcome_screen.dart';
 import 'package:pos_app/features/owner/dashboard/controller/dashboardController.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
 import 'package:pos_app/features/owner/order/view/dine_in_screen.dart';
@@ -16,6 +18,7 @@ import 'package:pos_app/features/owner/others/view/notifications.dart';
 import 'package:pos_app/features/owner/others/view/reviews_and_ratings.dart';
 import 'package:pos_app/features/owner/others/view/settings.dart';
 import 'package:pos_app/features/owner/sales/view/sales.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:syncfusion_flutter_charts/charts.dart';
 
@@ -451,8 +454,11 @@ class DashboardState extends State<Dashboard> {
               ListTile(
                 leading: SvgPicture.asset(ImagePath.logoutIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
                 title: Text(' Logout ', style: AppTextStyle.black40414W400,),
-                onTap: () {
+                onTap: () async{
+                  final SharedPreferences prefs = await SharedPreferences.getInstance();
+                  prefs.clear();
                   Navigator.pop(context);
+                  Get.to(WelcomeScreen());
                 },
               ),
               

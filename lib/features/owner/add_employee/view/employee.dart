@@ -5,7 +5,9 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/add_employee/controller/add_employee_controller.dart';
 import 'package:pos_app/features/owner/add_employee/view/add_employee_basic.dart';
+import 'package:pos_app/features/owner/add_employee/view/edit_employee_basic%20copy.dart';
 
 
 class EmployeeScreen extends StatefulWidget {
@@ -16,6 +18,15 @@ class EmployeeScreen extends StatefulWidget {
 }
 
 class EmployeeScreenState extends State<EmployeeScreen> {
+  AddEmployeController addEmployeController = Get.put(AddEmployeController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    if(addEmployeController.employees.isEmpty)
+    addEmployeController.getEmployee();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,11 +56,21 @@ class EmployeeScreenState extends State<EmployeeScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
 
-                    Text('22 Employees', style: AppTextStyle.black40414W600,),
+                    Text('${addEmployeController.employees.length.toString()} Employees', style: AppTextStyle.black40414W600,),
 
-                    SizedBox(
-                      width: 150,
-                      child: AppButtonStyle.ElevatedButtonStyled('Dark', Text('ADD EMPLOYEE', style: AppTextStyle.whiteText14W600,), () {Get.to(AddEmployeeBasicScreen());}))
+                    // SizedBox(
+                    //   // width: 150,
+                    //   child: AppButtonStyle.ElevatedButtonStyled('Dark', Text('ADD EMPLOYEE', style: AppTextStyle.whiteText14W600,), () {Get.to(AddEmployeeBasicScreen());})
+                    // )
+
+                    ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: orange,
+                      ),
+                      onPressed: (){Get.to(AddEmployeeBasicScreen());}, 
+                      child: Text('ADD EMPLOYEE', style: AppTextStyle.whiteText14W600)
+                    ),
+
 
                   ],
                 ),
@@ -58,38 +79,41 @@ class EmployeeScreenState extends State<EmployeeScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                ListView.builder(
-                  itemCount: 2,
+                Obx(() => ListView.builder(
+                  itemCount: addEmployeController.employees.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: lightOrange),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(ImagePath.FoodImage1, height: 80 * (SizeConfig.heightMultiplier ?? 1), width: 80 * (SizeConfig.widthMultiplier ?? 1), fit: BoxFit.fill,),
-                        SizedBox(
-                          width: 24 * (SizeConfig.widthMultiplier ?? 1),
-                        ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Cody Fisher', style: AppTextStyle.black40414W600,),
-                            SizedBox(
-                              height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                            ),
-                            Text('Manager', style: AppTextStyle.black40414W400,),
-                          ],
-                        ),
-                      ],
+                  return InkWell(
+                    onTap: (){Get.to(EditEmployeeBasicScreen());},
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        border: Border.all(width: 1, color: lightOrange),
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Row(
+                        children: [
+                          Image.asset(ImagePath.FoodImage1, height: 80 * (SizeConfig.heightMultiplier ?? 1), width: 80 * (SizeConfig.widthMultiplier ?? 1), fit: BoxFit.fill,),
+                          SizedBox(
+                            width: 24 * (SizeConfig.widthMultiplier ?? 1),
+                          ),
+                          Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(addEmployeController.employees[index].name, style: AppTextStyle.black40414W600,),
+                              SizedBox(
+                                height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                              ),
+                              Text(addEmployeController.employees[index].position, style: AppTextStyle.black40414W400,),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                   );
                   }
-                ),
+                ),)
 
               ],
             ),

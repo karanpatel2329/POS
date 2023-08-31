@@ -11,5 +11,8 @@ class ApiUrl {
   static String dashboard = liveBaseURL + '/owner/dashboard';
   static String order = liveBaseURL + '/order/orders';
   static String table = liveBaseURL + '/table/tables';
+  static String addEmployee = liveBaseURL + '/employee/employees';
+  static String employeeLogin = liveBaseURL + '/employee/login';
+
 
 }
