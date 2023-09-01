@@ -2,18 +2,22 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:pos_app/features/employee/e_menus/model/e_menu_model.dart';
+import 'package:pos_app/features/employee/e_start_duty/model/e_order_model.dart';
 import 'package:pos_app/features/owner/order/controller/cartController.dart';
 import 'package:pos_app/features/owner/order/model/orderModel.dart';
 import 'package:pos_app/features/owner/order/service/orderService.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:get/get.dart';
+
+import '../service/e_order_service.dart';
 
 class EOrderController extends GetxController {
   List<dynamic> items = [];
   CartController cartController = Get.put(CartController());
-  RxList<OrderModel> dineInOrderList = <OrderModel>[].obs;
-  RxList<OrderModel> kitchenOpenList = <OrderModel>[].obs;
-  RxList<OrderModel> kitchenCompletedList = <OrderModel>[].obs;
-  RxList<OrderModel> takeAwayOrderList = <OrderModel>[].obs;
+  RxList<EOrderModel> dineInOrderList = <EOrderModel>[].obs;
+  RxList<EOrderModel> kitchenOpenList = <EOrderModel>[].obs;
+  RxList<EOrderModel> kitchenCompletedList = <EOrderModel>[].obs;
+  RxList<EOrderModel> takeAwayOrderList = <EOrderModel>[].obs;
   RxBool isTakeaway = false.obs;
 
   void createOrder(List<EMenuModel> menuModel,context)async{
@@ -28,14 +32,17 @@ class EOrderController extends GetxController {
       }
     }
     if(!isTakeaway.value){
+      print('object1');
       req = {
         "orderType": "Dine-In",
         "items": items,
         "tableNumber":1,
         "total": cartController.getCartTotal(),
-        //"employeeId":"64ddc199de8788bff6bc8cd6",
+        // "employeeId":"64ddc199de8788bff6bc8cd6",
+        "employeeId":prefs.getString('employeeId')??"",
         "ownerId": prefs.getString('ownerId')??"",
-        "orderID":cartController.orderId.value
+        "orderID":2,
+        // "orderID":cartController.orderId.value,
       };
     }else{
       req = {
@@ -45,15 +52,19 @@ class EOrderController extends GetxController {
         "total": cartController.getCartTotal(),
         //"employeeId":"64ddc199de8788bff6bc8cd6",
         "ownerId": prefs.getString('ownerId')??"",
-        "orderID":cartController.orderId.value
+        // "orderID":cartController.orderId.value
+        "orderID":2
       };
     }
-    var res = await OrderService.newOrder(req);
+    print(req);
+    var res = await EOrderService.newOrder(req);
     if(res!=null){
-      Navigator.popUntil(context,ModalRoute.withName('/DineInScreen'));
+      Get.back();Get.back();Get.back();
+      // Navigator.popUntil(context,ModalRoute.withName('/EDineInView'));
         // Navigator.(result: DineInScreen());
-        cartController.items.clear();
+        // cartController.items.clear();
     }else{
+      print(res);
       Get.snackbar("Error","Something went wrong");
     }
     print(res);
@@ -61,14 +72,14 @@ class EOrderController extends GetxController {
 
   void getOrder()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    var res=await OrderService.getOrder(prefs.getString('ownerId')??"");
+    var res=await EOrderService.getOrder(prefs.getString('ownerId')??"");
     if(res!=null){
       for(var i in res.data){
-        OrderModel orderModel = OrderModel.fromJson(i);
+        EOrderModel orderModel = EOrderModel.fromJson(i);
         if(i['orderType']=='Takeaway'){
-          takeAwayOrderList.add(OrderModel.fromJson(i));
+          takeAwayOrderList.add(EOrderModel.fromJson(i));
           }else{
-          dineInOrderList.add(OrderModel.fromJson(i));
+          dineInOrderList.add(EOrderModel.fromJson(i));
         }
         if(orderModel.cookingStatus=='In Progress' || orderModel.cookingStatus=='Not Started'){
           kitchenOpenList.add(orderModel);

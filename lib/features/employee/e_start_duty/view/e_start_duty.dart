@@ -97,55 +97,25 @@ class _EStartDutyScreenState extends State<EStartDutyScreen> {
 
 
 // Dine in View
-class EDineInView extends StatelessWidget {
+class EDineInView extends StatefulWidget {
   EDineInView ({super.key});
+
+  @override
+  State<EDineInView> createState() => _EDineInViewState();
+}
+
+class _EDineInViewState extends State<EDineInView> {
   EOrderController orderController = Get.put(EOrderController());
 
+  @override
+  void initState() {
+    // TODO: implement initState
+    if(orderController.dineInOrderList.isEmpty)
+    orderController.getOrder();
+    super.initState();
+  }
+
 //   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         Row(
-//           children: [
-//             Text('Table Occupied : ', style: AppTextStyle.black40412W400,),
-//             Text('16', style: AppTextStyle.black40412W600,),
-//           ],
-//         ),
-//         SizedBox(
-//           height: 16 * (SizeConfig.heightMultiplier ?? 1),
-//         ),
-//         ListView.builder(
-//           shrinkWrap: true,
-//           itemCount: 5,
-//           itemBuilder: (BuildContext context, int index) {
-//           return Container(
-//             padding: EdgeInsets.symmetric(horizontal: 20),
-//             height: 60,
-//             decoration: BoxDecoration(
-//               borderRadius: BorderRadius.circular(8),
-//               color: index.isEven == true ? lightPink : white
-//             ),
-//             child: Row(
-//               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//               children: [
-//                 Text('Table 1', style: AppTextStyle.black40414W400,),
-//                 Text('3 min ago', style: AppTextStyle.black40412W400,),
-//                 InkWell(
-//                   onTap: (){Get.to(EOrderDetailsScreen());},
-//                   child: Text('VIEW', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontWeight: FontWeight.w600), )
-//                 ),
-//               ],
-//             ),
-//           );
-//         }),
-//         SizedBox(
-//           height: 16 * (SizeConfig.heightMultiplier ?? 1),
-//         ),
-//         AppButtonStyle.ElevatedButtonStyled('DARK', Text('NEW ORDER'), () {Get.to(ENewOrderScreen());})
-//       ],
-//     );
-//   }
-// }
   @override
   Widget build(BuildContext context) {
     return Column(

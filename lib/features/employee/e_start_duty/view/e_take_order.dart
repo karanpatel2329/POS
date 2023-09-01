@@ -18,8 +18,17 @@ class ETakeOrderScreen extends StatefulWidget {
 
 class _ETakeOrderScreenState extends State<ETakeOrderScreen> {
 
-  EMenusController menusController = Get.find<EMenusController>();
+  EMenusController menusController = Get.put(EMenusController());
   ECartController cartController = Get.put(ECartController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    menusController.getMenu();
+    menusController.getCategory();
+  }
+
 
   // @override
   // Widget build(BuildContext context) {
@@ -171,6 +180,8 @@ class _ETakeOrderScreenState extends State<ETakeOrderScreen> {
   // }
   @override
   Widget build(BuildContext context) {
+    print(menusController.categoryList.length);
+    print('menusController.categoryList.length');
     return Scaffold(
       backgroundColor: white,
       appBar: AppBar(
@@ -198,38 +209,38 @@ class _ETakeOrderScreenState extends State<ETakeOrderScreen> {
                   height: 8 * (SizeConfig.heightMultiplier ?? 1),
                 ),
                 SizedBox(
-                    height: 37 * (SizeConfig.heightMultiplier ?? 1),
-                    child: Obx(()=>ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        shrinkWrap: true,
-                        itemCount: menusController.categoryList.length,
-                        itemBuilder: (BuildContext context, int index) {
-                          return Container(
-                            margin: const EdgeInsets.only(right: 16),
-                            child: InkWell(
-                                onTap: () {
-                                  menusController.selectedCategories.value = index;
-                                  menusController.selectedCategoryModel.value = menusController.categoryList[index];
-                                },
-                                child: Obx(()=>Container(
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 8, horizontal: 16),
-                                    decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color:
-                                        menusController.selectedCategories.value == index
-                                            ? orange
-                                            : white),
-                                    child: Text(
-                                      menusController.categoryList[index].categoryName??"",
-                                      style: menusController.selectedCategories.value == index
-                                          ? AppTextStyle.whiteText14W600
-                                          : AppTextStyle.greyText14W600,
-                                    )),)
-                            ),
-                          );
-                        }),)
-                ),
+                   height: 37 * (SizeConfig.heightMultiplier ?? 1),
+                   child: Obx(()=>ListView.builder(
+                       scrollDirection: Axis.horizontal,
+                       shrinkWrap: true,
+                       itemCount: menusController.categoryList.length,
+                       itemBuilder: (BuildContext context, int index) {
+                         return Container(
+                           margin: const EdgeInsets.only(right: 16),
+                           child: InkWell(
+                             onTap: () {
+                               menusController.selectedCategories.value = index;
+                               menusController.selectedCategoryModel.value = menusController.categoryList[index];
+                             },
+                             child: Obx(()=>Container(
+                                 padding: const EdgeInsets.symmetric(
+                                     vertical: 8, horizontal: 16),
+                                 decoration: BoxDecoration(
+                                     borderRadius: BorderRadius.circular(8),
+                                     color:
+                                     menusController.selectedCategories.value == index
+                                         ? orange
+                                         : white),
+                                 child: Text(
+                                   menusController.categoryList[index].categoryName??"",
+                                   style: menusController.selectedCategories.value == index
+                                       ? AppTextStyle.whiteText14W600
+                                       : AppTextStyle.greyText14W600,
+                                 )),)
+                           ),
+                         );
+                       }),)
+                 ),
                 SizedBox(
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),

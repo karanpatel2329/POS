@@ -25,6 +25,7 @@ class EMenuService {
 
   // Get Menu Data
   static Future getNewMenu() async {
+      print('object');
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String? token = prefs.getString('token');
