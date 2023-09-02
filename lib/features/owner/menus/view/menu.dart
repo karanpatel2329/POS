@@ -23,10 +23,12 @@ class _MenuScreenState extends State<MenuScreen> {
   @override
   void initState() {
     // TODO: implement initState
+    if(menusController.menus.isEmpty) {
+      menusController.getMenu();
+      menusController.getCategory();
+    }
+
     super.initState();
-    if(menusController.menus.isEmpty)
-    menusController.getMenu();
-    menusController.getCategory();
   }
 
   @override

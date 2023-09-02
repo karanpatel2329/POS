@@ -10,10 +10,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:get/get.dart';
 
 import '../service/e_order_service.dart';
+import 'e_cart_controller.dart';
 
 class EOrderController extends GetxController {
   List<dynamic> items = [];
-  CartController cartController = Get.put(CartController());
+  ECartController cartController = Get.put(ECartController());
   RxList<EOrderModel> dineInOrderList = <EOrderModel>[].obs;
   RxList<EOrderModel> kitchenOpenList = <EOrderModel>[].obs;
   RxList<EOrderModel> kitchenCompletedList = <EOrderModel>[].obs;
@@ -50,7 +51,8 @@ class EOrderController extends GetxController {
         "items": items,
         "takeawayName":1,
         "total": cartController.getCartTotal(),
-        //"employeeId":"64ddc199de8788bff6bc8cd6",
+        // "employeeId":"64ddc199de8788bff6bc8cd6",
+        "employeeId":prefs.getString('employeeId')??"",
         "ownerId": prefs.getString('ownerId')??"",
         // "orderID":cartController.orderId.value
         "orderID":2

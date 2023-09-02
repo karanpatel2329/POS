@@ -187,10 +187,10 @@ class _EConfirmOrderScreenState extends State<EConfirmOrderScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          'Table :- ${cartController.table?.tableName}',
-                          style: AppTextStyle.black40414W600,
-                        ),
+                        // Text(
+                        //   'Table :- ${cartController.table?.tableName}',
+                        //   style: AppTextStyle.black40414W600,
+                        // ),
                         Text(
                           '${convertToAgo(cartController.orderTime??DateTime.now())}',
                           style: AppTextStyle.black40412W400,

@@ -11,6 +11,7 @@ import 'package:pos_app/features/employee/e_dashboard/controller/e_dashboard_con
 import 'package:pos_app/features/employee/e_menus/view/e_menu.dart';
 import 'package:pos_app/features/employee/e_shift_&_payroll/view/e_payroll.dart';
 import 'package:pos_app/features/employee/e_start_duty/view/e_start_duty.dart';
+import 'package:pos_app/features/owner/auth/view/welcome_screen.dart';
 import 'package:pos_app/features/owner/others/view/about_us.dart';
 import 'package:pos_app/features/owner/others/view/help.dart';
 import 'package:pos_app/features/owner/others/view/notifications.dart';
@@ -320,7 +321,7 @@ class EDashboardState extends State<EDashboard> {
                 onTap: () async {
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.clear();
-                  Get.offAll(EOnboarding());
+                  Get.offAll(WelcomeScreen());
                 },
               ),
               

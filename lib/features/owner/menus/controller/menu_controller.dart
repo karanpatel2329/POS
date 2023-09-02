@@ -78,6 +78,8 @@ class MenusController extends GetxController{
         for(var i in response.data){
           menus.add(MenuModelFromJson(jsonEncode(i)));
         }
+        selectedCategoryModel.value = categoryList.first;
+
         print(menus);
       }else{
         Get.snackbar("Error 3", "Something went wrong");

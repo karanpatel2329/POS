@@ -7,6 +7,7 @@ import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/core/utlis/timeAgo.dart';
+import 'package:pos_app/features/employee/e_checkout/view/e_payment.dart';
 import 'package:pos_app/features/employee/e_start_duty/controller/e_cart_controller.dart';
 import 'package:pos_app/features/employee/e_start_duty/controller/e_order_controller.dart';
 import 'package:pos_app/features/employee/e_start_duty/view/e_order_details.dart';
@@ -313,145 +314,144 @@ class _ETakeAwayViewState extends State<ETakeAwayView> {
     return Stack(
       children: [
         SingleChildScrollView(
-          child:  Column(
-            children: [
-              Row(
-                children: [
-                  Text('Current Order : ', style: AppTextStyle.black40412W400,),
-                  Obx(()=> Text('${orderController.takeAwayOrderList.length}', style: AppTextStyle.black40412W600,),)
-                ],
-              ),
-              SizedBox(
-                height: 16 * (SizeConfig.heightMultiplier ?? 1),
-              ),
-              Obx(()=>ListView.builder(
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: orderController.takeAwayOrderList.length,
-                  scrollDirection: Axis.vertical,
-                  itemBuilder: (BuildContext context, index) {
-                    return Container(
-                      margin: const EdgeInsets.only(bottom: 16),
-                      decoration: BoxDecoration(
-                          border: Border.all(width: 1, color: lightOrange),
-                          borderRadius: BorderRadius.circular(8),
-                          color: index.isEven ? brightGrey : lightPink
-                      ),
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Order :-${orderController.takeAwayOrderList[index].takeawayName}', style: AppTextStyle.black40414W600,),
-                                    InkWell(
-                                        onTap: (){Get.to(ETakeOrderScreen());},
-                                        child: Icon(Icons.edit)),
-                                  ],
-                                ),
-
-                                Text('${convertToAgo(orderController.takeAwayOrderList[index].createdAt)}', style: AppTextStyle.orange12W400,),
-                                SizedBox(
-                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                                ),
-                                Text('${orderController.takeAwayOrderList[index].customer?.name??"Test"}', style: AppTextStyle.black40414W400,),
-                                Text('${orderController.takeAwayOrderList[index].customer?.mobileNumber??"Test Mobile"}', style: AppTextStyle.black40414W400,),
-                                SizedBox(
-                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                                ),
-                                Text('Order Id- ${orderController.takeAwayOrderList[index].orderId}', style: AppTextStyle.black40412W500,),
-
-                                ListView.builder(
-                                    scrollDirection: Axis.vertical,
-                                    shrinkWrap: true,
-                                    physics: NeverScrollableScrollPhysics(),
-                                    itemCount: orderController.takeAwayOrderList[index].items.length,
-                                    itemBuilder: (BuildContext context, int i) {
-                                      return Row(
-                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                        children: [
-                                          Padding(
-                                            padding: const EdgeInsets.only(top: 8.0),
-                                            child: Row(
-                                              children: [
-                                                Text(index.toString(), style: AppTextStyle.black40414W400,),
-                                                Text('. ', style: AppTextStyle.black40414W400,),
-                                                Text('${orderController.takeAwayOrderList[index].items[i].name}', style: AppTextStyle.black40414W400,),
-                                              ],
+          child:  Padding(
+            padding: const EdgeInsets.only(bottom: 50),
+            child: Column(
+              children: [
+                Row(
+                  children: [
+                    Text('Current Order : ', style: AppTextStyle.black40412W400,),
+                    Obx(()=> Text('${orderController.takeAwayOrderList.length}', style: AppTextStyle.black40412W600,),)
+                  ],
+                ),
+                SizedBox(
+                  height: 16 * (SizeConfig.heightMultiplier ?? 1),
+                ),
+                Obx(()=>ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: orderController.takeAwayOrderList.length,
+                    scrollDirection: Axis.vertical,
+                    itemBuilder: (BuildContext context, index) {
+                      return Container(
+                        margin: const EdgeInsets.only(bottom: 16),
+                        decoration: BoxDecoration(
+                            border: Border.all(width: 1, color: lightOrange),
+                            borderRadius: BorderRadius.circular(8),
+                            color: index.isEven ? brightGrey : lightPink
+                        ),
+                        child: Column(
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Order :-${orderController.takeAwayOrderList[index].takeawayName}', style: AppTextStyle.black40414W600,),
+                                      InkWell(
+                                          onTap: (){Get.to(ETakeOrderScreen());},
+                                          child: Icon(Icons.edit)),
+                                    ],
+                                  ),
+          
+                                  Text('${convertToAgo(orderController.takeAwayOrderList[index].createdAt)}', style: AppTextStyle.orange12W400,),
+                                  SizedBox(
+                                    height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                  ),
+                                  Text('${orderController.takeAwayOrderList[index].customer?.name??"Test"}', style: AppTextStyle.black40414W400,),
+                                  Text('${orderController.takeAwayOrderList[index].customer?.mobileNumber??"Test Mobile"}', style: AppTextStyle.black40414W400,),
+                                  SizedBox(
+                                    height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                  ),
+                                  Text('Order Id- ${orderController.takeAwayOrderList[index].orderId}', style: AppTextStyle.black40412W500,),
+          
+                                  ListView.builder(
+                                      scrollDirection: Axis.vertical,
+                                      shrinkWrap: true,
+                                      physics: NeverScrollableScrollPhysics(),
+                                      itemCount: orderController.takeAwayOrderList[index].items.length,
+                                      itemBuilder: (BuildContext context, int i) {
+                                        return Row(
+                                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                          children: [
+                                            Padding(
+                                              padding: const EdgeInsets.only(top: 8.0),
+                                              child: Row(
+                                                children: [
+                                                  Text(index.toString(), style: AppTextStyle.black40414W400,),
+                                                  Text('. ', style: AppTextStyle.black40414W400,),
+                                                  Text('${orderController.takeAwayOrderList[index].items[i].name}', style: AppTextStyle.black40414W400,),
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          Text('${orderController.takeAwayOrderList[index].items[i].quantity}', style: AppTextStyle.black40414W400,),
-                                        ],
-                                      );
-                                    }
-                                ),
-                                Container(
-                                  margin: EdgeInsets.symmetric(vertical: 8),
-                                  height: 1,
-                                  color: lightOrange,
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Total :', style: AppTextStyle.black40414W400,),
-                                    Text('${orderController.takeAwayOrderList[index].total}', style: AppTextStyle.black40414W400,),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 6 * (SizeConfig.heightMultiplier ?? 1),
-                                ),
-                                Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text('Payment:', style: AppTextStyle.black40414W400,),
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
-                                      decoration: BoxDecoration(
-                                        borderRadius: BorderRadius.circular(8),
-                                        color: orderController.takeAwayOrderList[index].paymentStatus=='Pending'?red:green,
-                                      ),
-                                      child: Text('${orderController.takeAwayOrderList[index].paymentStatus}', style: AppTextStyle.whiteText14W400,),
-                                    )
-                                  ],
-                                ),
-
-                              ],
+                                            Text('${orderController.takeAwayOrderList[index].items[i].quantity}', style: AppTextStyle.black40414W400,),
+                                          ],
+                                        );
+                                      }
+                                  ),
+                                  Container(
+                                    margin: EdgeInsets.symmetric(vertical: 8),
+                                    height: 1,
+                                    color: lightOrange,
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Total :', style: AppTextStyle.black40414W400,),
+                                      Text('${orderController.takeAwayOrderList[index].total}', style: AppTextStyle.black40414W400,),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 6 * (SizeConfig.heightMultiplier ?? 1),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Text('Payment:', style: AppTextStyle.black40414W400,),
+                                      Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 1),
+                                        decoration: BoxDecoration(
+                                          borderRadius: BorderRadius.circular(8),
+                                          color: orderController.takeAwayOrderList[index].paymentStatus=='Pending'?red:green,
+                                        ),
+                                        child: Text('${orderController.takeAwayOrderList[index].paymentStatus}', style: AppTextStyle.whiteText14W400,),
+                                      )
+                                    ],
+                                  ),
+          
+                                ],
+                              ),
                             ),
-                          ),
-                          Obx(()=> orderController.takeAwayOrderList[index].paymentStatus=='Pending'?GestureDetector(
-                            onTap: (){
-                              orderController.takeAwayOrderList[index].paymentStatus='Paid';
-                              orderController.updatePaymentStatus( orderController.takeAwayOrderList[index].id);
-                              setState(() {
-
-                              });
-                            },
-                            child: Container(
-                                width: double.infinity,
-                                height: 50,
-                                padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
-                                decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.all(Radius.circular(8)),
-                                    border: Border.all(color: orange)
-                                ),
-                                child:Center(child: Text("TAKE PAYMENT",style: AppTextStyle.whiteText14W600.copyWith(color: orange),))
-                            ),
-                          ):SizedBox(),),
-
-                        ],
-                      ),
-                    );}
-              ),),
-              SizedBox(
-                height: 16 * (SizeConfig.heightMultiplier ?? 1),
-              ),
-
-            ],
+                            Obx(()=> orderController.takeAwayOrderList[index].paymentStatus=='Pending'?GestureDetector(
+                              onTap: (){
+                                Get.to(EPaymentScreen(index: index));
+                              },
+                              child: Container(
+                                  width: double.infinity,
+                                  height: 50,
+                                  padding: EdgeInsets.symmetric(vertical: 8, horizontal: 20),
+                                  decoration: BoxDecoration(
+                                      color: Colors.white,
+                                      borderRadius: BorderRadius.all(Radius.circular(8)),
+                                      border: Border.all(color: orange)
+                                  ),
+                                  child:Center(child: Text("TAKE PAYMENT",style: AppTextStyle.whiteText14W600.copyWith(color: orange),))
+                              ),
+                            ):SizedBox(),),
+          
+                          ],
+                        ),
+                      );}
+                ),),
+                SizedBox(
+                  height: 16 * (SizeConfig.heightMultiplier ?? 1),
+                ),
+          
+              ],
+            ),
           ),
         ),
         Align(
@@ -929,7 +929,7 @@ class _EKitchenViewState extends State<EKitchenView> {
                             setState(() {
                             });
                           }
-                          if(orderController.kitchenOpenList[index].cookingStatus=='In Progress'){
+                          else if(orderController.kitchenOpenList[index].cookingStatus=='In Progress'){
                             orderController.kitchenOpenList[index].cookingStatus='Completed';
                             orderController.updateCookingStatus('Completed', orderController.kitchenOpenList[index].id);
                             orderController.kitchenOpenList.remove(orderController.kitchenOpenList[index]);
