@@ -153,7 +153,7 @@ class _MenuScreenState extends State<MenuScreen> {
                  ),
 
                 // View Condition
-                 menusController.menus.isEmpty ? Image.asset(ImagePath.add,) : Obx(() =>StaggeredGridView.countBuilder(
+                Obx(() => menusController.menus.isEmpty ? Image.asset(ImagePath.add,) : StaggeredGridView.countBuilder(
                    shrinkWrap: true,
 
                    physics: NeverScrollableScrollPhysics(),
