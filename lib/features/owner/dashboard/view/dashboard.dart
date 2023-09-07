@@ -12,6 +12,7 @@ import 'package:pos_app/features/owner/auth/view/welcome_screen.dart';
 import 'package:pos_app/features/owner/dashboard/controller/dashboardController.dart';
 import 'package:pos_app/features/owner/menus/view/menu.dart';
 import 'package:pos_app/features/owner/order/view/dine_in_screen.dart';
+import 'package:pos_app/features/owner/order/view/take_order.dart';
 import 'package:pos_app/features/owner/others/view/about_us.dart';
 import 'package:pos_app/features/owner/others/view/help.dart';
 import 'package:pos_app/features/owner/others/view/notifications.dart';
@@ -45,9 +46,11 @@ class DashboardState extends State<Dashboard> {
   @override
   void initState() {
     dashboardController.getDashboard();
+    dashboardController.getSales();
+    print(dashboardController.sales.map((data) => data));
     data = [
-      _ChartData('CHN', 12),
-      _ChartData('GER', 15),
+      _ChartData('123', 12),
+      _ChartData('321', 15),
       _ChartData('RUS', 30),
       _ChartData('BRZ', 6.4),
       _ChartData('IND', 14)
@@ -81,12 +84,12 @@ class DashboardState extends State<Dashboard> {
         ),
         title: Text('Dashboard', style: AppTextStyle.black40420W600,),
         centerTitle: true,
-        actions: [
-          IconButton(
-          icon: Icon(Icons.notifications_none, color: black404, size: 34 * (SizeConfig.heightMultiplier ?? 1),),
-          onPressed: (){Get.to(NotificationsScreen());},  
-        ),
-        ],
+        // actions: [
+        //   IconButton(
+        //   icon: Icon(Icons.notifications_none, color: black404, size: 34 * (SizeConfig.heightMultiplier ?? 1),),
+        //   onPressed: (){Get.to(NotificationsScreen());},  
+        // ),
+        // ],
       ),
 
       // Body Content
@@ -256,7 +259,7 @@ class DashboardState extends State<Dashboard> {
                         height: 12 * (SizeConfig.heightMultiplier ?? 1),
                       ),
 
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('GO TO NEW ORDER', style: AppTextStyle.whiteText14W600,), () { })
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('GO TO NEW ORDER', style: AppTextStyle.whiteText14W600,), () {Get.to(DineInScreen());})
 
                     ],
                   ),
@@ -413,13 +416,13 @@ class DashboardState extends State<Dashboard> {
                 color: lightOrange,
               ),
                     
-              ListTile(
-                leading: SvgPicture.asset(ImagePath.reviewIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
-                title: Text(' Ratings & Reviews ', style: AppTextStyle.black40414W400,),
-                onTap: () {
-                  Get.to(ReviewsAndRatingsScreen());
-                },
-              ),
+              // ListTile(
+              //   leading: SvgPicture.asset(ImagePath.reviewIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
+              //   title: Text(' Ratings & Reviews ', style: AppTextStyle.black40414W400,),
+              //   onTap: () {
+              //     Get.to(ReviewsAndRatingsScreen());
+              //   },
+              // ),
                     
               ListTile(
                 leading: SvgPicture.asset(ImagePath.settingsIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
@@ -457,6 +460,7 @@ class DashboardState extends State<Dashboard> {
                 onTap: () async{
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.clear();
+                  prefs.setBool('firstTimeOwner', true);
                   Navigator.pop(context);
                   Get.to(WelcomeScreen());
                 },

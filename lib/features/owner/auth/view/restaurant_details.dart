@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
@@ -52,7 +53,10 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       padding: const EdgeInsets.only(bottom: 5.0, right: 5),
                       child: Image.asset(ImagePath.restaurantDetails1),
                     ),
-                    Image.asset(ImagePath.restaurantDetails2),
+                    InkWell(
+                      onTap: (){authController.getImage(ImageSource.camera);},
+                      child: Image.asset(ImagePath.restaurantDetails2)
+                    ),
 
                   ],
                 ),
@@ -81,8 +85,15 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                           focusedBorder: const OutlineInputBorder( 
                               borderSide: BorderSide(
                                   width: 1.0, color: orange), 
-                            ),
+                          ),
+                          
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Name!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -141,14 +152,23 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Address!';
+                          }
+                          return null;
+                        },
                         
                       ),
         
                       SizedBox(height: 115 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () {
-                        authController.signUp();
-                      }),
+                      Obx(() => AppButtonStyle.ElevatedButtonStyled('DARK', authController.isLoadingAdd.value?CircularProgressIndicator(color: Colors.white,) : Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () {
+                        final valid = _formKey.currentState!.validate();
+                        if(valid && authController.dropdownvalue.value.isNotEmpty){
+                          authController.signUp();
+                        }
+                      }),),
 
                       SizedBox(height: 24 * (SizeConfig.heightMultiplier ?? 1),),
         

@@ -51,14 +51,14 @@ class SalesScreenState extends State<SalesScreen> {
   Widget build(BuildContext context) {
 
       // Initial Selected Value
-  String dropdownvalue = 'Daily';
+  // String dropdownvalue = 'Daily';
 
   // List of items in our dropdown menu
-  var items = [
-    'Daily',
-    '4',
-    '6',
-  ];
+  // var items = [
+  //   'Daily',
+  //   '4',
+  //   '6',
+  // ];
 
     return Scaffold(
       key: _key,
@@ -92,42 +92,42 @@ class SalesScreenState extends State<SalesScreen> {
                     Text('Sales Report', style: AppTextStyle.black40414W600,),
 
                     // DropDown
-                    Container(
-                      height: 30,
-                      alignment: Alignment.center,
-                      width: 100,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(8.0),
-                        border: Border.all(
-                            color: orange, style: BorderStyle.solid, width: 0.80),
-                      ),
-                      child: DropdownButton(
-                        hint: Text('Select seater'),
-                        padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                        value: dropdownvalue,
-                        isDense: true,
-                        isExpanded: true,
-                        underline: const SizedBox(),
-                        icon: const Icon(
-                          Icons.keyboard_arrow_down,
-                          color: orange,
-                        ),
-                        items: items.map((String items) {
-                          return DropdownMenuItem(
-                            value: items,
-                            child: Text(
-                              items,
-                              style: AppTextStyle.black40416W400,
-                            ),
-                          );
-                        }).toList(),
-                        onChanged: (String? newValue) {
-                          setState(() {
-                            dropdownvalue = newValue!;
-                          });
-                        },
-                      ),
-                    ),
+                    // Container(
+                    //   height: 30,
+                    //   alignment: Alignment.center,
+                    //   width: 100,
+                    //   decoration: BoxDecoration(
+                    //     borderRadius: BorderRadius.circular(8.0),
+                    //     border: Border.all(
+                    //         color: orange, style: BorderStyle.solid, width: 0.80),
+                    //   ),
+                    //   child: DropdownButton(
+                    //     hint: Text('Select seater'),
+                    //     padding: const EdgeInsets.symmetric(horizontal: 5.0),
+                    //     value: dropdownvalue,
+                    //     isDense: true,
+                    //     isExpanded: true,
+                    //     underline: const SizedBox(),
+                    //     icon: const Icon(
+                    //       Icons.keyboard_arrow_down,
+                    //       color: orange,
+                    //     ),
+                    //     items: items.map((String items) {
+                    //       return DropdownMenuItem(
+                    //         value: items,
+                    //         child: Text(
+                    //           items,
+                    //           style: AppTextStyle.black40416W400,
+                    //         ),
+                    //       );
+                    //     }).toList(),
+                    //     onChanged: (String? newValue) {
+                    //       setState(() {
+                    //         dropdownvalue = newValue!;
+                    //       });
+                    //     },
+                    //   ),
+                    // ),
 
                   ],
                 ),
@@ -136,11 +136,7 @@ class SalesScreenState extends State<SalesScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                ListView.builder(
-                  itemCount: 2,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                  return Container(
+                Container(
                     margin: EdgeInsets.only(bottom: 8),
                     padding: EdgeInsets.symmetric(horizontal: 20, vertical: 7),
                     decoration: BoxDecoration(
@@ -149,7 +145,7 @@ class SalesScreenState extends State<SalesScreen> {
                     ),
                     child: Row(
                       children: [
-                        SvgPicture.asset(ImagePath.totalRevenueIcon),
+                        SvgPicture.asset(ImagePath.totalItemSoldIcon),
                         SizedBox(
                           width: 8 * (SizeConfig.widthMultiplier ?? 1),
                         ),
@@ -157,17 +153,15 @@ class SalesScreenState extends State<SalesScreen> {
                           mainAxisAlignment: MainAxisAlignment.center,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text('Total revenue', style: AppTextStyle.black40412W400,),
+                            Text('Total Item Solds', style: AppTextStyle.black40412W400,),
                             SizedBox(
                               height: 4 * (SizeConfig.heightMultiplier ?? 1),
                             ),
-                            Text('₹40,239.00', style: AppTextStyle.black40416W600,),
+                            Text('9,823', style: AppTextStyle.black40416W600,),
                           ],
                         ),
                       ],
                     ),
-                  );
-                  }
                 ),
 
                 SizedBox(

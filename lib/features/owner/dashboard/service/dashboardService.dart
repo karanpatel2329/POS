@@ -21,4 +21,19 @@ class DashboardService{
       return null;
     }
   }
+
+  static Future getSales()async{
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.get(ApiUrl.sales,);
+      return response;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

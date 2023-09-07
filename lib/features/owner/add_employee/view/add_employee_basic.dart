@@ -1,15 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/add_employee/controller/add_employee_controller.dart';
+import 'package:pos_app/features/owner/add_employee/model/add_employee_model.dart';
 import 'package:pos_app/features/owner/add_employee/view/add_employee_academics.dart';
 
 class AddEmployeeBasicScreen extends StatefulWidget {
-  AddEmployeeBasicScreen({super.key});
+  AddEmployeeBasicScreen({super.key,});
+
 
   @override
   State<AddEmployeeBasicScreen> createState() => _AddEmployeeBasicScreenState();
@@ -96,7 +99,10 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                       padding: const EdgeInsets.only(bottom: 5.0, right: 5),
                       child: Image.asset(ImagePath.restaurantDetails1),
                     ),
-                    Image.asset(ImagePath.restaurantDetails2),
+                    InkWell(
+                      onTap: (){addEmployeController.getImage(ImageSource.camera);},
+                      child: Image.asset(ImagePath.restaurantDetails2)
+                    ),
 
                   ],
                 ),
@@ -127,6 +133,12 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Name!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -151,6 +163,14 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                            return 'Enter a valid Email!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -210,6 +230,14 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                  .hasMatch(value)) {
+                            return 'Enter a valid Phone Number!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -235,12 +263,27 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Address!';
+                          }
+                          return null;
+                        },
                         
                       ),
         
                       SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CONTINUE', style: AppTextStyle.whiteText14W600,), () { Get.to(AddEmployeeAcademicsScreen());}),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CONTINUE', style: AppTextStyle.whiteText14W600,), 
+                        () {
+                          final valid = _formKey.currentState!.validate();
+                        if(valid && addEmployeController.dropdownvalue.isNotEmpty){
+                          Get.to(AddEmployeeAcademicsScreen());
+                        }else{
+                          Get.snackbar("Error", "Please Fill Empty Fields!");
+                        }
+                        }
+                      ),
         
         
                       SizedBox(height: 24 * (SizeConfig.heightMultiplier ?? 1),),

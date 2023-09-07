@@ -13,6 +13,7 @@ class ApiUrl {
   static String table = liveBaseURL + '/table/tables';
   static String addEmployee = liveBaseURL + '/employee/employees';
   static String employeeLogin = liveBaseURL + '/employee/login';
+  static String sales = liveBaseURL + '/order/sales';
 
 
 }

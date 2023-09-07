@@ -33,6 +33,7 @@ class ImagePath {
   static const String eOnboarding02 ='assets/images/e_onboarding_02.svg';
   static const String eOnboarding03 ='assets/images/e_onboarding_03.svg';
   static const String clockIcon ='assets/images/clock.svg';
+  static const String add ='assets/images/Add.png';
 
 
   

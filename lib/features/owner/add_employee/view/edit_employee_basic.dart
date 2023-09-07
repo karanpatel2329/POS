@@ -7,9 +7,14 @@ import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/add_employee/controller/add_employee_controller.dart';
 import 'package:pos_app/features/owner/add_employee/view/add_employee_academics.dart';
+import 'package:pos_app/features/owner/add_employee/view/edit_employee_academics.dart';
+
+import '../model/add_employee_model.dart';
 
 class EditEmployeeBasicScreen extends StatefulWidget {
-  EditEmployeeBasicScreen({super.key});
+  EditEmployeeBasicScreen({super.key, required this.addEmployeeModel});
+  final AddEmployeeModel addEmployeeModel;
+
 
   @override
   State<EditEmployeeBasicScreen> createState() => _EditEmployeeBasicScreenState();
@@ -29,6 +34,19 @@ class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
   //   'Female',
   //   'Other',
   // ];
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    addEmployeController.fullNameController.text = widget.addEmployeeModel.name;
+    addEmployeController.emailController.text = widget.addEmployeeModel.email;
+    addEmployeController.phoneController.text = widget.addEmployeeModel.mobileNo;
+    addEmployeController.addressController.text = widget.addEmployeeModel.address;
+    addEmployeController.serverController.text = widget.addEmployeeModel.position;
+    addEmployeController.aboutController.text = widget.addEmployeeModel.about;
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -127,6 +145,12 @@ class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Name!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -151,6 +175,14 @@ class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                            return 'Enter a valid email!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -210,6 +242,14 @@ class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                  .hasMatch(value)) {
+                            return 'Enter a valid Phone Number!';
+                          }
+                          return null;
+                        },
                         
                       ),
 
@@ -235,12 +275,25 @@ class _EditEmployeeBasicScreenState extends State<EditEmployeeBasicScreen> {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid Address!';
+                          }
+                          return null;
+                        },
                         
                       ),
         
                       SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CONTINUE', style: AppTextStyle.whiteText14W600,), () { Get.to(AddEmployeeAcademicsScreen());}),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CONTINUE', style: AppTextStyle.whiteText14W600,), () { 
+                        final valid = _formKey.currentState!.validate();
+                        if(valid){
+                          Get.to(EditEmployeeAcademicsScreen());
+                        }else{
+                          Get.snackbar("Error", "Please Fill all Empty Fields!");
+                        }
+                      }),
         
         
                       SizedBox(height: 24 * (SizeConfig.heightMultiplier ?? 1),),

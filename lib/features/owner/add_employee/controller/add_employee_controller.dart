@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as res;
+import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/features/owner/add_employee/model/add_employee_model.dart';
 import 'package:pos_app/features/owner/add_employee/service/add_employee_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -24,6 +25,8 @@ class AddEmployeController extends GetxController {
   RxBool isLoadingAdd = false.obs;
   RxBool isLoadingUpdate = false.obs;
   RxList<AddEmployeeModel> employees = <AddEmployeeModel>[].obs;
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
 
   RxString dropdownvalue = 'Male'.obs;
   // List of items in our dropdown menu
@@ -57,6 +60,13 @@ class AddEmployeController extends GetxController {
         employees.add(addEmployeeModel);
 
         getEmployee();
+        fullNameController.clear();
+        emailController.clear();
+        phoneController.clear();
+        addressController.clear();
+        serverController.clear();
+        aboutController.clear();
+
       }else{
       isLoadingAdd.value=false;
         Get.snackbar("Error 1", "Something went wrong");
@@ -78,7 +88,7 @@ class AddEmployeController extends GetxController {
         for(var i in response.data){
           employees.add(addEmployeeModelFromJson(jsonEncode(i)));
         }
-        print(employees);
+        print(employees.length);
       }else{
         Get.snackbar("Error 3", "Something went wrong");
 
@@ -122,6 +132,29 @@ class AddEmployeController extends GetxController {
       isLoadingUpdate.value = false;
       Get.snackbar("Error 5", "Something went wrong");
     }
+  }
+
+    Future deleteEmployee(String? employeeId) async {
+    try {
+      res.Response? response = await AddEmployeeService.deleteEmployee(employeeId);
+    if (response != null) {
+        print(employees.length);
+        Get.snackbar("Deleted","Employee Deleted Successfully");
+        getEmployee();
+      }else{
+        Get.snackbar("Error 3", "Something went wrong");
+
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar("Error 4", "Something went wrong");
+    }
+  }
+
+  // Upload Media
+  Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+    image = img;
   }
 
 }

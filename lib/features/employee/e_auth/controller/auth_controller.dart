@@ -43,5 +43,9 @@ class EmployeeAuthController extends GetxController {
       Get.snackbar("Error", "Something went wrong");
     }
   }
+    firstTimeEmployeee()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('firstTimeEmployeee', true);
+  }
 
 }

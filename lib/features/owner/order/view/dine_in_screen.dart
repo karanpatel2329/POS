@@ -134,7 +134,11 @@ class DineInView extends StatelessWidget {
                       Text('Table ${orderController.dineInOrderList[index].tableNumber}', style: AppTextStyle.black40414W400,),
                       Text('${convertToAgo(orderController.dineInOrderList[index].createdAt)}', style: AppTextStyle.black40412W400,),
                       InkWell(
-                          onTap: (){Get.to(OrderDetailsScreen());},
+                          onTap: (){
+                            print(orderController.dineInOrderList[index].orderId);
+                            print(orderController.dineInOrderList[index].items);
+                            Get.to(OrderDetailsScreen(orderId: orderController.dineInOrderList[index].orderId, orderIndex: index,));
+                          },
                           child: Text('VIEW', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontWeight: FontWeight.w600), )
                       ),
                     ],

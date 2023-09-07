@@ -10,6 +10,7 @@ class CartController extends GetxController {
   TableModel? table;
   RxString orderId = ''.obs;
   DateTime? orderTime;
+
   void addToCart(MenuModel menu) {
     items.add(menu);
     total.value =total.value +  menu.itemPrice;
@@ -29,6 +30,7 @@ class CartController extends GetxController {
 
     return res.length;
   }
+  
   double getCartTotal() {
    double total = 0.0;
     for (MenuModel m in items.value) {

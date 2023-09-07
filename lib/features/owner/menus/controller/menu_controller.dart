@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:dio/dio.dart' as res;
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/features/owner/menus/model/addMenu.dart';
 import 'package:pos_app/features/owner/menus/model/category.dart';
 import 'package:pos_app/features/owner/menus/service/menu_service.dart';
@@ -27,6 +28,8 @@ class MenusController extends GetxController{
   RxString dropdownvalue = 'Veg'.obs;
   RxList<CategoryModel> categoryList = <CategoryModel>[].obs;
   RxInt selectedCategories  = 0.obs;
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
 
   // List of items in our dropdown menu
   var items = [
@@ -57,6 +60,10 @@ class MenusController extends GetxController{
 
         Get.back();
         getMenu();
+        itemNameController.clear();
+        priceController.clear();
+        aboutController.clear();
+        dropdownvalue.value = 'Veg';
       }else{
       isLoadingAdd.value=false;
         Get.snackbar("Error 1", "Something went wrong");
@@ -78,7 +85,6 @@ class MenusController extends GetxController{
         for(var i in response.data){
           menus.add(MenuModelFromJson(jsonEncode(i)));
         }
-        selectedCategoryModel.value = categoryList.first;
 
         print(menus);
       }else{
@@ -87,6 +93,7 @@ class MenusController extends GetxController{
       }
     } catch (e) {
       print(e);
+      print("Error 4 Something went wrong");
       Get.snackbar("Error 4", "Something went wrong");
     }
   }
@@ -162,10 +169,17 @@ class MenusController extends GetxController{
           print(i);
           categoryList.add(CategoryModel.fromJson(i));
         }
+        selectedCategoryModel.value = categoryList.first;
       }
     }catch(e){
-print(e);
+      print(e);
     }
+  }
+
+    // Upload Media
+    Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+    image = img;
   }
 
 }

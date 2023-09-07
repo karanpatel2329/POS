@@ -277,13 +277,13 @@ class EDashboardState extends State<EDashboard> {
                 color: lightOrange,
               ),
                     
-              ListTile(
-                leading: SvgPicture.asset(ImagePath.reviewIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
-                title: Text(' Ratings & Reviews ', style: AppTextStyle.black40414W400,),
-                onTap: () {
-                  Get.to(ReviewsAndRatingsScreen());
-                },
-              ),
+              // ListTile(
+              //   leading: SvgPicture.asset(ImagePath.reviewIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
+              //   title: Text(' Ratings & Reviews ', style: AppTextStyle.black40414W400,),
+              //   onTap: () {
+              //     Get.to(ReviewsAndRatingsScreen());
+              //   },
+              // ),
                     
               ListTile(
                 leading: SvgPicture.asset(ImagePath.settingsIcon, height: 20 * (SizeConfig.heightMultiplier ?? 1),),
@@ -321,6 +321,7 @@ class EDashboardState extends State<EDashboard> {
                 onTap: () async {
                   final SharedPreferences prefs = await SharedPreferences.getInstance();
                   prefs.clear();
+                  prefs.setBool('firstTimeEmployeee', true);
                   Get.offAll(WelcomeScreen());
                 },
               ),

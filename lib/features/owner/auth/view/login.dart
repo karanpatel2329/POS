@@ -55,11 +55,12 @@ class LoginScreen extends StatelessWidget {
                         SizedBox(
                           height: 16 * (SizeConfig.heightMultiplier ?? 1),
                         ),
-                        TextFormField(
+                        Obx(() => TextFormField(
+                          obscureText: authController.passVisible.value,
                           controller: authController.loginPasswordController,
                           decoration: InputDecoration(
                             hintText: 'Password',
-                            labelText: '*******',
+                            labelText: 'Password',
                             labelStyle: AppTextStyle.black40416W400,
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(8.0),
@@ -71,6 +72,11 @@ class LoginScreen extends StatelessWidget {
                             focusedBorder: const OutlineInputBorder(
                               borderSide: BorderSide(width: 1.0, color: orange),
                             ),
+                            suffixIcon: IconButton(
+                              onPressed: (){
+                                authController.passVisible.value = !authController.passVisible.value;
+                              }, 
+                              icon: Icon(authController.passVisible.value == true ? Icons.visibility : Icons.visibility_off_outlined)))
                           ),
                         ),
                         SizedBox(

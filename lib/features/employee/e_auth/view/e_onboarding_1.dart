@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_login.dart';
 
 class EOnboarding extends StatefulWidget {
@@ -18,6 +19,7 @@ class _EOnboardingState extends State<EOnboarding> {
   @override
   Widget build(BuildContext context) {
 
+    EmployeeAuthController employeeAuthController = Get.put(EmployeeAuthController());
     final PageController pageController = PageController();
     RxInt pageIndex = 0.obs;
 
@@ -33,6 +35,7 @@ class _EOnboardingState extends State<EOnboarding> {
                   alignment: Alignment.topRight,
                   child: InkWell(
                     onTap: (){
+                      employeeAuthController.firstTimeEmployeee();
                       Get.to(ELoginScreen());
                       },
                       child: Text('Skip', style: AppTextStyle.orange14W600))),
@@ -126,6 +129,7 @@ class _EOnboardingState extends State<EOnboarding> {
                       pageIndex = pageIndex + 1;
                     });
                     if(pageController.page == 2.0){
+                      employeeAuthController.firstTimeEmployeee();
                       Get.to(ELoginScreen());
                     }
                     pageController.nextPage(duration: Duration(microseconds: 300), curve: Curves.ease);

@@ -49,6 +49,14 @@ class SignUpScreen extends StatelessWidget {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                  .hasMatch(value)) {
+                            return 'Enter a valid email!';
+                          }
+                          return null;
+                        },
                         
                       ),
                       SizedBox(
@@ -72,6 +80,14 @@ class SignUpScreen extends StatelessWidget {
                                   width: 1.0, color: orange), 
                             ),
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty ||
+                              !RegExp(r'(^(?:[+0]9)?[0-9]{10,12}$)')
+                                  .hasMatch(value)) {
+                            return 'Enter a valid Phone Number!';
+                          }
+                          return null;
+                        },
                         
                       ),
         
@@ -79,7 +95,8 @@ class SignUpScreen extends StatelessWidget {
                         height: 16 * (SizeConfig.heightMultiplier ?? 1),
                       ),
         
-                      TextFormField(
+                      Obx(() => TextFormField(
+                        obscureText: authController.passVisible.value,
                         controller: authController.passwordController,
                         decoration: InputDecoration(
                           hintText: 'Password',
@@ -96,22 +113,27 @@ class SignUpScreen extends StatelessWidget {
                               borderSide: BorderSide(
                                   width: 1.0, color: orange), 
                           ),
-                          suffixIcon: const Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Icon(
-                              Icons.visibility_off_outlined,
-                              color: orange,
-                            ),
-                          ),
+                          suffixIcon: IconButton(
+                              onPressed: (){
+                                authController.passVisible.value = !authController.passVisible.value;
+                              }, 
+                              icon: Icon(authController.passVisible.value == true ? Icons.visibility : Icons.visibility_off_outlined))
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            return 'Enter a valid password!';
+                          }
+                          return null;
+                        },
                         
-                      ),
+                      ),),
         
                       SizedBox(
                         height: 16 * (SizeConfig.heightMultiplier ?? 1),
                       ),
         
-                      TextFormField(
+                      Obx(() => TextFormField(
+                        obscureText: authController.confPassVisible.value,
                         controller: authController.confirmPasswordController,
                         decoration: InputDecoration(
                           hintText: 'Confirm Password',
@@ -128,21 +150,34 @@ class SignUpScreen extends StatelessWidget {
                               borderSide: BorderSide(
                                   width: 1.0, color: orange), 
                           ),
-                          suffixIcon: const Padding(
-                            padding: EdgeInsets.all(0.0),
-                            child: Icon(
-                              Icons.visibility_off_outlined,
-                              color: orange,
-                            ),
-                          ),
+                          suffixIcon: IconButton(
+                              onPressed: (){
+                                authController.confPassVisible.value = !authController.confPassVisible.value;
+                              }, 
+                              icon: Icon(authController.confPassVisible.value == true ? Icons.visibility : Icons.visibility_off_outlined))
                         ),
+                        validator: (value) {
+                          if (value!.isEmpty) {
+                            if(authController.passwordController.text != authController.confirmPasswordController.text){
+                              return 'Enter a valid password!';
+                            }
+                          }
+                          return null;
+                        },
                         
-                      ),
+                      ),),
         
                       SizedBox(height: 32 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), () {
-                        if(authController.confirmPasswordController.text==authController.passwordController.text){
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('CREATE ACCOUNT', style: AppTextStyle.whiteText14W600,), 
+                      () {
+                        // if(authController.confirmPasswordController.text==authController.passwordController.text){
+                        //   Get.to(RestaurantDetailsScreen());
+                        // }else{
+                        //   Get.snackbar("Error", "Password should match");
+                        // }
+                        final valid = _formKey.currentState!.validate();
+                        if(valid){
                           Get.to(RestaurantDetailsScreen());
                         }else{
                           Get.snackbar("Error", "Password should match");

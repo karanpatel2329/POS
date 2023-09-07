@@ -40,7 +40,7 @@ class AddEmployeeService {
   }
 
 
-  // 
+  // Update Imployee
     static Future updateEmployee(AddEmployeeModel addEmployeeModel) async {
     // try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -58,6 +58,22 @@ class AddEmployeeService {
     // print(e);
     //   return null;
     // }
+  }
+
+    // delete Employee Data
+
+  static Future deleteEmployee(String? employeeID) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.delete('${ApiUrl.addEmployee}/$employeeID',);
+      return response;
+    } catch (e) {
+      return null;
+    }
   }
 
 

@@ -126,6 +126,8 @@ class _MenuScreenState extends State<MenuScreen> {
                              onTap: () {
                                menusController.selectedCategories.value = index;
                                menusController.selectedCategoryModel.value = menusController.categoryList[index];
+                               print(menusController.menus[0].itemName);
+
                              },
                              child: Obx(()=>Container(
                                  padding: const EdgeInsets.symmetric(
@@ -150,7 +152,8 @@ class _MenuScreenState extends State<MenuScreen> {
                    height: 16 * (SizeConfig.heightMultiplier ?? 1),
                  ),
 
-                 Obx(() =>StaggeredGridView.countBuilder(
+                // View Condition
+                 menusController.menus.isEmpty ? Image.asset(ImagePath.add,) : Obx(() =>StaggeredGridView.countBuilder(
                    shrinkWrap: true,
 
                    physics: NeverScrollableScrollPhysics(),
@@ -199,6 +202,7 @@ class _MenuScreenState extends State<MenuScreen> {
                                                  menu: menusController
                                                      .menus
                                                      .value[index],
+                                                  // categoryName: menusController.categoryList[index].categoryName,
                                                ));
                                              },
                                              child: Icon(

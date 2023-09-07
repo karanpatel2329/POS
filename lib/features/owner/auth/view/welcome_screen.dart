@@ -4,7 +4,9 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/employee/e_auth/view/e_login.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_onboarding_1.dart';
+import 'package:pos_app/features/owner/auth/view/login.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'onboarding_1.dart';
@@ -53,7 +55,11 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 45 * (SizeConfig.heightMultiplier ?? 1),
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {Get.to(Onboarding1());},
+                  onPressed: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    print(prefs.getBool('firstTimeOwner'));
+                    prefs.getBool('firstTimeOwner') == null ? Get.to(Onboarding1()) : Get.to(LoginScreen());
+                    },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: orange,
                     elevation: 0,
@@ -72,7 +78,10 @@ class _WelcomeScreenState extends State<WelcomeScreen> {
                 height: 45 * (SizeConfig.heightMultiplier ?? 1),
                 width: double.infinity,
                 child: ElevatedButton(
-                  onPressed: () {Get.to(EOnboarding());},
+                  onPressed: () async {
+                    final SharedPreferences prefs = await SharedPreferences.getInstance();
+                    prefs.getBool('firstTimeEmployeee') == null ? Get.to(EOnboarding()) : Get.to(ELoginScreen());
+                  },
                   style: ElevatedButton.styleFrom(
                     minimumSize: Size(Get.width, 45 * (SizeConfig.heightMultiplier ?? 1)),
                     backgroundColor: white,

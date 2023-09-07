@@ -90,4 +90,6 @@ class OrderController extends GetxController {
     var res = await OrderService.updatePaymentStatus( id);
     print("+++++>>>>${res}");
   }
+
+
 }

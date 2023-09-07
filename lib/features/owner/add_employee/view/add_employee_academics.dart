@@ -149,6 +149,12 @@ class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen>
                                       width: 1.0, color: orange), 
                                 ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter a valid Position!';
+                              }
+                              return null;
+                            },
                             
                           ),
 
@@ -173,6 +179,12 @@ class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen>
                                       width: 1.0, color: orange), 
                                 ),
                             ),
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return 'Enter About Employee!';
+                              }
+                              return null;
+                            },
                             
                           ),
 
@@ -183,8 +195,13 @@ class _AddEmployeeAcademicsScreenState extends State<AddEmployeeAcademicsScreen>
                           AppButtonStyle.ElevatedButtonStyled(
                             'DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), 
                             () {
-                              addEmployeController.addNewemployee();
-                              Get.back();Get.back(); Get.to(EmployeeScreen());
+                              final valid = _formKey.currentState!.validate();
+                              if(valid && addEmployeController.dropdownvalue.isNotEmpty){
+                                addEmployeController.addNewemployee();
+                                Get.back();Get.back(); Get.to(EmployeeScreen());
+                              }else{
+                                Get.snackbar("Error", "Password should match");
+                              }
                             }
                           ),
         

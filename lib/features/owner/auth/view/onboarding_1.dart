@@ -4,7 +4,10 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
+import 'package:pos_app/features/owner/auth/view/login.dart';
 import 'package:pos_app/features/owner/auth/view/onboarding_4.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class Onboarding1 extends StatefulWidget {
   const Onboarding1({Key? key}) : super(key: key);
@@ -14,9 +17,11 @@ class Onboarding1 extends StatefulWidget {
 }
 
 class _Onboarding1State extends State<Onboarding1> {
+
   @override
   Widget build(BuildContext context) {
 
+    AuthController authController = Get.put(AuthController());
     final PageController pageController = PageController();
     int pageIndex = 0;
 
@@ -31,7 +36,8 @@ class _Onboarding1State extends State<Onboarding1> {
                 alignment: Alignment.topRight,
                 child: InkWell(
                   onTap: (){
-                    Get.to(Onboarding4());
+                    authController.firstTimeOwner();
+                    Get.to(LoginScreen());
                     },
                     child: Text('Skip', style: AppTextStyle.orange14W600))),
             Container(
@@ -124,7 +130,8 @@ class _Onboarding1State extends State<Onboarding1> {
                     pageIndex = pageIndex + 1;
                   });
                   if(pageController.page == 2.0){
-                    Get.to(Onboarding4());
+                    authController.firstTimeOwner();
+                    Get.to(LoginScreen());
                   }
                   pageController.nextPage(duration: Duration(microseconds: 300), curve: Curves.ease);
             }),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/features/owner/auth/models/owner.dart';
 import 'package:pos_app/features/owner/auth/service/auth_services.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
@@ -17,6 +18,13 @@ class AuthController extends GetxController {
   TextEditingController loginPasswordController = TextEditingController();
   RxString dropdownvalue = 'Business Type'.obs;
   RxBool isLoadingLogin = false.obs;
+  RxBool passVisible = true.obs;
+  RxBool confPassVisible = true.obs;
+  RxBool isLoadingAdd = false.obs;
+  XFile? image;
+  final ImagePicker picker = ImagePicker();
+
+
   var items = [
     'Business Type',
     'Restaurant',
@@ -26,6 +34,7 @@ class AuthController extends GetxController {
   ];
   Future signUp() async {
     try {
+      isLoadingAdd.value=true;
       Owner owner = Owner(
           name: businessLegalName.text,
           email: emailController.text,
@@ -36,12 +45,14 @@ class AuthController extends GetxController {
           photo: "",
           mobileNo: mobileController.text,
           username: businessLegalName.text,
-          userType: 1);
+          userType: 2);
       Response? response = await AuthService.signUp(owner);
       if (response != null) {
+      isLoadingAdd.value=false;
         Get.to(Dashboard());
       }
     } catch (e) {
+      print(e);
       Get.snackbar("Error", "Something went wrong");
     }
   }
@@ -65,4 +76,17 @@ class AuthController extends GetxController {
       Get.snackbar("Error", "Something went wrong");
     }
   }
+
+  firstTimeOwner()async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool('firstTimeOwner', true);
+
+  }
+
+  // Upload Media
+    Future getImage(ImageSource media) async {
+    var img = await picker.pickImage(source: media);
+    image = img;
+  }
+
 }

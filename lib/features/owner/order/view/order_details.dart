@@ -5,10 +5,22 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/checkout/view/checkout.dart';
+import 'package:pos_app/features/owner/order/controller/orderController.dart';
 import 'package:pos_app/features/owner/order/view/add_new_items.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key});
+class OrderDetailsScreen extends StatefulWidget {
+  const OrderDetailsScreen({super.key, required this.orderId, required this.orderIndex});
+
+  final String orderId;
+  final int orderIndex;
+
+  @override
+  State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+}
+
+class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+
+  OrderController orderController = Get.put(OrderController());
 
   @override
   Widget build(BuildContext context) {
@@ -38,15 +50,15 @@ class OrderDetailsScreen extends StatelessWidget {
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text('Table 1', style: AppTextStyle.black40414W600,),
-                          Text('3 min ago', style: AppTextStyle.black40412W400,),
+                          Text(orderController.dineInOrderList[widget.orderIndex].tableNumber.toString(), style: AppTextStyle.black40414W600,),
+                          Text('${orderController.dineInOrderList[widget.orderIndex].createdAt.timeZoneOffset.inMinutes.toString()} ago', style: AppTextStyle.black40412W400,),
                         ],
                       ),
                     ),
                     
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Text('Order Id- 4389D', style: AppTextStyle.black40412W500,),
+                      child: Text('Order Id- ${orderController.dineInOrderList[widget.orderIndex].orderId}', style: AppTextStyle.black40412W500,),
                     ),
 
                     SizedBox(
@@ -56,7 +68,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     ListView.builder(
                     scrollDirection: Axis.vertical,
                     shrinkWrap: true,
-                    itemCount: 2,
+                    itemCount: orderController.dineInOrderList[widget.orderIndex].items.length,
                     itemBuilder: (BuildContext context, int index) {
                       return Column(
                         children: [
@@ -69,10 +81,10 @@ class OrderDetailsScreen extends StatelessWidget {
                                   children: [
                                     Text(index.toString(), style: AppTextStyle.black40414W400,),
                                     Text('. ', style: AppTextStyle.black40414W400,),
-                                    Text('Veg Pizza', style: AppTextStyle.black40414W400,),
+                                    Text(orderController.dineInOrderList[widget.orderIndex].items[index].name, style: AppTextStyle.black40414W400,),
                                   ],
                                 ),
-                                Text('₹ 200', style: AppTextStyle.black40414W400,),
+                                // Text('₹ 200', style: AppTextStyle.black40414W400,),
                                 Container(
                                   padding: const EdgeInsets.all(5),
                                   decoration: BoxDecoration(
@@ -88,7 +100,7 @@ class OrderDetailsScreen extends StatelessWidget {
                                       SizedBox(
                                         width: 8 * (SizeConfig.widthMultiplier ?? 1),
                                       ),
-                                      Text('2', style: AppTextStyle.black40412W400,),
+                                      Text(orderController.dineInOrderList[widget.orderIndex].items[index].quantity.toString(), style: AppTextStyle.black40412W400,),
                                       SizedBox(
                                         width: 8 * (SizeConfig.widthMultiplier ?? 1),
                                       ),
@@ -112,18 +124,18 @@ class OrderDetailsScreen extends StatelessWidget {
                     }
                   ),
 
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  // Padding(
+                  //   padding: const EdgeInsets.symmetric(horizontal: 20),
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       
-                          children: [
-                            Text('Total:', style: AppTextStyle.black40414W600,),
-                            Text('₹ 400', style: AppTextStyle.black40414W600,),
-                            Text(''),
-                          ],
-                    ),
-                  ),
+                  //         children: [
+                  //           Text('Total:', style: AppTextStyle.black40414W600,),
+                  //           Text('₹ 400', style: AppTextStyle.black40414W600,),
+                  //           Text(''),
+                  //         ],
+                  //   ),
+                  // ),
 
                   SizedBox(
                     height: 12 * (SizeConfig.heightMultiplier ?? 1),
@@ -135,7 +147,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 ),
               ),
               
-              AppButtonStyle.ElevatedButtonStyled('DARK', Text('ADD NEW ITEMS', style: AppTextStyle.whiteText14W600,), () {Get.to(AddNewItemsScreen());})
+              AppButtonStyle.ElevatedButtonStyled('DARK', Text('ADD NEW ITEMS', style: AppTextStyle.whiteText14W600,), () {Get.to(AddNewItemsScreen(orderId: widget.orderId, orderIndex: widget.orderIndex,));})
 
             ],
           ),

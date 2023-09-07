@@ -42,8 +42,8 @@ class EOrderController extends GetxController {
         // "employeeId":"64ddc199de8788bff6bc8cd6",
         "employeeId":prefs.getString('employeeId')??"",
         "ownerId": prefs.getString('ownerId')??"",
-        "orderID":2,
-        // "orderID":cartController.orderId.value,
+        // "orderID":2,
+        "orderID":cartController.orderId.value,
       };
     }else{
       req = {
