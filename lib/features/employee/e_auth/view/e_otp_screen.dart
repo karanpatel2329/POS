@@ -6,7 +6,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
-import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
+import 'package:pos_app/features/employee/e_auth/controller/employee_auth_controller.dart';
 import 'package:pos_app/features/employee/e_dashboard/view/e_dashboard.dart';
 
 class EOTPScreen extends StatefulWidget {

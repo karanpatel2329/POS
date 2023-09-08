@@ -4,7 +4,7 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/size_config.dart';
-import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
+import 'package:pos_app/features/employee/e_auth/controller/employee_auth_controller.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_otp_screen.dart';
 
 class ELoginScreen extends StatelessWidget {

@@ -7,10 +7,14 @@ class AuthService {
   
 
   // SIGN UP
-    static Future signUp(Owner owner) async {
+    static Future signUp(OwnerModel owner) async {
     try {
+      print('object');
+      print(owner.toJson());
       final dio = Dio();
-      final response = await dio.post(ApiUrl.signUp,data: owner.toJson() );
+      final response = await dio.post(ApiUrl.signUp,data: owner.toJson());
+      print(response.data);
+      print(response.statusCode);
       return response;
     } catch (e) {
       return null;

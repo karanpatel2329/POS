@@ -1,14 +1,14 @@
 // To parse this JSON data, do
 //
-//     final owner = ownerFromJson(jsonString);
+//     final ownerModel = ownerModelFromJson(jsonString);
 
 import 'dart:convert';
 
-Owner ownerFromJson(String str) => Owner.fromJson(json.decode(str));
+OwnerModel ownerModelFromJson(String str) => OwnerModel.fromJson(json.decode(str));
 
-String ownerToJson(Owner data) => json.encode(data.toJson());
+String ownerModelToJson(OwnerModel data) => json.encode(data.toJson());
 
-class Owner {
+class OwnerModel {
   String name;
   String email;
   String password;
@@ -20,7 +20,7 @@ class Owner {
   String username;
   int userType;
 
-  Owner({
+  OwnerModel({
     required this.name,
     required this.email,
     required this.password,
@@ -33,7 +33,7 @@ class Owner {
     required this.userType,
   });
 
-  factory Owner.fromJson(Map<String, dynamic> json) => Owner(
+  factory OwnerModel.fromJson(Map<String, dynamic> json) => OwnerModel(
     name: json["name"],
     email: json["email"],
     password: json["password"],

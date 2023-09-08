@@ -5,7 +5,7 @@ import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
-import 'package:pos_app/features/employee/e_auth/controller/auth_controller.dart';
+import 'package:pos_app/features/employee/e_auth/controller/employee_auth_controller.dart';
 import 'package:pos_app/features/employee/e_auth/view/e_login.dart';
 
 class EOnboarding extends StatefulWidget {

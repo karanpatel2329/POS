@@ -166,6 +166,7 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                       Obx(() => AppButtonStyle.ElevatedButtonStyled('DARK', authController.isLoadingAdd.value?CircularProgressIndicator(color: Colors.white,) : Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () {
                         final valid = _formKey.currentState!.validate();
                         if(valid && authController.dropdownvalue.value.isNotEmpty){
+                          print(authController.passwordController.text);
                           authController.signUp();
                         }
                       }),),

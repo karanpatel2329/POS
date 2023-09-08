@@ -5,9 +5,10 @@ import 'package:pos_app/features/owner/auth/models/owner.dart';
 import 'package:pos_app/features/owner/auth/service/auth_services.dart';
 import 'package:pos_app/features/owner/dashboard/view/dashboard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:dio/dio.dart' as res;
 
 class AuthController extends GetxController {
-  Rx<Owner>? owner;
+  Rx<OwnerModel>? owner;
   TextEditingController emailController = TextEditingController();
   TextEditingController mobileController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
@@ -35,18 +36,22 @@ class AuthController extends GetxController {
   Future signUp() async {
     try {
       isLoadingAdd.value=true;
-      Owner owner = Owner(
+      OwnerModel ownerModel = OwnerModel(
           name: businessLegalName.text,
           email: emailController.text,
           password: passwordController.text,
           legalName: businessLegalName.text,
           businessType: dropdownvalue.value,
           address: address.text,
-          photo: "",
+          photo: "Games",
           mobileNo: mobileController.text,
           username: businessLegalName.text,
           userType: 2);
-      Response? response = await AuthService.signUp(owner);
+      res.Response response = await AuthService.signUp(ownerModel);
+
+          print('object ==================================');
+          print(response.data);
+          print(response.statusCode);
       if (response != null) {
       isLoadingAdd.value=false;
         Get.to(Dashboard());
