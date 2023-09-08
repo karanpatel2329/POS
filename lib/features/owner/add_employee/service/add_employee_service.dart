@@ -17,8 +17,9 @@ class AddEmployeeService {
       dio.options.headers['Authorization'] = 'Bearer $token';
       final response = await dio.post(ApiUrl.addEmployee, data: addEmployeeModel.toJson(),);
       return response;
-    } catch (e) {
+    } on DioException catch (e) {
     print(e);
+    print(e.response?.data);
       return null;
     }
   }

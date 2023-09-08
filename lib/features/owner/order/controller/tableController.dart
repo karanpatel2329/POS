@@ -3,6 +3,7 @@ import 'package:dio/dio.dart' as res;
 import 'package:get/get.dart';
 import 'package:pos_app/features/owner/order/model/tableModel.dart';
 import 'package:pos_app/features/owner/order/service/tableService.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class TableController extends GetxController {
 
@@ -18,15 +19,16 @@ class TableController extends GetxController {
     '6',
   ];
 
-  RxList<dynamic> tables = [].obs;
+  RxList<TableModel> tables = <TableModel>[].obs;
 
     Future addTable() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
     try {
       TableModel tableModel = TableModel(
         tableName: tableName.text,
         // seater: int.parse(dropdownvalue.toString()), 
-        seater: 2, 
-        ownerId: '64e3213254b87356a215b053',
+        seater: int.parse(dropdownvalue.value),
+        ownerId: prefs.getString('ownerId')??"",
         // id: '', 
         // v: 0,
         
@@ -35,6 +37,7 @@ class TableController extends GetxController {
     if (response != null) {
         print('Table object 1');
         Get.back();
+        tables.add(tableModel);
       }else{
         Get.snackbar("Table Error 1", "Something went wrong");
 
@@ -49,7 +52,8 @@ class TableController extends GetxController {
     try {
       res.Response? response = await TableService.getTable();
     if (response != null) {
-        tables.addAll(response.data);// = response.data;
+        print(response.data);
+        tables.addAll((response.data as List).map((e) => TableModel.fromJson(e)));// = response.data;
       }else{
         Get.snackbar("Table Error 2", "Something went wrong");
       }

@@ -7,10 +7,13 @@ import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 import 'package:pos_app/features/owner/order/controller/cartController.dart';
+import 'package:pos_app/features/owner/order/controller/orderController.dart';
 import 'package:pos_app/features/owner/order/view/confirm_order.dart';
 
 class TakeOrderScreen extends StatefulWidget {
-  const TakeOrderScreen({super.key});
+  bool isEditOrder;
+  String? orderId;
+  TakeOrderScreen({required this.isEditOrder, this.orderId});
 
   @override
   State<TakeOrderScreen> createState() => _TakeOrderScreenState();
@@ -19,6 +22,7 @@ class TakeOrderScreen extends StatefulWidget {
 class _TakeOrderScreenState extends State<TakeOrderScreen> {
   MenusController menusController = Get.find<MenusController>();
   CartController cartController = Get.put(CartController());
+  OrderController orderController = Get.put(OrderController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -272,9 +276,13 @@ class _TakeOrderScreenState extends State<TakeOrderScreen> {
                 // ),
 
                 AppButtonStyle.ElevatedButtonStyled('DARK', Text('SEND TO KITCHEN', style: AppTextStyle.whiteText14W600,), () {
-                  cartController.orderTime = DateTime.now();
-                  cartController.generateOrderId();
-                  Get.to(ConfirmOrderScreen());
+                  if(widget.isEditOrder){
+                    orderController.updateOrder(widget.orderId??"", cartController.items.value, context);
+                  }else{
+                    cartController.orderTime = DateTime.now();
+                    cartController.generateOrderId();
+                    Get.to(ConfirmOrderScreen());
+                  }
                 })
 
               ],

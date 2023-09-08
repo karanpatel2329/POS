@@ -81,12 +81,9 @@ class MenusController extends GetxController{
       res.Response? response = await MenuService.getNewMenu();
     if (response != null) {
         menus.clear();
-        print(response.data);
         for(var i in response.data){
           menus.add(MenuModelFromJson(jsonEncode(i)));
         }
-
-        print(menus);
       }else{
         Get.snackbar("Error 3", "Something went wrong");
 
@@ -161,12 +158,11 @@ class MenusController extends GetxController{
 
   Future getCategory() async{
     try{
-      print("++++>>>");
+
       var res =await MenuService.getCategory();
       if(res!=null){
         categoryList.clear();
         for(var i in res.data){
-          print(i);
           categoryList.add(CategoryModel.fromJson(i));
         }
         selectedCategoryModel.value = categoryList.first;

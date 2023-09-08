@@ -24,8 +24,6 @@ class AuthController extends GetxController {
   RxBool isLoadingAdd = false.obs;
   XFile? image;
   final ImagePicker picker = ImagePicker();
-
-
   var items = [
     'Business Type',
     'Restaurant',

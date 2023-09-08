@@ -29,8 +29,11 @@ class _AddNewItemsScreenState extends State<AddNewItemsScreen> {
   @override
   void initState() {
     // TODO: implement initState
-    menusController.getCategory();
-    menusController.getMenu();
+    cartController.addIntoMenuFromOrder(orderController.dineInOrderList[widget.orderIndex].items);
+    if(menusController.menus.isEmpty) {
+      menusController.getMenu();
+      menusController.getCategory();
+    }
     super.initState();
   }
 
@@ -137,7 +140,7 @@ class _AddNewItemsScreenState extends State<AddNewItemsScreen> {
                             ),
                           ),
                           Container(
-                            margin: EdgeInsets.symmetric(vertical: 8),
+                            margin: const EdgeInsets.symmetric(vertical: 8),
                             height: 1,
                             color: lightOrange,
                           ),
@@ -226,7 +229,7 @@ class _AddNewItemsScreenState extends State<AddNewItemsScreen> {
                   shrinkWrap: true,
                   scrollDirection: Axis.vertical,
 
-                  physics: NeverScrollableScrollPhysics(),
+                  physics: const NeverScrollableScrollPhysics(),
                   itemCount: menusController.menus.length,
                   itemBuilder: (BuildContext context, int index) {
                     return Obx(()=>  menusController
@@ -297,7 +300,7 @@ class _AddNewItemsScreenState extends State<AddNewItemsScreen> {
                           )
                         ],
                       ),
-                    ):SizedBox());}))
+                    ):const SizedBox());}))
                   
             
                 ],
@@ -310,10 +313,11 @@ class _AddNewItemsScreenState extends State<AddNewItemsScreen> {
       floatingActionButtonLocation:
           FloatingActionButtonLocation.centerFloat,
       floatingActionButton: Container(
-        padding: EdgeInsets.only(top: 0, left: 20, right: 20),
+        padding: const EdgeInsets.only(top: 0, left: 20, right: 20),
         color: white,
         child: AppButtonStyle.ElevatedButtonStyled('DARK', Text('SEND TO KITCHEN', style: AppTextStyle.whiteText14W600,), 
         () {
+          orderController.updateOrder(orderController.dineInOrderList[widget.orderIndex].id, cartController.items.value, context);
           // orderController.dineInOrderList[widget.orderIndex].items
         }
         )),

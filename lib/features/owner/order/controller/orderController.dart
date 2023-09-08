@@ -15,6 +15,7 @@ class OrderController extends GetxController {
   RxList<OrderModel> kitchenOpenList = <OrderModel>[].obs;
   RxList<OrderModel> kitchenCompletedList = <OrderModel>[].obs;
   RxList<OrderModel> takeAwayOrderList = <OrderModel>[].obs;
+  RxList<OrderModel> completedOrderList = <OrderModel>[].obs;
   RxBool isTakeaway = false.obs;
 
   void createOrder(List<MenuModel> menuModel,context)async{
@@ -51,8 +52,10 @@ class OrderController extends GetxController {
     }
     var res = await OrderService.newOrder(req);
     if(res!=null){
+      getOrder();
       Navigator.popUntil(context,ModalRoute.withName('/DineInScreen'));
         // Navigator.(result: DineInScreen());
+
         cartController.items.clear();
     }else{
       Get.snackbar("Error","Something went wrong");
@@ -64,6 +67,10 @@ class OrderController extends GetxController {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
     var res=await OrderService.getOrder(prefs.getString('ownerId')??"");
     if(res!=null){
+      takeAwayOrderList.clear();
+      dineInOrderList.clear();
+      kitchenOpenList.clear();
+      kitchenCompletedList.clear();
       for(var i in res.data){
         OrderModel orderModel = OrderModel.fromJson(i);
         if(i['orderType']=='Takeaway'){
@@ -77,6 +84,9 @@ class OrderController extends GetxController {
         if(orderModel.cookingStatus=='Completed'){
           kitchenCompletedList.add(orderModel);
         }
+        if(orderModel.paymentStatus=='Paid' && orderModel.status == 'Completed'){
+          completedOrderList.add(orderModel);
+        }
       }
     }
     print(res.data);
@@ -89,6 +99,35 @@ class OrderController extends GetxController {
   void updatePaymentStatus( String id)async{
     var res = await OrderService.updatePaymentStatus( id);
     print("+++++>>>>${res}");
+  }
+
+
+  void updateOrder(String orderId,List<MenuModel> menuModel,BuildContext context)async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    var req = {};
+    items.clear();
+    List id = [];
+    for(MenuModel m in menuModel){
+      if(!id.contains(m.id)){
+        items.add({"name":m.itemName, "quantity":cartController.getItemQuantityById(m.id)});
+        id.add(m.id);
+      }
+    }
+    req={
+      "items":items
+    };
+
+    var res = await OrderService.updateOrder(req,orderId);
+    if(res!=null){
+      getOrder();
+      Navigator.popUntil(context,ModalRoute.withName('/DineInScreen'));
+      // Navigator.(result: DineInScreen());
+
+      cartController.items.clear();
+    }else{
+      Get.snackbar("Error","Something went wrong");
+    }
+    print(res);
   }
 
 

@@ -1,7 +1,9 @@
 import 'dart:math';
 
 import 'package:get/get.dart';
+import 'package:pos_app/features/owner/menus/controller/menu_controller.dart';
 import 'package:pos_app/features/owner/menus/model/addMenu.dart';
+import 'package:pos_app/features/owner/order/model/orderModel.dart';
 import 'package:pos_app/features/owner/order/model/tableModel.dart';
 
 class CartController extends GetxController {
@@ -10,7 +12,7 @@ class CartController extends GetxController {
   TableModel? table;
   RxString orderId = ''.obs;
   DateTime? orderTime;
-
+  MenusController menuController = Get.put(MenusController());
   void addToCart(MenuModel menu) {
     items.add(menu);
     total.value =total.value +  menu.itemPrice;
@@ -43,5 +45,18 @@ class CartController extends GetxController {
     final random = Random();
     int order = random.nextInt(900000) + 100000; // Generates a number between 100000 and 999999
     orderId.value = order.toString();
+  }
+
+  void addIntoMenuFromOrder(List<Item> itemList){
+    items.clear();
+    for(Item i in itemList){
+      List<MenuModel> r = menuController.menus.where((element) =>element.itemName==i.name).toList();
+      if(r.isNotEmpty){
+        for(int j=0;j<i.quantity;j++) {
+          items.add(r[0]);
+        }
+      }
+    }
+
   }
 }

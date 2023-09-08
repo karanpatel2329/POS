@@ -22,6 +22,22 @@ class OrderService {
     }
   }
 
+  static Future updateOrder(var orderModel,String id) async {
+    try {
+      final SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? token = prefs.getString('token');
+      dio.options.headers['Content-Type'] = 'application/json';
+      dio.options.headers['Accept'] = 'application/json';
+      dio.options.headers['Authorization'] = 'Bearer $token';
+      final response = await dio.put("${ApiUrl.order}/$id", data: orderModel,);
+      return response;
+    } on DioException catch (e) {
+      print(e.response?.data);
+      return null;
+    }
+  }
+
+
   // Get Menu Data
   static Future getOrder(String ownerId) async {
     print('object11');

@@ -62,8 +62,8 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                       padding: const EdgeInsets.all(8.0),
                       child: InkWell(
                         onTap: () {
-                          cartController.table =  TableModel.fromJson(item);
-                          Get.to(TakeOrderScreen());
+                          cartController.table =  item;
+                          Get.to(TakeOrderScreen(isEditOrder: false,));
                         },
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 16),
@@ -77,14 +77,14 @@ class _NewOrderScreenState extends State<NewOrderScreen> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                item['tableName'],
+                                item.tableName,
                                 style: AppTextStyle.normalText18W600,
                               ),
                               SizedBox(
                                 height: 4 * (SizeConfig.heightMultiplier ?? 1),
                               ),
                               Text(
-                                item['seater'].toString(),
+                                item.seater.toString(),
                                 style: AppTextStyle.normalText12W400,
                               ),
                             ],

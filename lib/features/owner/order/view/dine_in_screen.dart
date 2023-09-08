@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
@@ -215,7 +216,10 @@ class _TakeawayViewState extends State<TakeawayView> {
                                     children: [
                                       Text('Order :-${orderController.takeAwayOrderList[index].takeawayName}', style: AppTextStyle.black40414W600,),
                                       InkWell(
-                                          onTap: (){Get.to(TakeOrderScreen());},
+                                          onTap: (){
+                                            cartController.addIntoMenuFromOrder(orderController.takeAwayOrderList[index].items);
+                                            Get.to(TakeOrderScreen(isEditOrder: true,orderId: orderController.takeAwayOrderList[index].id,));
+                                            },
                                           child: Icon(Icons.edit)),
                                     ],
                                   ),
@@ -244,7 +248,8 @@ class _TakeawayViewState extends State<TakeawayView> {
                                               padding: const EdgeInsets.only(top: 8.0),
                                               child: Row(
                                                 children: [
-                                                  Text(index.toString(), style: AppTextStyle.black40414W400,),
+                                                  Text(
+                                                      (i+1).toString(), style: AppTextStyle.black40414W400,),
                                                   Text('. ', style: AppTextStyle.black40414W400,),
                                                   Text('${orderController.takeAwayOrderList[index].items[i].name}', style: AppTextStyle.black40414W400,),
                                                 ],
@@ -325,7 +330,7 @@ class _TakeawayViewState extends State<TakeawayView> {
               // orderController.items.clear();
               cartController.items.clear();
               orderController.isTakeaway.value = true;
-              Get.to(TakeOrderScreen());
+              Get.to(TakeOrderScreen(isEditOrder: false,));
             }))
       ],
     );
@@ -658,167 +663,81 @@ class _KitchenViewState extends State<KitchenView> {
 
 class CompletedOrderView extends StatefulWidget {
   const CompletedOrderView({super.key});
-
-  static TextEditingController searchController = TextEditingController();
-
   @override
   State<CompletedOrderView> createState() => _CompletedOrderViewState();
 }
 
 class _CompletedOrderViewState extends State<CompletedOrderView> {
+
+  OrderController orderController = Get.put(OrderController());
   @override
   Widget build(BuildContext context) {
-
-  // Initial Selected Value
-  String dropdownvalue = 'Daily';
-
-  // List of items in our dropdown menu
-  var items = [
-    'Daily',
-    '4',
-    '6',
-  ];
-
     return Column(
       children: [
-        TextFormField(
-          // controller: searchController,
-          decoration: InputDecoration(
-            hintText: 'Search',
-            labelText: 'Search Order',
-            labelStyle: AppTextStyle.black40416W400,
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(8.0),
-              borderSide: const BorderSide(
-                color: lightOrange,
-                width: 1.0,
-              ),
-            ),
-            focusedBorder: const OutlineInputBorder(
-                borderSide: BorderSide(
-                    width: 1.0, color: lightOrange),
-            ),
-            prefixIcon: const Padding(
-              padding: EdgeInsets.all(0.0),
-              child: Icon(
-                Icons.search,
-                color: grey,
-              ),
-            ),
-          ),
-
-        ),
-
-        SizedBox(
-          height: 11 * (SizeConfig.heightMultiplier ?? 1),
-        ),
 
         Row(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Row(
-              children: [
-                Text('Completed Order : ', style: AppTextStyle.black40412W400,),
-                Text('230', style: AppTextStyle.black40412W600,),
-              ],
-            ),
-
-          // DropDown
-          Container(
-            height: 30,
-            alignment: Alignment.center,
-            width: 100,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(8.0),
-                    border: Border.all(
-                        color: orange, style: BorderStyle.solid, width: 0.80),
-                  ),
-                  child: DropdownButton(
-                    hint: Text('Select seater'),
-                    padding: const EdgeInsets.symmetric(horizontal: 5.0),
-                    value: dropdownvalue,
-                    isDense: true,
-                    isExpanded: true,
-                    underline: const SizedBox(),
-                    icon: const Icon(
-                      Icons.keyboard_arrow_down,
-                      color: orange,
-                    ),
-                    items: items.map((String items) {
-                      return DropdownMenuItem(
-                        value: items,
-                        child: Text(
-                          items,
-                          style: AppTextStyle.black40416W400,
-                        ),
-                      );
-                    }).toList(),
-                    onChanged: (String? newValue) {
-                      setState(() {
-                        dropdownvalue = newValue!;
-                      });
-                    },
-                  ),
-                ),
-
+            Text('Completed Order : ', style: AppTextStyle.black40412W400,),
+            Obx(()=>Text('${orderController.completedOrderList.value.length}', style: AppTextStyle.black40412W600,),)
           ],
         ),
+
 
         SizedBox(
           height: 8 * (SizeConfig.heightMultiplier ?? 1),
         ),
 
         Expanded(
-          child: ListView.builder(
-            itemCount: 2,
-            itemBuilder: (BuildContext context, index) {
-              return Container(
-                margin: const EdgeInsets.only(bottom: 16),
-                padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8, right: 8),
-                decoration: BoxDecoration(
-                  border: Border.all(width: 1, color: lightOrange),
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Row(
-                      children: [
-                        SvgPicture.asset(ImagePath.checkboxIcon),
-                        SizedBox(
-                          width: 8 * (SizeConfig.widthMultiplier ?? 1),
-                        ),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text('Table 1’s', style: AppTextStyle.black40414W400,),
-                            Text('Closed by Ria', style: AppTextStyle.black40412W400,),
-                          ],
-                        )
-                      ],
-                    ),
-
-                    Row(
-                      children: [
-                        Text('Upi', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontSize: 14, fontWeight: FontWeight.w400),),
-                        SizedBox(
-                          width: 19 * (SizeConfig.widthMultiplier ?? 1),
-                        ),
-                        Container(
-                          padding: EdgeInsets.all(4),
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(8),
-                            color: green,
+          child: Obx(()=>ListView.builder(
+              itemCount: orderController.completedOrderList.value.length,
+              itemBuilder: (BuildContext context, index) {
+                return Container(
+                  margin: const EdgeInsets.only(bottom: 16),
+                  padding: const EdgeInsets.only(left: 20, top: 8, bottom: 8, right: 8),
+                  decoration: BoxDecoration(
+                    border: Border.all(width: 1, color: lightOrange),
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Row(
+                        children: [
+                          SvgPicture.asset(ImagePath.checkboxIcon),
+                          SizedBox(
+                            width: 8 * (SizeConfig.widthMultiplier ?? 1),
                           ),
-                          child: Text('₹. 480.00', style: AppTextStyle.whiteText14W400,),
-                        ),
-                      ],
-                    ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(orderController.completedOrderList[index].takeawayName!=null?"Takeway No ${orderController.completedOrderList[index].takeawayName}":'Table No ${orderController.completedOrderList[index].tableNumber}', style: AppTextStyle.black40414W400,),
+                              Text('${DateFormat('yyyy-MM-dd – kk:mm').format(orderController.completedOrderList[index].createdAt)}', style: AppTextStyle.black40412W400,),
+                            ],
+                          )
+                        ],
+                      ),
 
-                  ],
-                ),
-              );
-          }),
+                      Row(
+                        children: [
+                          Text('Upi', style: TextStyle(decoration: TextDecoration.underline, color: orange, fontSize: 14, fontWeight: FontWeight.w400),),
+                          SizedBox(
+                            width: 19 * (SizeConfig.widthMultiplier ?? 1),
+                          ),
+                          Container(
+                            padding: EdgeInsets.all(4),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: green,
+                            ),
+                            child: Text('₹ ${orderController.completedOrderList[index].total}', style: AppTextStyle.whiteText14W400,),
+                          ),
+                        ],
+                      ),
+
+                    ],
+                  ),
+                );
+              }),)
         ),
 
       ],
