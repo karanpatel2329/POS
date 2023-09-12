@@ -52,11 +52,38 @@ class AddNewMenuScreenState extends State<AddNewMenuScreen> {
                     children: [
                       Padding(
                         padding: const EdgeInsets.only(bottom: 5.0, right: 5),
-                        child: Image.asset(ImagePath.restaurantDetails1),
+                        child: Obx(() => menusController.imageUrl.isEmpty ? Image.asset(ImagePath.restaurantDetails1) : Image.network(menusController.imageUrl.value, height: 100, width: 100,)),
                       ),
                       InkWell(
                         onTap: (){
-                          menusController.getImage(ImageSource.camera);
+
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Camera', style: AppTextStyle.whiteText18W600,), 
+                                        () {
+                                          menusController.getImage(ImageSource.camera);
+                                        }
+                                      ),
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Gallery', style: AppTextStyle.whiteText18W600,), 
+                                        () {
+                                          menusController.getImage(ImageSource.gallery);
+                                        }
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
                         },
                         child: Image.asset(ImagePath.restaurantDetails2)
                       ),

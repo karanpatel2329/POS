@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:dio/dio.dart' as res;
 import 'package:image_picker/image_picker.dart';
+import 'package:pos_app/core/constants/api_url.dart';
 import 'package:pos_app/features/owner/add_employee/model/add_employee_model.dart';
 import 'package:pos_app/features/owner/add_employee/service/add_employee_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -27,6 +28,7 @@ class AddEmployeController extends GetxController {
   RxList<AddEmployeeModel> employees = <AddEmployeeModel>[].obs;
   XFile? image;
   final ImagePicker picker = ImagePicker();
+  RxString imageUrl = ''.obs;
 
   RxString dropdownvalue = 'Male'.obs;
   // List of items in our dropdown menu
@@ -46,7 +48,7 @@ class AddEmployeController extends GetxController {
         gender : dropdownvalue.value,
         mobileNo : phoneController.text,
         address : addressController.text,
-        photo : '',
+        photo : imageUrl.value,
         qualification : '',
         position : serverController.text,
         about : aboutController.text,
@@ -151,10 +153,47 @@ class AddEmployeController extends GetxController {
     }
   }
 
-  // Upload Media
-  Future getImage(ImageSource media) async {
-    var img = await picker.pickImage(source: media);
-    image = img;
+    // Upload Media
+    Future getImage(ImageSource media) async {
+
+      try {
+       final SharedPreferences prefs = await SharedPreferences.getInstance();
+        String? token = prefs.getString('token');
+          
+        var img = await picker.pickImage(source: media);
+        image = img;
+
+        print('image!.path');
+        print(image!.path);
+        print('image!.path');
+
+        res.Dio dio = res.Dio();
+        // dio.options.headers['Authorization'] = 'Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGRjODE0YTc0NzhiNjdiYzQ5N2NjMDYiLCJpYXQiOjE2OTQxNTA3OTV9.BtL3ylmQNyA0YiAJphFKxiCWWTnZ9yNjXamtSZCPflQ';
+        dio.options.headers['Authorization'] = 'Bearer $token';
+
+        var formData = res.FormData();
+
+        formData.files.addAll([
+        MapEntry(
+            'files',
+            await res.MultipartFile.fromFile(image!.path , filename: image!.path.split('/').last)),
+        ]);
+
+        var response = await dio.post(
+          ApiUrl.uploadMedia,
+          data: formData,
+        );
+
+        imageUrl.value = response.data['data'].toString().split('[').last.split(']').first; 
+
+        print('response.data'); 
+        print(imageUrl); 
+        print(response.data['data'].toString().split('[').last.split(']').first); 
+        print('response.data'); 
+      } catch (e) {
+        print(e);
+      }
+
   }
 
 }

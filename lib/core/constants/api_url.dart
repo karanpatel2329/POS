@@ -1,6 +1,6 @@
 class ApiUrl {
 
-  static String liveBaseURL = 'http://localhost:3000';
+  static String liveBaseURL = 'http://ec2-65-2-182-34.ap-south-1.compute.amazonaws.com:3000';
 
     //========================AUTH============================
 
@@ -14,6 +14,10 @@ class ApiUrl {
   static String addEmployee = liveBaseURL + '/employee/employees';
   static String employeeLogin = liveBaseURL + '/employee/login';
   static String sales = liveBaseURL + '/order/sales';
+  static String uploadMedia = liveBaseURL + '/upload/uploadMedia';
+  static String forgetPassword = liveBaseURL + '/owner/forgetPassword';
+  static String verifyOTP = liveBaseURL + '/owner/verifyOTP';
+  static String resetPassword = liveBaseURL + '/owner/resetPassword';
 
 
 }

@@ -32,7 +32,8 @@ class EmployeeAuthController extends GetxController {
       print('response ==========================');
       if (response != null) {
         // prefs.setString('token', response.data['employee']['token']);
-        prefs.setString('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTM1NTIwNDV9.PDPJxt3urASzcho9EV6d7tp5LRE02_sqGsh1cNpCxvQ');
+        // prefs.setString('token', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NGUzMjEzMjU0Yjg3MzU2YTIxNWIwNTMiLCJpYXQiOjE2OTM1NTIwNDV9.PDPJxt3urASzcho9EV6d7tp5LRE02_sqGsh1cNpCxvQ');
+        prefs.setString('token', response.data['data']['token']);
         prefs.setString('ownerId', response.data['employee']['ownerId']);
         prefs.setString('employeeId', response.data['employee']['_id']);
         Get.to(EDashboard());

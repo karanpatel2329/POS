@@ -1,10 +1,11 @@
-import 'package:dio/dio.dart';
+import 'package:dio/dio.dart' as d;
+import 'package:get/get.dart';
 import 'package:pos_app/core/constants/api_url.dart';
 import 'package:pos_app/features/owner/menus/model/addMenu.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class MenuService {
-    static Dio dio = Dio();
+    static d.Dio dio = d.Dio();
     // Add new Menu
     static Future addNewMenu(MenuModel addMenu) async {
     try {
@@ -108,6 +109,30 @@ class MenuService {
         return null;
       }
     }
+
+    //   static Future uploadImage() async {
+    //     try {
+      
+    //     d.Dio dio = d.Dio();
+    //     var formData = d.FormData();
+
+    //     final response = await dio.post(
+    //         ApiUrl.uploadMedia,
+    //         data: formData,
+    //     );
+
+    //     return response;
+        
+    //   } catch (e) {
+    //     if (e is d.DioException) {
+    //       //handle DioError here by error type or by error code
+    //       if(e.type==d.DioExceptionType.badResponse){
+    //         Get.snackbar("Error", "Something Wrong");
+    //       }
+    //     }
+    //     return null;
+    //   }
+    // }
 
 
 

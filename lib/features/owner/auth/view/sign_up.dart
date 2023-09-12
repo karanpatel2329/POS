@@ -180,7 +180,7 @@ class SignUpScreen extends StatelessWidget {
                         if(valid){
                           Get.to(RestaurantDetailsScreen());
                         }else{
-                          Get.snackbar("Error", "Password should match");
+                          Get.snackbar("Error", "Please Fill the form");
                         }
 
                       }),

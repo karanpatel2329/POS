@@ -22,17 +22,6 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
 
   AddEmployeController addEmployeController = Get.put(AddEmployeController());
 
-    // Initial Selected Value
-  // String dropdownvalue = 'Gender';   
-  
-  // // List of items in our dropdown menu
-  // var items = [    
-  //   'Gender',
-  //   'Male',
-  //   'Female',
-  //   'Other',
-  // ];
-
   @override
   Widget build(BuildContext context) {
 
@@ -93,16 +82,47 @@ class _AddEmployeeBasicScreenState extends State<AddEmployeeBasicScreen> {
                 ),
 
                 Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0, right: 5),
-                      child: Image.asset(ImagePath.restaurantDetails1),
-                    ),
-                    InkWell(
-                      onTap: (){addEmployeController.getImage(ImageSource.camera);},
-                      child: Image.asset(ImagePath.restaurantDetails2)
-                    ),
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0, right: 5),
+                        child: Obx(() => addEmployeController.imageUrl.isEmpty ? Image.asset(ImagePath.restaurantDetails1) : Image.network(addEmployeController.imageUrl.value, height: 150, width: 100,)),
+                      ),
+                      InkWell(
+                        onTap: (){
+
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Camera', style: AppTextStyle.whiteText18W600,), 
+                                        () {
+                                          addEmployeController.getImage(ImageSource.camera);
+                                          Get.back();
+                                        }
+                                      ),
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Gallery', style: AppTextStyle.whiteText18W600,),
+                                        () {
+                                          addEmployeController.getImage(ImageSource.gallery);
+                                          Get.back();
+                                        }
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
+                        },
+                        child: Image.asset(ImagePath.restaurantDetails2)
+                      ),
 
                   ],
                 ),

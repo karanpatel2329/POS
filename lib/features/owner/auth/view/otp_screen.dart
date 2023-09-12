@@ -5,17 +5,19 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
 import 'package:pos_app/features/owner/auth/view/reset_password.dart';
 
-class OTPScreen extends StatelessWidget {
+class OTPScreen extends StatefulWidget {
   const OTPScreen({super.key});
 
+  @override
+  State<OTPScreen> createState() => _OTPScreenState();
+}
 
-  static TextEditingController box1 = TextEditingController();  
-  static TextEditingController box2 = TextEditingController();  
-  static TextEditingController box3 = TextEditingController();  
-  static TextEditingController box4 = TextEditingController();  
-
+  AuthController authController = Get.put(AuthController());
+  
+class _OTPScreenState extends State<OTPScreen> {
   @override
   Widget build(BuildContext context) {
 
@@ -53,9 +55,9 @@ class OTPScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box1,
+                              controller: authController.box1,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -77,9 +79,9 @@ class OTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box2,
+                              controller: authController.box2,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -102,9 +104,9 @@ class OTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box3,
+                              controller: authController.box3,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -128,9 +130,62 @@ class OTPScreen extends StatelessWidget {
                           ),
         
                           SizedBox(
-                            width: 54 * (SizeConfig.widthMultiplier ?? 1),
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
                             child: TextFormField(
-                              controller: box4,
+                              controller: authController.box4,
+                              decoration: InputDecoration(
+                                labelStyle: AppTextStyle.black40416W400,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                    color: orange,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder( 
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: orange), 
+                                ),
+                                
+                              ),
+                              
+                            ),
+                          ),
+
+                          SizedBox(
+                            width: 16 * (SizeConfig.heightMultiplier ?? 1),
+                          ),
+        
+                          SizedBox(
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            child: TextFormField(
+                              controller: authController.box5,
+                              decoration: InputDecoration(
+                                labelStyle: AppTextStyle.black40416W400,
+                                enabledBorder: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8.0),
+                                  borderSide: const BorderSide(
+                                    color: orange,
+                                    width: 1.0,
+                                  ),
+                                ),
+                                focusedBorder: const OutlineInputBorder( 
+                                    borderSide: BorderSide(
+                                        width: 1.0, color: orange), 
+                                ),
+                                
+                              ),
+                              
+                            ),
+                          ),
+                          SizedBox(
+                            width: 16 * (SizeConfig.heightMultiplier ?? 1),
+                          ),
+        
+                          SizedBox(
+                            width: 45 * (SizeConfig.widthMultiplier ?? 1),
+                            child: TextFormField(
+                              controller: authController.box6,
                               decoration: InputDecoration(
                                 labelStyle: AppTextStyle.black40416W400,
                                 enabledBorder: OutlineInputBorder(
@@ -154,7 +209,7 @@ class OTPScreen extends StatelessWidget {
         
                         ],
                       ),
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('VERIFY', style: AppTextStyle.whiteText14W600,), () {Get.to(ResetPasswordScreen());}),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('VERIFY', style: AppTextStyle.whiteText14W600,), () {authController.verifyOTP();}),
 
                       SizedBox(height: 16 * (SizeConfig.heightMultiplier ?? 1),),
 
@@ -163,7 +218,7 @@ class OTPScreen extends StatelessWidget {
                         children: [
                           Text('Didn’t receive the OTP? ', style: AppTextStyle.greyText12W400,),
                           InkWell(
-                            onTap: (){},
+                            onTap: (){authController.verifyOTP();},
                             child: Text('RESEND', style: AppTextStyle.orange14W600,))
                         ],
                       )

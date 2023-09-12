@@ -4,6 +4,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
+import 'package:pos_app/core/constants/enum.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
 import 'package:pos_app/features/owner/auth/controller/authController.dart';
@@ -47,16 +48,45 @@ class _RestaurantDetailsScreenState extends State<RestaurantDetailsScreen> {
                 ),
 
                 Stack(
-                  alignment: Alignment.bottomRight,
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 5.0, right: 5),
-                      child: Image.asset(ImagePath.restaurantDetails1),
-                    ),
-                    InkWell(
-                      onTap: (){authController.getImage(ImageSource.camera);},
-                      child: Image.asset(ImagePath.restaurantDetails2)
-                    ),
+                    alignment: Alignment.bottomRight,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 5.0, right: 5),
+                        child: Obx(() => authController.imageURL.isEmpty ? Image.asset(ImagePath.restaurantDetails1) : Image.network(authController.imageURL.value, height: 150, width: 100,)),
+                      ),
+                      InkWell(
+                        onTap: (){
+
+                          showModalBottomSheet<void>(
+                            context: context,
+                            builder: (BuildContext context) {
+                              return SizedBox(
+                                height: 200,
+                                child: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Camera', style: AppTextStyle.whiteText18W600,), 
+                                        () {
+                                          authController.getImage(ImageSource.camera);
+                                        }
+                                      ),
+                                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('Gallery', style: AppTextStyle.whiteText18W600,), 
+                                        () {
+                                          authController.getImage(ImageSource.gallery);
+                                        }
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              );
+                            },
+                          );
+
+                        },
+                        child: Image.asset(ImagePath.restaurantDetails2)
+                      ),
 
                   ],
                 ),

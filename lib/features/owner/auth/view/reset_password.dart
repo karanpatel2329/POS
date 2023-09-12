@@ -1,16 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:pos_app/core/constants/app_button_style.dart';
 import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
+import 'package:pos_app/features/owner/auth/view/otp_screen.dart';
 
-class ResetPasswordScreen extends StatelessWidget {
+class ResetPasswordScreen extends StatefulWidget {
   const ResetPasswordScreen({super.key});
 
-  static TextEditingController passwordController = TextEditingController();  
-  static TextEditingController confirmPasswordController = TextEditingController();  
+  @override
+  State<ResetPasswordScreen> createState() => _ResetPasswordScreenState();
+}
 
+AuthController authController = Get.put(AuthController());
+
+class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
   @override
   Widget build(BuildContext context) {
 
@@ -49,7 +56,7 @@ class ResetPasswordScreen extends StatelessWidget {
                     children: [
         
                       TextFormField(
-                        controller: passwordController,
+                        controller: authController.reset_password,
                         decoration: InputDecoration(
                           hintText: 'Password',
                           labelText: 'Enter Password',
@@ -81,7 +88,7 @@ class ResetPasswordScreen extends StatelessWidget {
                       ),
         
                       TextFormField(
-                        controller: confirmPasswordController,
+                        controller: authController.reset_passwordConfirm,
                         decoration: InputDecoration(
                           hintText: 'Confirm Password',
                           labelText: 'Confirm Password',
@@ -110,7 +117,15 @@ class ResetPasswordScreen extends StatelessWidget {
         
                       SizedBox(height: 61 * (SizeConfig.heightMultiplier ?? 1),),
         
-                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), () { }),
+                      AppButtonStyle.ElevatedButtonStyled('DARK', Text('SUBMIT', style: AppTextStyle.whiteText14W600,), 
+                        () {
+                          if (authController.reset_password.text == authController.reset_passwordConfirm.text) {
+                            authController.resetpassword();
+                          }else{
+                            Get.snackbar("Error", "Password Is Wrong");
+                          }
+                         }
+                      ),
         
         
                     ],

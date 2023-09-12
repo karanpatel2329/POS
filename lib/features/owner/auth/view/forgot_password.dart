@@ -5,6 +5,7 @@ import 'package:pos_app/core/constants/app_text_style.dart';
 import 'package:pos_app/core/constants/color_palette.dart';
 import 'package:pos_app/core/constants/image_path.dart';
 import 'package:pos_app/core/size_config.dart';
+import 'package:pos_app/features/owner/auth/controller/authController.dart';
 import 'package:pos_app/features/owner/auth/view/otp_screen.dart';
 
 class ForgotPasswordScreen extends StatefulWidget {
@@ -17,6 +18,8 @@ class ForgotPasswordScreen extends StatefulWidget {
 }
 
 class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
+
+  AuthController authController = Get.put(AuthController());
   @override
   Widget build(BuildContext context) {
 
@@ -63,7 +66,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ),
               
                   TextFormField(
-                            // controller: ,
+                            controller: authController.forgotPasswordController,
                             decoration: InputDecoration(
                               hintText: 'Email/Phone number',
                               labelText: 'Email/Phone number',
@@ -90,7 +93,10 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                         'SUBMIT',
                         style: AppTextStyle.whiteText14W600,
                       ),
-                      () {Get.to(OTPScreen());}
+                      () {
+                        authController.forgotPassword();
+                      
+                      }
                   ),
                 ],
               ),

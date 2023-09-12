@@ -49,7 +49,7 @@ class EmployeeScreenState extends State<EmployeeScreen> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20),
             child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
 
                 Row(
@@ -79,77 +79,79 @@ class EmployeeScreenState extends State<EmployeeScreen> {
                   height: 16 * (SizeConfig.heightMultiplier ?? 1),
                 ),
 
-                Obx(() => ListView.builder(
-                  itemCount: addEmployeController.employees.length,
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                  return Container(
-                    margin: EdgeInsets.only(bottom: 8),
-                    decoration: BoxDecoration(
-                      border: Border.all(width: 1, color: lightOrange),
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    child: Row(
-                      children: [
-                        Image.asset(ImagePath.FoodImage1, height: 80 * (SizeConfig.heightMultiplier ?? 1), width: 80 * (SizeConfig.widthMultiplier ?? 1), fit: BoxFit.fill,),
-                        SizedBox(
-                          width: 24 * (SizeConfig.widthMultiplier ?? 1),
+                addEmployeController.employees.isNotEmpty ? Obx(() => ListView.builder(
+                    itemCount: addEmployeController.employees.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      return Container(
+                        margin: EdgeInsets.only(bottom: 8),
+                        decoration: BoxDecoration(
+                          border: Border.all(width: 1, color: lightOrange),
+                          borderRadius: BorderRadius.circular(8),
                         ),
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                        child: Row(
                           children: [
-                            Text(addEmployeController.employees[index].name, style: AppTextStyle.black40414W600,),
+                            Image.asset(ImagePath.FoodImage1, height: 80 * (SizeConfig.heightMultiplier ?? 1), width: 80 * (SizeConfig.widthMultiplier ?? 1), fit: BoxFit.fill,),
                             SizedBox(
-                              height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                              width: 24 * (SizeConfig.widthMultiplier ?? 1),
                             ),
-                            Text(addEmployeController.employees[index].position, style: AppTextStyle.black40414W400,),
-                            SizedBox(
-                              height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                            ),
-                            Row(
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                InkWell(
-                                  onTap: (){
-                                    Get.to(EditEmployeeBasicScreen(addEmployeeModel: addEmployeController.employees[index],));
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(3),
-                                      color: orange
+                                Text(addEmployeController.employees[index].name, style: AppTextStyle.black40414W600,),
+                                SizedBox(
+                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                ),
+                                Text(addEmployeController.employees[index].position, style: AppTextStyle.black40414W400,),
+                                SizedBox(
+                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
+                                ),
+                                Row(
+                                  children: [
+                                    InkWell(
+                                      onTap: (){
+                                        Get.to(EditEmployeeBasicScreen(addEmployeeModel: addEmployeController.employees[index],));
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(3),
+                                              color: orange
+                                          ),
+                                          child: Icon(Icons.edit, color: white,)
+                                      ),
                                     ),
-                                    child: Icon(Icons.edit, color: white,)
-                                  ),
+                                    SizedBox(
+                                      width: 10 * (SizeConfig.widthMultiplier ?? 1),
+                                    ),
+                                    InkWell(
+                                      onTap: (){
+                                        addEmployeController.deleteEmployee(addEmployeController.employees[index].id);
+                                      },
+                                      child: Container(
+                                          padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
+                                          decoration: BoxDecoration(
+                                            color: red,
+                                            borderRadius: BorderRadius.circular(3),
+                                          ),
+                                          child: Icon(Icons.delete, color: white,)
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
-                                  width: 10 * (SizeConfig.widthMultiplier ?? 1),
-                                ),
-                                InkWell(
-                                  onTap: (){
-                                    addEmployeController.deleteEmployee(addEmployeController.employees[index].id);
-                                  },
-                                  child: Container(
-                                    padding: EdgeInsets.symmetric(vertical: 3, horizontal: 8),
-                                    decoration: BoxDecoration(
-                                      color: red,
-                                      borderRadius: BorderRadius.circular(3),
-                                    ),
-                                    child: Icon(Icons.delete, color: white,)
-                                  ),
+                                  height: 4 * (SizeConfig.heightMultiplier ?? 1),
                                 ),
                               ],
                             ),
-                            SizedBox(
-                              height: 4 * (SizeConfig.heightMultiplier ?? 1),
-                            ),
                           ],
                         ),
-                      ],
-                    ),
-                  );
-                  }
-                ),)
+                      );
+                    }
+                ),): IntrinsicHeight(
+                  child: Image.asset(ImagePath.add)),
+
 
               ],
             ),
